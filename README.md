@@ -1,6 +1,6 @@
 # Life system
 
-**GitHub Pages:** The site is served from the `docs/` folder (deploy from branch `main`, folder `/docs`). Base URL: **https://x2figures.github.io/genesis/** — open [index.html](https://x2figures.github.io/genesis/index.html) for the hub. Widgets and pages use paths relative to that base, for example `graph.html`, `ring.html`, `ladder.html`, `header.html`, `timeline.html`, and `heat.html`.
+**GitHub Pages:** The site is served from the `docs/` folder (deploy from branch `main`, folder `/docs`). Base URL: **https://x2figures.github.io/genesis/** — open [index.html](https://x2figures.github.io/genesis/index.html) for the hub. Widgets and pages use paths relative to that base, for example `graph.html`, `ring.html`, `ladder.html`, `header.html`, `timeline.html`, `heat.html`, and `tree.html`.
 
 Static notes and pages for Ndegwa. `/me` is the source of truth a bot should read. `docs/` is a static site: the life graph plus the trading widgets. No build step to view them.
 
@@ -106,6 +106,7 @@ These additive widgets read `docs/data/state.json` with the URL `src` override. 
 - `page.html?page=start` — 190px. Change `page` to `session-card`, `milestone-tracker`, `weekly`, `session-notes`, `learning`, `money`, `building`, `family`, or `rules`.
 - `summary.html?page=start` — 130px. It shows the page's configured KPIs.
 - `flashlight.html?path=all` — 440px. Use `trading`, `build`, `learning`, `money`, or `all` to focus the journey.
+- `tree.html?path=all` — 420px. A left-to-right, data-driven milestone journey; use `trading`, `build`, `learning`, `money`, or `family` to focus a path.
 
 ### How to add a milestone
 
@@ -113,5 +114,7 @@ These additive widgets read `docs/data/state.json` with the URL `src` override. 
 2. Give it a new, stable `id`, a concise `title`, a positive `weight`, and `done: false` (plus `doneOn: null` when unknown).
 3. Keep the array in journey order; the first unfinished item becomes NOW. Do not duplicate an id across paths.
 4. Run `npm run check:state`, then commit the state update. The widgets pick it up on the next page load.
+
+The tree reads the same `paths.<path>.milestones` arrays and grows automatically; no HTML change is needed when you add a milestone.
 
 Schema v2 keeps every schema v1 field. Learning and Money milestones remain empty until their real source pages supply them; unknown values stay `null`.
