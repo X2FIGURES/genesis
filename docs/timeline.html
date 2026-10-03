@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Session timeline</title>
+<style>
+:root{--bg:#0f1115;--card:#161a22;--tile:#1b2029;--line:#242a36;--text:#eef0f5;--muted:#8d95a8;
+--blue:#4c8dff;--yellow:#ffd166;--green:#3ddc84;--red:#ff5c6c;--purple:#a78bfa}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden}
+body{padding:8px}
+.card{height:100%;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;min-height:0}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.06em;border:1px solid var(--c);color:var(--c);background:rgba(15,17,21,.6)}
+.chip i{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.ready{--c:var(--green)}.standaside{--c:var(--red)}.done{--c:var(--purple)}
+.counts{font-size:12px;font-weight:700;color:var(--muted)}
+.counts b{color:var(--yellow);font-variant-numeric:tabular-nums}
+.barwrap{flex:1;min-height:52px;position:relative}
+.axis{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);font-weight:600;margin-bottom:4px}
+.track{position:relative;height:28px;background:var(--tile);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.session{position:absolute;top:0;bottom:0;background:rgba(76,141,255,.18);border-left:2px solid var(--blue);border-right:2px solid var(--blue)}
+.london{position:absolute;top:3px;bottom:3px;background:rgba(255,209,102,.22);border:1px dashed var(--yellow);border-radius:6px}
+.log{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--purple);box-shadow:0 0 8px rgba(167,139,250,.6)}
+.now{position:absolute;top:-4px;bottom:-4px;width:3px;background:var(--text);box-shadow:0 0 10px rgba(238,240,245,.8);transform:translateX(-50%)}
+.foot{font-size:11px;color:var(--muted)}
+.out{color:var(--red);font-weight:800;font-size:12px}
+@media (prefers-reduced-motion:reduce){.now{box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="card" role="group" aria-label="Trading session timeline">
+  <div class="row">
+    <div class="label">Trade 13:00–16:00 Dubai</div>
+    <span class="chip ready" id="chip"><i></i><span id="chiptxt">READY</span></span>
+  </div>
+  <div class="counts" id="counts"></div>
+  <div class="barwrap">
+    <div class="axis"><span>Dubai</span><span id="eat">EAT −1h</span></div>
+    <div class="track" id="track">
+      <div class="session" id="sess"></div>
+      <div class="london" id="london"></div>
+      <div class="log" id="log"></div>
+      <div class="now" id="now" hidden></div>
+    </div>
+    <div class="axis" style="margin-top:4px"><span id="t0">12:45</span><span id="t1">16:30</span></div>
+  </div>
+  <div class="foot" id="foot"></div>
+</div>
+<script>
+(function(){
+  var WIN0=12*60+45,WIN1=16*60+30,SESS0=13*60,SESS1=16*60,LOG=16*60+15,LON0=14*60+15,LON1=15*60+15;
+  function loadState(def){var q=new URLSearchParams(location.search),src=q.get('src')||'data/state.json';
+    return fetch(src,{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){return {data:j,source:'state'};})
+      .catch(function(){return {data:def,source:'example'};});}
+  function pct(min){return ((min-WIN0)/(WIN1-WIN0))*100;}
+  function setPos(el,min){el.style.left=pct(min)+'%';}
+  function setWidth(el,a,b){el.style.left=pct(a)+'%';el.style.width=(pct(b)-pct(a))+'%';}
+  function dubaiNow(){
+    var p=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Dubai',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());
+    var h=+p.find(function(x){return x.type==='hour';}).value,m=+p.find(function(x){return x.type==='minute';}).value;
+    return h*60+m;
+  }
+  function parseNow(s){var a=s.split(':');if(a.length<2)return null;var h=+a[0],m=+a[1];if(!isFinite(h)||!isFinite(m))return null;return h*60+m;}
+  function pad(n){return (n<10?'0':'')+n;}
+  function fmt(min){return pad(Math.floor(min/60))+':'+pad(min%60);}
+  setWidth(document.getElementById('sess'),SESS0,SESS1);
+  setWidth(document.getElementById('london'),LON0,LON1);
+  setPos(document.getElementById('log'),LOG);
+  document.getElementById('eat').textContent='London box '+fmt(LON0-60)+'–'+fmt(LON1-60)+' EAT';
+  loadState({session:{state:'ready',tradesTaken:0,losses:0,maxTrades:2,maxLosses:2}}).then(function(res){
+    var q=new URLSearchParams(location.search),sess=res.data.session||{};
+    var st=(q.get('state')||sess.state||'ready').toLowerCase();
+    var trades=isFinite(parseFloat(q.get('trades')))?+q.get('trades'):(+sess.tradesTaken||0);
+    var losses=isFinite(parseFloat(q.get('losses')))?+q.get('losses'):(+sess.losses||0);
+    var maxT=+sess.maxTrades||2,maxL=+sess.maxLosses||2;
+    if(!q.get('state')&&losses>=maxL)st='done';
+    var map={ready:['ready','READY'],standaside:['standaside','NEWS - STAND ASIDE'],done:['done','Done for the session']};
+    var m=map[st]||map.ready;
+    var chip=document.getElementById('chip');chip.className='chip '+m[0];document.getElementById('chiptxt').textContent=m[1];
+    document.getElementById('counts').innerHTML='Trades <b>'+trades+'</b> / '+maxT+' &nbsp; Losses <b>'+losses+'</b> / '+maxL;
+    var foot=document.getElementById('foot');
+    if(losses>=maxL){foot.innerHTML='<span class="out">Out for the session</span>';document.querySelector('.track').style.borderColor='rgba(255,92,108,.55)';}
+    else foot.textContent='Log at 16:15 Dubai';
+    var nowMin=q.get('now')?parseNow(q.get('now')):dubaiNow();
+    var needle=document.getElementById('now');
+    if(nowMin!=null&&nowMin>=WIN0&&nowMin<=WIN1){needle.hidden=false;setPos(needle,nowMin);}
+    else needle.hidden=true;
+  });
+})();
+</script>
+</body>
+</html>

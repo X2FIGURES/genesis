@@ -1,0 +1,27 @@
+{
+  "note": "Property names are proposed until Ndegwa confirms. Grok Bot should read this file, not hardcoded names in code.",
+  "databases": {
+    "Trade Log": {
+      "date": "(confirm)",
+      "result": "(confirm)",
+      "clean": "(confirm)",
+      "lot": "(confirm)"
+    },
+    "Sessions": {
+      "date": "(confirm)",
+      "state": "(confirm)"
+    },
+    "Milestone Tracker $15 to $500": {
+      "date": "(confirm)",
+      "balance": "(confirm)"
+    },
+    "Session Notes": {
+      "date": "(confirm)",
+      "note": "(confirm)"
+    },
+    "Daily log": {
+      "date": "(confirm)",
+      "note": "(confirm)"
+    }
+  }
+}

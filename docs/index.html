@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Life system</title>
+<style>
+:root{--bg:#0f1115;--card:#161a22;--line:#242a36;--text:#eef0f5;--muted:#8d95a8;--blue:#4c8dff;--yellow:#ffd166}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:24px;line-height:1.45}
+main{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+h1{font-size:22px;font-weight:800;letter-spacing:-.02em}
+p{color:var(--muted);font-size:14px}
+ul{list-style:none;display:flex;flex-direction:column;gap:10px;padding:0}
+a.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;color:var(--text);text-decoration:none}
+a.card:hover,a.card:focus-visible{border-color:var(--blue);outline:none}
+a.card strong{display:block;font-size:16px}
+a.card span{display:block;margin-top:4px;color:var(--yellow);font-size:12px;word-break:break-all}
+</style>
+</head>
+<body>
+<main>
+  <h1>Life system</h1>
+  <p>The graph reads <code>data/graph.json</code>, built from the <code>me/</code> notes. Widgets stay plain static pages; add the query string from the README to change the numbers.</p>
+  <ul>
+    <li><a class="card" href="graph.html?focus=trading"><strong>Life graph</strong><span>graph.html?focus=trading</span></a></li>
+    <li><a class="card" href="ring.html?balance=42&amp;goal=500&amp;start=15&amp;rungs=15,25,40,65,100,160,250,400,500"><strong>Progress ring</strong><span>ring.html?balance=42&amp;goal=500&amp;start=15&amp;rungs=15,25,40,65,100,160,250,400,500</span></a></li>
+    <li><a class="card" href="ladder.html?balance=70&amp;rungs=15:0.01,40:0.02,65:0.03,100:0.05"><strong>Lot ladder</strong><span>ladder.html?balance=70&amp;rungs=15:0.01,40:0.02,65:0.03,100:0.05</span></a></li>
+    <li><a class="card" href="header.html?state=standaside"><strong>Session header</strong><span>header.html?state=standaside</span></a></li>
+    <li><a class="card" href="timeline.html?now=14:30&amp;trades=1&amp;losses=0"><strong>Session timeline</strong><span>timeline.html?now=14:30&amp;trades=1&amp;losses=0</span></a></li>
+    <li><a class="card" href="heat.html?seq=1101"><strong>Clean trades</strong><span>heat.html?seq=1101</span></a></li>
+  </ul>
+</main>
+</body>
+</html>

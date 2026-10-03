@@ -1,0 +1,15 @@
+{
+  "name": "trading-widgets",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "shots": "node scripts/shots.mjs",
+    "check:tokens": "node scripts/check-tokens.mjs",
+    "check:state": "node scripts/check-state.mjs",
+    "build:graph": "node scripts/build-graph.mjs",
+    "verify:widgets": "node scripts/verify-widgets.mjs"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.12.0"
+  }
+}
