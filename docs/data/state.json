@@ -1,19 +1,41 @@
 {
-  "schemaVersion": 1,
-  "updatedAt": "2026-10-05T16:15:00+04:00",
-  "updatedBy": "manual",
+  "schemaVersion": 2,
+  "updatedAt": "2026-10-03T17:23:46+04:00",
+  "updatedBy": "grok-bot",
   "account": {
     "start": 15,
-    "balance": 42,
+    "balance": 15,
     "goal": 500,
-    "rungs": [15, 35, 75, 155, 315, 500]
+    "rungs": [
+      15,
+      35,
+      75,
+      155,
+      315,
+      500
+    ]
   },
   "ladder": [
-    { "balance": 15, "lot": 0.01 },
-    { "balance": 35, "lot": 0.02 },
-    { "balance": 75, "lot": 0.04 },
-    { "balance": 155, "lot": 0.08 },
-    { "balance": 315, "lot": 0.16 }
+    {
+      "balance": 15,
+      "lot": 0.01
+    },
+    {
+      "balance": 35,
+      "lot": 0.02
+    },
+    {
+      "balance": 75,
+      "lot": 0.04
+    },
+    {
+      "balance": 155,
+      "lot": 0.08
+    },
+    {
+      "balance": 315,
+      "lot": 0.16
+    }
   ],
   "session": {
     "date": null,
@@ -27,5 +49,277 @@
     "target": 10,
     "seq": []
   },
-  "days": []
+  "days": [],
+  "streak": {
+    "current": 0,
+    "best": 0,
+    "unit": "days"
+  },
+  "paths": {
+    "trading": {
+      "title": "Trading",
+      "icon": "📈",
+      "color": "red-yellow",
+      "finishLine": "Grow the account $15 → $500 with the plan",
+      "link": "https://app.notion.com/p/3ed8766c1f82810eb80eddf4061631ab",
+      "nextSteps": [
+        "Wait for a held 1m origin",
+        "Fixed $20 TP, stop under $4"
+      ],
+      "milestones": [
+        {
+          "id": "t-rung-15",
+          "title": "Start: $15",
+          "weight": 1,
+          "done": true,
+          "doneOn": null
+        },
+        {
+          "id": "t-rung-35",
+          "title": "Reach $35",
+          "weight": 1,
+          "done": false,
+          "doneOn": null
+        },
+        {
+          "id": "t-rung-75",
+          "title": "Reach $75",
+          "weight": 1,
+          "done": false,
+          "doneOn": null
+        },
+        {
+          "id": "t-rung-155",
+          "title": "Reach $155",
+          "weight": 1,
+          "done": false,
+          "doneOn": null
+        },
+        {
+          "id": "t-rung-315",
+          "title": "Reach $315",
+          "weight": 1,
+          "done": false,
+          "doneOn": null
+        },
+        {
+          "id": "t-rung-500",
+          "title": "Reach $500",
+          "weight": 1,
+          "done": false,
+          "doneOn": null
+        },
+        {
+          "id": "t-clean-10",
+          "title": "10 clean trades",
+          "weight": 1,
+          "done": false,
+          "doneOn": null
+        }
+      ]
+    },
+    "build": {
+      "title": "Build",
+      "icon": "🛠️",
+      "color": "green",
+      "finishLine": "Ship Tap (public repo), then the 47-week path",
+      "link": "https://app.notion.com/p/3eb8766c1f8281d8bbb7d5af7265743d",
+      "nextSteps": [
+        "Install Godot, make the screen red"
+      ],
+      "milestones": [
+        {
+          "id": "b-tap-d7",
+          "title": "Day 7: play 10 rounds and commit",
+          "weight": 1,
+          "done": false,
+          "doneOn": null
+        },
+        {
+          "id": "b-tap-d14",
+          "title": "Day 14: Godot game v1.0, README, tag",
+          "weight": 1,
+          "done": false,
+          "doneOn": null
+        },
+        {
+          "id": "b-tap-d21",
+          "title": "Day 21: full round loop on the chip",
+          "weight": 1,
+          "done": false,
+          "doneOn": null
+        },
+        {
+          "id": "b-tap-d28",
+          "title": "Day 28: clean-clone test",
+          "weight": 1,
+          "done": false,
+          "doneOn": null
+        },
+        {
+          "id": "b-tap-d30",
+          "title": "Day 30: ship day, repo public",
+          "weight": 3,
+          "done": false,
+          "doneOn": null
+        },
+        {
+          "id": "b-m2",
+          "title": "M2 After Tap",
+          "weight": 6,
+          "done": false,
+          "doneOn": null
+        },
+        {
+          "id": "b-m3",
+          "title": "M3 Ship Monthly (C on the chip + printed case)",
+          "weight": 8,
+          "done": false,
+          "doneOn": null
+        },
+        {
+          "id": "b-jr",
+          "title": "Java + Rust",
+          "weight": 8,
+          "done": false,
+          "doneOn": null
+        },
+        {
+          "id": "b-m4",
+          "title": "M4 Shop Real",
+          "weight": 7,
+          "done": false,
+          "doneOn": null
+        },
+        {
+          "id": "b-m5",
+          "title": "M5 Years",
+          "weight": 13,
+          "done": false,
+          "doneOn": null
+        }
+      ]
+    },
+    "learning": {
+      "title": "Learning",
+      "icon": "📚",
+      "color": "purple",
+      "finishLine": null,
+      "link": "https://app.notion.com/p/3ed8766c1f82818aaa45dba3014e7a59",
+      "nextSteps": [],
+      "milestones": []
+    },
+    "money": {
+      "title": "Money & Kareet",
+      "icon": "💰",
+      "color": "yellow",
+      "finishLine": null,
+      "link": "https://app.notion.com/p/3ed8766c1f828121acbbf74c39a435c2",
+      "nextSteps": [],
+      "milestones": []
+    },
+    "family": {
+      "title": "Family",
+      "icon": "🏠",
+      "color": "orange",
+      "finishLine": "(Ndegwa's words)",
+      "link": null,
+      "nextSteps": [],
+      "milestones": []
+    }
+  },
+  "pages": {
+    "start": {
+      "title": "My life system",
+      "path": "all",
+      "kpis": [
+        "balance",
+        "streak",
+        "nextStep"
+      ]
+    },
+    "session-card": {
+      "title": "Session Card",
+      "path": "trading",
+      "kpis": [
+        "balance",
+        "cleanTrades",
+        "tradesLeft"
+      ]
+    },
+    "milestone-tracker": {
+      "title": "Milestone Tracker",
+      "path": "trading",
+      "kpis": [
+        "balance",
+        "nextRung",
+        "lot"
+      ]
+    },
+    "weekly": {
+      "title": "Collective · Weekly",
+      "path": "trading",
+      "kpis": [
+        "cleanTrades",
+        "streak",
+        "nextStep"
+      ]
+    },
+    "session-notes": {
+      "title": "Session Notes",
+      "path": "trading",
+      "kpis": [
+        "cleanTrades",
+        "streak",
+        "nextStep"
+      ]
+    },
+    "learning": {
+      "title": "Learning",
+      "path": "learning",
+      "kpis": [
+        "milestonesDone",
+        "streak",
+        "nextStep"
+      ]
+    },
+    "money": {
+      "title": "Money & Kareet",
+      "path": "money",
+      "kpis": [
+        "balance",
+        "nextRung",
+        "nextStep"
+      ]
+    },
+    "building": {
+      "title": "Building",
+      "path": "build",
+      "kpis": [
+        "milestonesDone",
+        "streak",
+        "nextStep"
+      ]
+    },
+    "family": {
+      "title": "Family",
+      "path": "family",
+      "kpis": [
+        "nextStep"
+      ]
+    },
+    "rules": {
+      "title": "Rules",
+      "path": "trading",
+      "kpis": [
+        "tradesLeft",
+        "cleanTrades",
+        "nextStep"
+      ]
+    }
+  },
+  "focus": {
+    "path": "trading",
+    "note": "Which path 'all' views follow. Default: trading (near-term skill that pays the bills)."
+  }
 }

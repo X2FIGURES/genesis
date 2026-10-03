@@ -98,3 +98,20 @@ npm run check:tokens
 npm run check:state
 npm run build:graph
 ```
+
+## Life-system v2 embeds
+
+These additive widgets read `docs/data/state.json` with the URL `src` override. Suggested Notion heights:
+
+- `page.html?page=start` — 190px. Change `page` to `session-card`, `milestone-tracker`, `weekly`, `session-notes`, `learning`, `money`, `building`, `family`, or `rules`.
+- `summary.html?page=start` — 130px. It shows the page's configured KPIs.
+- `flashlight.html?path=all` — 440px. Use `trading`, `build`, `learning`, `money`, or `all` to focus the journey.
+
+### How to add a milestone
+
+1. Edit `docs/data/state.json` and add one object to the correct `paths.<path>.milestones` array.
+2. Give it a new, stable `id`, a concise `title`, a positive `weight`, and `done: false` (plus `doneOn: null` when unknown).
+3. Keep the array in journey order; the first unfinished item becomes NOW. Do not duplicate an id across paths.
+4. Run `npm run check:state`, then commit the state update. The widgets pick it up on the next page load.
+
+Schema v2 keeps every schema v1 field. Learning and Money milestones remain empty until their real source pages supply them; unknown values stay `null`.
