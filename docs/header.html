@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Session Card Header</title>
+<style>
+:root{--bg:#0f1115;--card:#161a22;--line:#242a36;--text:#eef0f5;--muted:#8d95a8;
+--blue:#4c8dff;--yellow:#ffd166;--green:#3ddc84;--red:#ff5c6c;--purple:#a78bfa}
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden}
+body{padding:8px;min-height:100vh}
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 14px;display:flex;flex-direction:column;gap:10px;min-height:124px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+h1{font-size:clamp(18px,4.6vw,24px);font-weight:800;letter-spacing:-.01em}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.06em;
+border:1px solid var(--c);color:var(--c);background:var(--bgc)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--c);animation:blink 1.8s ease-in-out infinite}
+.ready{--c:var(--green);--bgc:rgba(61,220,132,.1)}
+.standaside{--c:var(--red);--bgc:rgba(255,92,108,.12)}
+.done{--c:var(--purple);--bgc:rgba(167,139,250,.12)}
+.done .dot{animation:none}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{background:#1b2029;border:1.5px solid rgba(61,220,132,.28);border-radius:12px;padding:8px 10px;opacity:0;transform:translateY(8px);
+animation:rise .6s cubic-bezier(.22,.8,.25,1) forwards}
+.tile:nth-child(1){animation-delay:.1s}.tile:nth-child(2){animation-delay:.25s}.tile:nth-child(3){animation-delay:.4s}
+.tile .tf{font-size:clamp(17px,4.4vw,22px);font-weight:800;color:var(--green);font-variant-numeric:tabular-nums}
+.tile .tl{font-size:clamp(11px,2.9vw,14px);color:var(--text);font-weight:600;margin-top:2px}
+.tile.key{border-color:var(--green);background:#15231c;box-shadow:0 0 12px rgba(61,220,132,.25)}
+.tile.key .tl{font-weight:800}
+.mid{display:flex;flex-direction:column;gap:10px}
+@media (min-width:640px){.mid{flex-direction:row;align-items:stretch}.mid .tiles{flex:1}.mid .btn{align-self:center;white-space:nowrap}}
+.btn{all:unset;cursor:pointer;box-sizing:border-box;padding:7px 14px;border-radius:10px;border:1.5px solid var(--purple);color:var(--purple);font-size:13px;font-weight:700;background:rgba(167,139,250,.08);transition:background .2s}
+.btn:hover{background:rgba(167,139,250,.2)}.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+/* breathing overlay */
+.calm{position:absolute;inset:0;background:var(--card);border-radius:16px;display:none;align-items:center;justify-content:center;gap:clamp(14px,5vw,40px);padding:10px}
+.calm.on{display:flex}
+.orb{position:relative;width:104px;height:104px;flex:0 0 auto;display:flex;align-items:center;justify-content:center}
+.orb i{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(167,139,250,.55),rgba(167,139,250,.18));
+border:2px solid var(--purple);box-shadow:0 0 24px rgba(167,139,250,.4);transform:scale(.55)}
+.orb i.in{transform:scale(1);transition:transform 4s ease-in-out}
+.orb i.out{transform:scale(.55);transition:transform 6s ease-in-out}
+.count{position:relative;font-size:30px;font-weight:800;color:var(--yellow);font-variant-numeric:tabular-nums}
+.ctext{display:flex;flex-direction:column;gap:4px;min-width:0}
+.phase{font-size:clamp(18px,5vw,26px);font-weight:800;color:var(--purple)}
+.sub{font-size:12px;color:var(--muted)}
+.final{font-size:clamp(17px,4.8vw,26px);font-weight:800;color:var(--red);line-height:1.2}
+.again{margin-top:6px;align-self:flex-start}
+@keyframes rise{to{opacity:1;transform:none}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.tile{animation:none;opacity:1;transform:none}.dot{animation:none}.orb i.in,.orb i.out{transition:none}}
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <div class="row">
+    <h1>Session Card</h1>
+    <span class="chip ready" id="chip"><span class="dot"></span><span id="chiptxt">READY</span></span>
+  </div>
+  <div class="mid">
+  <div class="tiles">
+    <div class="tile"><div class="tf">15m</div><div class="tl">= zone</div></div>
+    <div class="tile"><div class="tf">5m</div><div class="tl">= entry zone</div></div>
+    <div class="tile key"><div class="tf">1m</div><div class="tl">= ONLY trigger</div></div>
+  </div>
+  <button class="btn" id="calmbtn" type="button">&#9679; 30-second calm check</button>
+  </div>
+  <div class="calm" id="calm" role="dialog" aria-label="Calm check" aria-live="polite">
+    <div class="orb" id="orbwrap"><i id="orb"></i><span class="count" id="count">30</span></div>
+    <div class="ctext" id="ctext"><div class="phase" id="phase">Breathe in</div><div class="sub" id="sub">in 4s &middot; out 6s</div></div>
+  </div>
+</div>
+<script>
+(function(){
+  function loadState(defaults){
+    var q=new URLSearchParams(location.search),src=q.get('src')||'data/state.json';
+    return fetch(src,{cache:'no-store'}).then(function(res){if(!res.ok)throw 0;return res.json();}).then(function(json){
+      return {data:json,source:'state',updatedAt:json.updatedAt||null};
+    }).catch(function(){return {data:defaults,source:'example',updatedAt:null};});
+  }
+  function applyChip(st){
+    var map={ready:['ready','READY'],standaside:['standaside','NEWS - STAND ASIDE'],done:['done','Done for the session']};
+    var m=map[st]||map.ready;
+    var chip=document.getElementById('chip');chip.className='chip '+m[0];
+    document.getElementById('chiptxt').textContent=m[1];
+  }
+  loadState({session:{state:'ready',losses:0,maxLosses:2}}).then(function(res){
+    var q=new URLSearchParams(location.search),sess=res.data.session||{};
+    var st=(q.get('state')||sess.state||'ready').toLowerCase();
+    if(!q.get('state')&&typeof sess.losses==='number'&&typeof sess.maxLosses==='number'&&sess.losses>=sess.maxLosses)st='done';
+    applyChip(st);
+    bootCalm();
+  });
+  function bootCalm(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var calm=document.getElementById('calm'),orb=document.getElementById('orb'),count=document.getElementById('count'),
+      phase=document.getElementById('phase'),sub=document.getElementById('sub'),ctext=document.getElementById('ctext'),
+      orbwrap=document.getElementById('orbwrap');
+  var raf=0,running=false;
+  function setPhase(p){
+    if(p==='in'){phase.textContent='Breathe in';orb.className='in';}
+    else{phase.textContent='Breathe out';orb.className='out';}
+  }
+  function start(){
+    if(running)return;running=true;
+    orbwrap.style.display='flex';sub.style.display='';sub.textContent='in 4s \u00b7 out 6s';
+    phase.className='phase';phase.textContent='Breathe in';
+    var old=ctext.querySelector('.again');if(old)old.remove();
+    calm.classList.add('on');
+    orb.className='';void orb.offsetWidth;
+    var t0=performance.now(),last=-1,lastPhase='';
+    (function tick(now){
+      var e=(now-t0)/1000;
+      if(e>=30){finish();return;}
+      var left=Math.ceil(30-e);
+      if(left!==last){count.textContent=left;last=left;}
+      var ph=(e%10)<4?'in':'out';
+      if(ph!==lastPhase){lastPhase=ph;
+        if(reduce){phase.textContent=ph==='in'?'Breathe in':'Breathe out';}
+        else{ // force transition start
+          requestAnimationFrame(function(){setPhase(ph);});}
+      }
+      raf=requestAnimationFrame(tick);
+    })(t0);
+  }
+  function finish(){
+    running=false;cancelAnimationFrame(raf);
+    orbwrap.style.display='none';sub.style.display='none';
+    phase.className='final';phase.textContent='Held 1m origin? No = no trade.';
+    var b=document.createElement('button');b.type='button';b.className='btn again';b.textContent='Close';
+    b.addEventListener('click',function(){calm.classList.remove('on');});
+    ctext.appendChild(b);
+  }
+  document.getElementById('calmbtn').addEventListener('click',start);
+  window.__calmStart=start; // test hook
+  }
+})();
+</script>
+</body>
+</html>

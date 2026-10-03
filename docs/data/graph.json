@@ -1,0 +1,753 @@
+{
+  "generatedFrom": "me/",
+  "paths": [
+    {
+      "id": "trading",
+      "label": "Trading",
+      "color": "#ff5c6c"
+    },
+    {
+      "id": "build",
+      "label": "Build",
+      "color": "#3ddc84"
+    },
+    {
+      "id": "learning",
+      "label": "Learning",
+      "color": "#a78bfa"
+    },
+    {
+      "id": "money",
+      "label": "Money",
+      "color": "#ffd166"
+    },
+    {
+      "id": "family",
+      "label": "Family",
+      "color": "#ff8c42"
+    },
+    {
+      "id": "dreams",
+      "label": "Dreams",
+      "color": "#9aa3b5"
+    },
+    {
+      "id": "bots",
+      "label": "Bots",
+      "color": "#4c8dff"
+    },
+    {
+      "id": "self",
+      "label": "Self",
+      "color": "#d5dbe8"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "bots",
+      "title": "Bots",
+      "path": "bots",
+      "hub": true,
+      "summary": "Small team. Grok Bot runs the life. Joe builds. Kat designs. dr eggbot makes bots.",
+      "note": "Keep the team small. Keep Opus spend low: Opus only for design that needs it. Grok models for code. See Ndegwa and How to work with me.",
+      "source": "me/bot-family.md"
+    },
+    {
+      "id": "build",
+      "title": "Build",
+      "path": "build",
+      "hub": true,
+      "summary": "Last block of the day. Open-ended. Tap game, ESP32, the Stack.",
+      "note": "Ndegwa builds last, after morning money and Trading. The block is open-ended: passion and learning together. See Learning and Daily rhythm.\n\nThreads: Tap game, ESP32, The Stack.",
+      "source": "me/build.md"
+    },
+    {
+      "id": "clean-trade",
+      "title": "Clean trade",
+      "path": "trading",
+      "hub": false,
+      "summary": "",
+      "note": "A clean trade is a by-the-book trade. The success metric is 10 clean trades, not 10 wins. Optimize the trader first, size later. See Trading.",
+      "source": "me/glossary.md#Clean trade"
+    },
+    {
+      "id": "daily-log",
+      "title": "Daily log",
+      "path": "self",
+      "hub": false,
+      "summary": "",
+      "note": "Notion page. Name only.",
+      "source": "me/daily-rhythm.md#Daily log"
+    },
+    {
+      "id": "daily-rhythm",
+      "title": "Daily rhythm",
+      "path": "self",
+      "hub": false,
+      "summary": "From Mon Oct 5. Morning money, trade 13:00-16:00 Dubai, build last, 19:00 micro-lesson.",
+      "note": "From Mon Oct 5. Ndegwa's day, Dubai time (UTC+4).\n\n1. Morning: make money. See Money.\n2. Trade 13:00-16:00 Dubai, one session, then log at 16:15. See Trading.\n3. Build last, open-ended, passion and learning together. See Build.\n4. 19:00 phone micro-lesson. See Micro-lesson.\n\nSunday 18:00 weekly review. Sunday 18:30 Grok Bot outlook.\n\nCharts are on Nairobi time. Dubai is one hour ahead. See EAT.",
+      "source": "me/daily-rhythm.md"
+    },
+    {
+      "id": "dr-eggbot",
+      "title": "dr eggbot",
+      "path": "bots",
+      "hub": false,
+      "summary": "",
+      "note": "Builds new bots. Keep the team small.",
+      "source": "me/bot-family.md#dr eggbot"
+    },
+    {
+      "id": "dreams",
+      "title": "Dreams",
+      "path": "dreams",
+      "hub": true,
+      "summary": "(Ndegwa's words)",
+      "note": "(Ndegwa's words)\n\nNdegwa",
+      "source": "me/dreams.md"
+    },
+    {
+      "id": "eat",
+      "title": "EAT",
+      "path": "trading",
+      "hub": false,
+      "summary": "",
+      "note": "Nairobi time, the clock on his charts. Dubai is one hour ahead. See Daily rhythm.",
+      "source": "me/glossary.md#EAT"
+    },
+    {
+      "id": "esp32",
+      "title": "ESP32",
+      "path": "build",
+      "hub": false,
+      "summary": "",
+      "note": "ESP32, in the same build block as the Tap game and the Stack.",
+      "source": "me/build.md#ESP32"
+    },
+    {
+      "id": "family",
+      "title": "Family",
+      "path": "family",
+      "hub": true,
+      "summary": "(Ndegwa's words)",
+      "note": "(Ndegwa's words)\n\nNdegwa",
+      "source": "me/family.md"
+    },
+    {
+      "id": "glossary",
+      "title": "Glossary",
+      "path": "trading",
+      "hub": false,
+      "summary": "Origin, hard close, clean trade, and the chart clock.",
+      "note": "Terms Trading uses. Ndegwa's meanings only. Kareet is defined on Money.",
+      "source": "me/glossary.md"
+    },
+    {
+      "id": "grok-bot",
+      "title": "Grok Bot",
+      "path": "bots",
+      "hub": false,
+      "summary": "",
+      "note": "Runs his life. Trading partner. Signs off work. See Trading and Daily rhythm.",
+      "source": "me/bot-family.md#Grok Bot"
+    },
+    {
+      "id": "hard-close",
+      "title": "Hard close",
+      "path": "trading",
+      "hub": false,
+      "summary": "",
+      "note": "A hard close is a candle that opens and closes beyond the level, against the trend.",
+      "source": "me/glossary.md#Hard close"
+    },
+    {
+      "id": "how-to-work-with-me",
+      "title": "How to work with me",
+      "path": "self",
+      "hub": false,
+      "summary": "One question at a time. Short replies. No signals. Decisions stay his.",
+      "note": "Work with Ndegwa as the logical side to his emotional side.\n\n- One clear question or filter at a time.\n- Short replies.\n- No trade signals and no financial advice. Trade decisions stay his. See Trading.\n- Short near-term timelines keep things real. Far or vague timelines break.\n- Learning is build-first and visual. See Learning.\n- Dark mode, color-coding, visual-heavy.\n- Grok Bot runs the life system and signs off work. See Bots.",
+      "source": "me/how-to-work-with-me.md"
+    },
+    {
+      "id": "joe",
+      "title": "Joe",
+      "path": "bots",
+      "hub": false,
+      "summary": "",
+      "note": "Bot for business and dev.",
+      "source": "me/bot-family.md#Joe"
+    },
+    {
+      "id": "kareet",
+      "title": "Kareet",
+      "path": "money",
+      "hub": false,
+      "summary": "",
+      "note": "Kareet is the long-term bet: a public library, interactive books, an interactive firm book engine. Sell the engine-built interactive firm book, not PDF hosting. Pricing is in the kareet-pricing skill.",
+      "source": "me/money-and-kareet.md#Kareet"
+    },
+    {
+      "id": "kat",
+      "title": "Kat",
+      "path": "bots",
+      "hub": false,
+      "summary": "",
+      "note": "Design and ADHD advisor.",
+      "source": "me/bot-family.md#Kat"
+    },
+    {
+      "id": "learning",
+      "title": "Learning",
+      "path": "learning",
+      "hub": true,
+      "summary": "Build-first. Phone micro-lessons, 20-30 minutes. Deep day-by-day work.",
+      "note": "Ndegwa falls asleep in lectures, so learning is build-first: short phone micro-lessons (20-30 min), not lecture-first. He wants deep day-by-day curricula, not surface checklists. Color-coding, dark mode, visual-heavy. Short near-term timelines keep it real. Far or vague timelines break.\n\nSee How to work with me, Build, and Daily rhythm. The Notion page is also called Learning. Name only; the page body is not stored here.",
+      "source": "me/learning-approach.md"
+    },
+    {
+      "id": "lot-ladder",
+      "title": "Lot ladder",
+      "path": "trading",
+      "hub": false,
+      "summary": "",
+      "note": "A win doubles the lot. A loss steps back one rung. 0.01 ($15-35), 0.02 ($35-75), 0.04 ($75-155), 0.08 ($155-315), 0.16 ($315-635).",
+      "source": "me/trading-system.md#Lot ladder"
+    },
+    {
+      "id": "micro-lesson",
+      "title": "Micro-lesson",
+      "path": "learning",
+      "hub": false,
+      "summary": "",
+      "note": "19:00 phone micro-lesson. 20-30 minutes. See Daily rhythm.",
+      "source": "me/learning-approach.md#Micro-lesson"
+    },
+    {
+      "id": "milestone-tracker-15-to-500",
+      "title": "Milestone Tracker $15 to $500",
+      "path": "trading",
+      "hub": false,
+      "summary": "",
+      "note": "Notion page. Name only.",
+      "source": "me/trading-system.md#Milestone Tracker $15 to $500"
+    },
+    {
+      "id": "money",
+      "title": "Money",
+      "path": "money",
+      "hub": true,
+      "summary": "Morning cash work, then Kareet as the long-term bet.",
+      "note": "Morning is for making money. Trading is the near-term skill that pays bills and subscriptions. Kareet is the long-term bet. See Ndegwa and Daily rhythm.",
+      "source": "me/money-and-kareet.md"
+    },
+    {
+      "id": "money-and-kareet",
+      "title": "Money & Kareet",
+      "path": "money",
+      "hub": false,
+      "summary": "",
+      "note": "Notion page. Name only.",
+      "source": "me/money-and-kareet.md#Money & Kareet"
+    },
+    {
+      "id": "morning-cash",
+      "title": "Morning cash",
+      "path": "money",
+      "hub": false,
+      "summary": "",
+      "note": "Line Series Notion templates, $10 on Whop. Dubai real-estate Notion and Grok Bot workspace, a $49 product idea. Instagram faceless reels.",
+      "source": "me/money-and-kareet.md#Morning cash"
+    },
+    {
+      "id": "notion-map",
+      "title": "Notion map",
+      "path": "self",
+      "hub": false,
+      "summary": "Notion pages and databases mapped to repo files and state.json fields.",
+      "note": "Notion holds the typed data. This repo holds visuals and docs/data/state.json. One-way sync: Notion → state.json (Grok Bot or hand edit). Visuals never write back.",
+      "source": "me/notion-map.md"
+    },
+    {
+      "id": "origin",
+      "title": "Origin",
+      "path": "trading",
+      "hub": false,
+      "summary": "",
+      "note": "An origin is a low (uptrend) or a high (downtrend) launched by 2 or more consecutive trend candles, retested twice, and held with no Hard close. The 15m origin controls the zone. See Trigger.",
+      "source": "me/glossary.md#Origin"
+    },
+    {
+      "id": "pages-names-only-in-repo",
+      "title": "Pages (names only in repo)",
+      "path": "self",
+      "hub": false,
+      "summary": "",
+      "note": "| Notion page | Repo / visual |\n|---|---|\n| START HERE | plan/notion-template.md build sheet |\n| Session Card Origin Plan | Trading · header.html, timeline.html |\n| Milestone Tracker $15 to $500 | account.balance, account.rungs in state.json |\n| Trade Log | cleanTrades.seq, session.tradesTaken, session.losses, days |\n| Session Notes | text stays in Notion |\n| Weekly view | Daily rhythm |\n| Money & Kareet | Money |\n| Learning | Learning |\n| Daily log | Daily rhythm |\n| Sessions | session.state, session.date |",
+      "source": "me/notion-map.md#Pages (names only in repo)"
+    },
+    {
+      "id": "profile",
+      "title": "Ndegwa",
+      "path": "self",
+      "hub": true,
+      "summary": "Ndegwa Joe. Dubai (UTC+4). Racing mind. One question at a time.",
+      "note": "Ndegwa Joe lives in Dubai (UTC+4). ADHD, racing mind: narrow to one clear question at a time.\n\nHe wants the assistant to be another him: the logical side to his emotional side, so things actually get done. See How to work with me and Bots.\n\nLife paths: Trading, Build, Learning, Money, Family, Dreams.\n\nThe day is Daily rhythm. Family and Dreams are not written yet.",
+      "source": "me/profile.md"
+    },
+    {
+      "id": "session-card-origin-plan",
+      "title": "Session Card Origin Plan",
+      "path": "trading",
+      "hub": false,
+      "summary": "",
+      "note": "Notion page. Name only.",
+      "source": "me/trading-system.md#Session Card Origin Plan"
+    },
+    {
+      "id": "session-notes",
+      "title": "Session Notes",
+      "path": "trading",
+      "hub": false,
+      "summary": "",
+      "note": "Notion page. Name only.",
+      "source": "me/trading-system.md#Session Notes"
+    },
+    {
+      "id": "sessions",
+      "title": "Sessions",
+      "path": "trading",
+      "hub": false,
+      "summary": "",
+      "note": "Notion page. Name only.",
+      "source": "me/trading-system.md#Sessions"
+    },
+    {
+      "id": "stand-aside",
+      "title": "Stand aside",
+      "path": "trading",
+      "hub": false,
+      "summary": "",
+      "note": "Stand aside on high-impact news (NFP) until a defined setup forms. No clear 1m held Origin means no trade.",
+      "source": "me/trading-system.md#Stand aside"
+    },
+    {
+      "id": "start-here",
+      "title": "START HERE",
+      "path": "self",
+      "hub": false,
+      "summary": "",
+      "note": "Notion page. Name only.",
+      "source": "me/daily-rhythm.md#START HERE"
+    },
+    {
+      "id": "state-json-fields",
+      "title": "state.json fields",
+      "path": "self",
+      "hub": false,
+      "summary": "",
+      "note": "- account.start, account.balance, account.goal, account.rungs → Trading ring and ladder\n- ladder[] → real lot ladder (see Trading lot ladder)\n- session. → header and timeline\n- cleanTrades. → heat strip and graph badge on Trading\n\nDatabase property names are in docs/data/notion-config.json as (confirm). Update that file when Notion columns are known.",
+      "source": "me/notion-map.md#state.json fields"
+    },
+    {
+      "id": "strategy-notes",
+      "title": "Strategy notes",
+      "path": "trading",
+      "hub": false,
+      "summary": "",
+      "note": "Range expansion: one side of a range loses; trade the expansion the other way. London Reversal Box 13:15-14:15 EAT. MFG Gold 2.1. Asia Box 03:00-09:00 EAT.",
+      "source": "me/trading-system.md#Strategy notes"
+    },
+    {
+      "id": "subjects",
+      "title": "Subjects",
+      "path": "learning",
+      "hub": false,
+      "summary": "",
+      "note": "C, Java, Rust, assembly, electronics, mechatronics, welding and fabrication, physics and quantum. Tied to making things. See The Stack.",
+      "source": "me/learning-approach.md#Subjects"
+    },
+    {
+      "id": "tap-game",
+      "title": "Tap game",
+      "path": "build",
+      "hub": false,
+      "summary": "",
+      "note": "Godot Tap game. It leads into the 47-week engineering stack. See The Stack.",
+      "source": "me/build.md#Tap game"
+    },
+    {
+      "id": "targets",
+      "title": "Targets",
+      "path": "money",
+      "hub": false,
+      "summary": "",
+      "note": "Stretch goal ~$1,000 by Oct 9. Near-term cash need ~AED 3,100.",
+      "source": "me/money-and-kareet.md#Targets"
+    },
+    {
+      "id": "the-stack",
+      "title": "The Stack",
+      "path": "build",
+      "hub": false,
+      "summary": "",
+      "note": "The 47-week engineering stack the Tap game leads into. The subjects sit under Learning.",
+      "source": "me/build.md#The Stack"
+    },
+    {
+      "id": "trade-log",
+      "title": "Trade Log",
+      "path": "trading",
+      "hub": false,
+      "summary": "",
+      "note": "Notion page. Name only.",
+      "source": "me/trading-system.md#Trade Log"
+    },
+    {
+      "id": "trading",
+      "title": "Trading",
+      "path": "trading",
+      "hub": true,
+      "summary": "XAUUSD gold. Near-term skill that pays bills and subscriptions. One session.",
+      "note": "Near-term skill that pays bills and subscriptions. Market is XAUUSD gold. See Ndegwa, Daily rhythm, and Glossary.\n\nThe method is the Origin. Timeframes are the Trigger. Size is the Lot ladder. News and \"no trade\" live under Stand aside. Named strategy notes live under Strategy notes.\n\nStart at 0.01 lot (~$10.8 margin). Stop under $4 always. Fixed $20 take-profit until the account grows from $15 to $500, then dynamic. Max 2 trades a session. Two losses and he is out.\n\nThe success metric is 10 Clean trades, not 10 wins.",
+      "source": "me/trading-system.md"
+    },
+    {
+      "id": "trigger",
+      "title": "Trigger",
+      "path": "trading",
+      "hub": false,
+      "summary": "",
+      "note": "15m origin controls the zone. 5m is the trending entry zone. A held 1m origin is the only trigger. No clear 1m held origin means no trade. See Origin.",
+      "source": "me/trading-system.md#Trigger"
+    },
+    {
+      "id": "visuals",
+      "title": "Visuals",
+      "path": "self",
+      "hub": false,
+      "summary": "Embed URLs for every static visual in docs/.",
+      "note": "Every visual is a file under docs/. Serve that folder over https. Append query params to override docs/data/state.json. Use ?src= for another JSON file on the same host.\n\n| Visual | File | Suggested height | Params |\n|---|---|---|---|\n| Life graph | graph.html | ~500px | focus (hub id), embed=1 |\n| Progress ring | ring.html | ~300px | balance, goal, start, rungs |\n| Lot ladder | ladder.html | ~300px | balance, rungs as balance:lot |\n| Session header | header.html | ~180px | state = ready / standaside / done |\n| Session timeline | timeline.html | ~160px | state, trades, losses, now=HH:MM |\n| Clean trades | heat.html | ~160px | clean, target, seq (e.g. 1101) |\n\nShared data: docs/data/state.json (schema v1). Regenerate the graph from notes with node scripts/build-graph.mjs. Notion property names for the bot live in docs/data/notion-config.json as (confirm) until updated.\n\nSee Trading, Daily rhythm, and Glossary for what the numbers mean. Bots must not invent values; see How to work with me.",
+      "source": "me/visuals.md"
+    },
+    {
+      "id": "weekly-view",
+      "title": "Weekly view",
+      "path": "self",
+      "hub": false,
+      "summary": "",
+      "note": "Notion page. Name only.",
+      "source": "me/daily-rhythm.md#Weekly view"
+    }
+  ],
+  "edges": [
+    {
+      "source": "bots",
+      "target": "dr-eggbot"
+    },
+    {
+      "source": "bots",
+      "target": "grok-bot"
+    },
+    {
+      "source": "bots",
+      "target": "how-to-work-with-me"
+    },
+    {
+      "source": "bots",
+      "target": "joe"
+    },
+    {
+      "source": "bots",
+      "target": "kat"
+    },
+    {
+      "source": "bots",
+      "target": "profile"
+    },
+    {
+      "source": "build",
+      "target": "daily-rhythm"
+    },
+    {
+      "source": "build",
+      "target": "esp32"
+    },
+    {
+      "source": "build",
+      "target": "learning"
+    },
+    {
+      "source": "build",
+      "target": "profile"
+    },
+    {
+      "source": "build",
+      "target": "tap-game"
+    },
+    {
+      "source": "build",
+      "target": "the-stack"
+    },
+    {
+      "source": "build",
+      "target": "trading"
+    },
+    {
+      "source": "daily-rhythm",
+      "target": "daily-log"
+    },
+    {
+      "source": "daily-rhythm",
+      "target": "eat"
+    },
+    {
+      "source": "daily-rhythm",
+      "target": "grok-bot"
+    },
+    {
+      "source": "daily-rhythm",
+      "target": "micro-lesson"
+    },
+    {
+      "source": "daily-rhythm",
+      "target": "money"
+    },
+    {
+      "source": "daily-rhythm",
+      "target": "profile"
+    },
+    {
+      "source": "daily-rhythm",
+      "target": "start-here"
+    },
+    {
+      "source": "daily-rhythm",
+      "target": "trading"
+    },
+    {
+      "source": "daily-rhythm",
+      "target": "weekly-view"
+    },
+    {
+      "source": "dreams",
+      "target": "profile"
+    },
+    {
+      "source": "family",
+      "target": "profile"
+    },
+    {
+      "source": "glossary",
+      "target": "clean-trade"
+    },
+    {
+      "source": "glossary",
+      "target": "eat"
+    },
+    {
+      "source": "glossary",
+      "target": "hard-close"
+    },
+    {
+      "source": "glossary",
+      "target": "kareet"
+    },
+    {
+      "source": "glossary",
+      "target": "money"
+    },
+    {
+      "source": "glossary",
+      "target": "origin"
+    },
+    {
+      "source": "glossary",
+      "target": "profile"
+    },
+    {
+      "source": "glossary",
+      "target": "trading"
+    },
+    {
+      "source": "grok-bot",
+      "target": "trading"
+    },
+    {
+      "source": "how-to-work-with-me",
+      "target": "grok-bot"
+    },
+    {
+      "source": "how-to-work-with-me",
+      "target": "learning"
+    },
+    {
+      "source": "how-to-work-with-me",
+      "target": "profile"
+    },
+    {
+      "source": "how-to-work-with-me",
+      "target": "trading"
+    },
+    {
+      "source": "learning",
+      "target": "daily-rhythm"
+    },
+    {
+      "source": "learning",
+      "target": "micro-lesson"
+    },
+    {
+      "source": "learning",
+      "target": "profile"
+    },
+    {
+      "source": "learning",
+      "target": "subjects"
+    },
+    {
+      "source": "money",
+      "target": "kareet"
+    },
+    {
+      "source": "money",
+      "target": "money-and-kareet"
+    },
+    {
+      "source": "money",
+      "target": "morning-cash"
+    },
+    {
+      "source": "money",
+      "target": "profile"
+    },
+    {
+      "source": "money",
+      "target": "targets"
+    },
+    {
+      "source": "money",
+      "target": "trading"
+    },
+    {
+      "source": "notion-map",
+      "target": "pages-names-only-in-repo"
+    },
+    {
+      "source": "notion-map",
+      "target": "state-json-fields"
+    },
+    {
+      "source": "origin",
+      "target": "hard-close"
+    },
+    {
+      "source": "origin",
+      "target": "trigger"
+    },
+    {
+      "source": "pages-names-only-in-repo",
+      "target": "daily-rhythm"
+    },
+    {
+      "source": "pages-names-only-in-repo",
+      "target": "learning"
+    },
+    {
+      "source": "pages-names-only-in-repo",
+      "target": "money"
+    },
+    {
+      "source": "pages-names-only-in-repo",
+      "target": "trading"
+    },
+    {
+      "source": "profile",
+      "target": "trading"
+    },
+    {
+      "source": "stand-aside",
+      "target": "origin"
+    },
+    {
+      "source": "state-json-fields",
+      "target": "trading"
+    },
+    {
+      "source": "strategy-notes",
+      "target": "eat"
+    },
+    {
+      "source": "subjects",
+      "target": "the-stack"
+    },
+    {
+      "source": "tap-game",
+      "target": "the-stack"
+    },
+    {
+      "source": "the-stack",
+      "target": "learning"
+    },
+    {
+      "source": "trading",
+      "target": "clean-trade"
+    },
+    {
+      "source": "trading",
+      "target": "lot-ladder"
+    },
+    {
+      "source": "trading",
+      "target": "milestone-tracker-15-to-500"
+    },
+    {
+      "source": "trading",
+      "target": "origin"
+    },
+    {
+      "source": "trading",
+      "target": "session-card-origin-plan"
+    },
+    {
+      "source": "trading",
+      "target": "session-notes"
+    },
+    {
+      "source": "trading",
+      "target": "sessions"
+    },
+    {
+      "source": "trading",
+      "target": "stand-aside"
+    },
+    {
+      "source": "trading",
+      "target": "strategy-notes"
+    },
+    {
+      "source": "trading",
+      "target": "trade-log"
+    },
+    {
+      "source": "trading",
+      "target": "trigger"
+    },
+    {
+      "source": "visuals",
+      "target": "daily-rhythm"
+    },
+    {
+      "source": "visuals",
+      "target": "glossary"
+    },
+    {
+      "source": "visuals",
+      "target": "how-to-work-with-me"
+    },
+    {
+      "source": "visuals",
+      "target": "trading"
+    }
+  ]
+}

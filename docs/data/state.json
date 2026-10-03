@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-05T16:15:00+04:00",
+  "updatedBy": "manual",
+  "account": {
+    "start": 15,
+    "balance": 42,
+    "goal": 500,
+    "rungs": [15, 35, 75, 155, 315, 500]
+  },
+  "ladder": [
+    { "balance": 15, "lot": 0.01 },
+    { "balance": 35, "lot": 0.02 },
+    { "balance": 75, "lot": 0.04 },
+    { "balance": 155, "lot": 0.08 },
+    { "balance": 315, "lot": 0.16 }
+  ],
+  "session": {
+    "date": null,
+    "state": "ready",
+    "tradesTaken": 0,
+    "losses": 0,
+    "maxTrades": 2,
+    "maxLosses": 2
+  },
+  "cleanTrades": {
+    "target": 10,
+    "seq": []
+  },
+  "days": []
+}

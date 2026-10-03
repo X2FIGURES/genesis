@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Progress Ring</title>
+<style>
+:root{--bg:#0f1115;--card:#161a22;--line:#242a36;--text:#eef0f5;--muted:#8d95a8;
+--blue:#4c8dff;--yellow:#ffd166;--green:#3ddc84;--red:#ff5c6c;--purple:#a78bfa}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden}
+body{display:flex;padding:10px}
+.card{flex:1;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:16px;
+display:flex;align-items:center;justify-content:center;gap:clamp(10px,3vw,32px);padding:10px 14px}
+.ringwrap{position:relative;flex:0 0 auto;width:clamp(120px,min(44vw,calc(100vh - 56px)),300px);aspect-ratio:1}
+svg{width:100%;height:100%;display:block;transform:rotate(-90deg)}
+.track{fill:none;stroke:#222836;stroke-width:12}
+.fill{fill:none;stroke:var(--blue);stroke-width:12;stroke-linecap:round;
+filter:drop-shadow(0 0 6px rgba(76,141,255,.55));transition:stroke-dashoffset 1.6s cubic-bezier(.22,.8,.25,1)}
+.tick{stroke:#3a4256;stroke-width:3;stroke-linecap:round}
+.tick.hit{stroke:#bcd3ff}
+.center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.bal{font-weight:800;color:var(--yellow);font-size:clamp(28px,min(10vw,14vh),56px);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.pct{margin-top:6px;color:var(--text);font-size:clamp(12px,min(3.4vw,4.4vh),17px);font-weight:600}
+.pct b{color:var(--blue)}
+.info{display:flex;flex-direction:column;gap:8px;min-width:0;flex:1 1 0;max-width:300px}
+.label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.next{font-size:clamp(15px,min(4.4vw,5.5vh),24px);font-weight:700;line-height:1.25}
+.next .amt{color:var(--yellow)}
+.next .to{color:var(--blue)}
+.since{font-size:13px;color:var(--muted)}
+.foot{font-size:11px;color:var(--muted);opacity:.85}
+.done{color:var(--green)}
+@media (max-width:330px){.card{flex-direction:column}.info{align-items:center;text-align:center}}
+@media (prefers-reduced-motion:reduce){.fill{transition:none}}
+</style>
+</head>
+<body>
+<div class="card" role="group" aria-label="Account progress">
+  <div class="ringwrap">
+    <svg viewBox="0 0 200 200" aria-hidden="true">
+      <circle class="track" cx="100" cy="100" r="86"/>
+      <g id="ticks"></g>
+      <circle class="fill" id="fill" cx="100" cy="100" r="86"/>
+    </svg>
+    <div class="center">
+      <div class="bal" id="bal">$15</div>
+      <div class="pct" id="pct"></div>
+    </div>
+  </div>
+  <div class="info">
+    <div class="label">Next step</div>
+    <div class="next" id="next"></div>
+    <div class="since" id="since"></div>
+    <div class="foot" id="foot"></div>
+  </div>
+</div>
+<script>
+(function(){
+  function loadState(defaults){
+    var q=new URLSearchParams(location.search),src=q.get('src')||'data/state.json';
+    return fetch(src,{cache:'no-store'}).then(function(res){if(!res.ok)throw 0;return res.json();}).then(function(json){
+      return {data:json,source:'state',updatedAt:json.updatedAt||null};
+    }).catch(function(){return {data:defaults,source:'example',updatedAt:null};});
+  }
+  var EX={account:{start:15,goal:500,balance:15,rungs:[15,25,40,65,100,160,250,400,500]}};
+  loadState(EX).then(function(res){
+    var q=new URLSearchParams(location.search),acc=res.data.account||{},customRungs=false;
+    var goal=isFinite(parseFloat(q.get('goal')))?parseFloat(q.get('goal')):(acc.goal||500);if(goal<=0)goal=500;
+    var start=isFinite(parseFloat(q.get('start')))?parseFloat(q.get('start')):(typeof acc.start==='number'?acc.start:15);
+    var balance=null,noBal=false;
+    if(q.has('balance')&&isFinite(parseFloat(q.get('balance'))))balance=Math.max(0,parseFloat(q.get('balance')));
+    else if(acc.balance!=null&&isFinite(acc.balance))balance=Math.max(0,acc.balance);
+    else if(res.source==='example')balance=15;
+    else noBal=true;
+    var rungs;
+    if(q.get('rungs')){
+      rungs=q.get('rungs').split(',').map(parseFloat).filter(function(x){return isFinite(x)&&x>0;});
+      if(rungs.length)customRungs=true;else rungs=null;
+    }
+    if(!rungs){
+      if(res.source==='state'&&Array.isArray(acc.rungs)&&acc.rungs.length)rungs=acc.rungs.slice();
+      else rungs=EX.account.rungs.slice();
+    }
+    rungs.sort(function(a,b){return a-b;});
+    function fmt(n){var r=Math.round(n*100)/100;return '$'+(r%1===0?String(r):r.toFixed(2));}
+    var balVal=noBal?0:balance,R=86,C=2*Math.PI*R,frac=noBal?0:Math.min(1,balance/goal),pct=Math.round(frac*1000)/10;
+    var NS='http://www.w3.org/2000/svg',g=document.getElementById('ticks');
+    rungs.forEach(function(r){
+      if(r>goal)return;
+      var a=(r/goal)*2*Math.PI,cx=100,cy=100,l=document.createElementNS(NS,'line');
+      l.setAttribute('x1',cx+(R-11)*Math.cos(a));l.setAttribute('y1',cy+(R-11)*Math.sin(a));
+      l.setAttribute('x2',cx+(R+11)*Math.cos(a));l.setAttribute('y2',cy+(R+11)*Math.sin(a));
+      l.setAttribute('class','tick'+(!noBal&&balance>=r?' hit':''));
+      g.appendChild(l);
+    });
+    var fill=document.getElementById('fill');fill.style.strokeDasharray=C;
+    var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,target=C*(1-frac);
+    if(frac<=0||noBal)fill.style.opacity=0;else fill.style.opacity=1;
+    if(reduce)fill.style.strokeDashoffset=target;
+    else{fill.style.strokeDashoffset=C;requestAnimationFrame(function(){requestAnimationFrame(function(){fill.style.strokeDashoffset=target;});});}
+    var balEl=document.getElementById('bal'),pctEl=document.getElementById('pct');
+    function setPct(p){var t=(Math.round(p*10)/10);pctEl.textContent='';var b=document.createElement('b');b.textContent=(t%1===0?t.toFixed(0):t.toFixed(1))+'%';pctEl.appendChild(b);pctEl.appendChild(document.createTextNode(' of '+fmt(goal)));}
+    if(noBal){balEl.textContent='no data yet';pctEl.textContent='';}
+    else if(reduce){balEl.textContent=fmt(balance);setPct(pct);}
+    else{
+      var t0=performance.now(),D=1600;
+      (function step(now){var p=Math.min(1,(now-t0)/D),e=1-Math.pow(1-p,3);
+        balEl.textContent=fmt(balance*e);setPct(pct*e);
+        if(p<1)requestAnimationFrame(step);else{balEl.textContent=fmt(balance);setPct(pct);}
+      })(t0);
+    }
+    var nextEl=document.getElementById('next');nextEl.textContent='';
+    function add(txt,cls){var s=document.createElement('span');if(cls)s.className=cls;s.textContent=txt;nextEl.appendChild(s);}
+    if(noBal)add('Set balance in state.json or URL','m');
+    else{
+      var nx=null;for(var i=0;i<rungs.length;i++){if(rungs[i]>balance){nx=rungs[i];break;}}
+      if(balance>=goal)add('Goal reached \u2713','done');
+      else if(nx===null){add(fmt(goal-balance),'amt');add(' to the goal');}
+      else{add(fmt(nx-balance),'amt');add(' to the next rung ');add('('+fmt(nx)+')','to');}
+      var gain=balance-start;
+      document.getElementById('since').textContent='Started at '+fmt(start)+' \u00b7 '+(gain>=0?'+':'\u2212')+fmt(Math.abs(gain))+' so far';
+    }
+    if(customRungs)document.getElementById('foot').textContent='Rungs from URL';
+    else if(res.source==='state'){
+      var d=res.updatedAt?res.updatedAt.slice(0,16).replace('T',' '):'';
+      document.getElementById('foot').textContent=d?'From state.json \u00b7 updated '+d:'From state.json';
+    }else document.getElementById('foot').textContent='Rungs: example default';
+  });
+})();
+</script>
+</body>
+</html>
