@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en" data-theme="A">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:,">
+<title>Dress rail</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#EDE6DA;--ivory:#F8F5EF;--panel:#E4DCCE;--sage:#9DAE8F;--sage-fill:#E3EBDC;
+  --ink:#2F2B28;--muted:#7A736C;--champagne:#C9AE7C;--line:rgba(201,174,124,.45);
+  --serif:"Cormorant Garamond",Palatino,"Palatino Linotype",Georgia,serif;
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+html{background:var(--canvas)}
+body{height:100%;background:var(--canvas);color:var(--ink);font-family:var(--sans)}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.2;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+}
+a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.frame{
+  position:relative;z-index:1;height:100%;max-width:1100px;margin:0 auto;
+  padding:clamp(12px,2.2vh,22px) clamp(12px,2vw,22px);
+  display:flex;flex-direction:column;min-height:0;
+}
+.eyebrow{margin:0;font-size:11px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--champagne)}
+h1{margin:4px 0 0;font-family:var(--serif);font-weight:500;font-size:clamp(26px,3.4vw,36px);letter-spacing:-.02em}
+.strip{
+  flex:1 1 auto;min-height:0;margin-top:14px;
+  display:flex;gap:12px;overflow-x:auto;align-items:stretch;padding-bottom:6px;
+}
+.card{
+  flex:1 0 210px;min-width:210px;max-width:280px;
+  background:var(--ivory);border:1px solid var(--line);border-radius:18px;
+  padding:10px 10px 12px;display:flex;flex-direction:column;scroll-margin:12px;
+}
+.card.is-on{background:var(--sage-fill);border-color:transparent}
+.art{
+  position:relative;height:96px;border-radius:12px;background:var(--panel);
+  display:flex;align-items:center;justify-content:center;
+}
+.art svg.draw{width:70%;height:70%}
+.sprig{position:absolute;top:8px;right:8px;width:28px;height:16px}
+.card h2{margin:10px 4px 0;font-family:var(--serif);font-weight:500;font-size:22px;line-height:1.1;letter-spacing:-.015em}
+.meta{margin:4px 4px 0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--champagne);font-weight:500}
+.row{margin:8px 4px 0;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.band{font-family:var(--serif);font-size:22px;color:var(--champagne);line-height:1}
+.tag{font-size:12px;color:var(--muted)}
+.pair{margin:8px 4px 0;font-size:12.5px;line-height:1.35}
+.pair a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--champagne)}
+.empty,.err{margin:auto;font-family:var(--serif);font-style:italic;font-size:22px;color:var(--muted)}
+@media (max-width:640px){
+  html,body,.frame{height:auto;min-height:100%}
+}
+</style>
+</head>
+<body>
+<article class="frame">
+  <header>
+    <p class="eyebrow">Dress rail</p>
+    <h1 id="title">In-product attire</h1>
+  </header>
+  <div class="strip" id="strip" role="list"></div>
+</article>
+<script>
+(function(){
+  var STROKE = "#6F8A62";
+  var ART = {
+    "qun-kwa-bridal-set":
+      '<path d="M70 28 L90 18 H150 L170 28 L158 78 H82 Z"/><path d="M96 78 H144 L156 108 H84 Z"/><path d="M120 18 V28"/>',
+    "bridal-lehenga-set":
+      '<path d="M108 22 H132 L128 40 H112 Z"/><path d="M78 48 H162 L150 108 H90 Z"/><path d="M96 36 C120 18 150 30 168 58"/>',
+    "bridal-hanbok-jeogori-chima":
+      '<path d="M86 36 H154 L146 58 H94 Z"/><path d="M70 58 H170 L150 108 H90 Z"/><path d="M120 36 V48"/>',
+    "shiromuku-and-iro-uchikake":
+      '<path d="M78 34 H162 L176 70 H64 Z"/><path d="M96 70 H144 L156 108 H84 Z"/><path d="M120 24 V34"/>'
+  };
+  function drawing(id){
+    var inner = ART[id] || '<path d="M90 30 H150 L140 108 H100 Z"/>';
+    return '<svg class="draw" viewBox="0 0 240 120" fill="none" aria-hidden="true" stroke="'+STROKE+'" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'+inner+"</svg>";
+  }
+  var SPRIG = '<svg class="sprig" viewBox="0 0 28 16" aria-hidden="true"><path d="M2 13c6-1 12-5 20-10" stroke="#C9AE7C" fill="none" stroke-width="1.1"/><path d="M10 12c3-3 5-3 5 0-2 .2-4 .2-5 0z" fill="#C9AE7C"/></svg>';
+  var q = new URLSearchParams(location.search);
+  var strip = document.getElementById("strip");
+
+  function el(tag, cls, text){
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function load(src){
+    return fetch(src, {cache:"no-store"}).then(function(r){
+      if (!r.ok) throw new Error(src);
+      return r.json();
+    });
+  }
+  function chipsOf(data){
+    var out = [];
+    (data.cultures || []).forEach(function(c){
+      ["planning","dday","after"].forEach(function(p){
+        ((c.phases && c.phases[p]) || []).forEach(function(chip){ out.push(chip); });
+      });
+    });
+    return out;
+  }
+  function matchChip(item, chips){
+    for (var i = 0; i < chips.length; i++){
+      var ch = chips[i];
+      if (ch.conceptType !== "Dress custom") continue;
+      if (ch.pairWith === item.name || ch.name === item.pairCulture) return ch;
+    }
+    return null;
+  }
+
+  Promise.all([
+    load(q.get("src") || "dress-rail.json"),
+    load(q.get("culture") || "culture-process.json").catch(function(){ return {cultures:[]}; })
+  ]).then(function(all){
+    var items = all[0].items || [];
+    var chips = chipsOf(all[1]);
+    if (!items.length){
+      strip.appendChild(el("p", "empty", "No dress items yet"));
+      return;
+    }
+    var hash = decodeURIComponent((location.hash || "").replace(/^#/, ""));
+    items.forEach(function(item){
+      var card = el("article", "card");
+      card.id = item.id;
+      card.setAttribute("role", "listitem");
+      if (item.id === hash) card.classList.add("is-on");
+      var art = el("div", "art");
+      art.insertAdjacentHTML("beforeend", drawing(item.id));
+      var chip = matchChip(item, chips);
+      var paired = !!(chip && chip.pairWith === item.name);
+      if (paired) art.insertAdjacentHTML("beforeend", SPRIG);
+      card.appendChild(art);
+      card.appendChild(el("h2", null, item.name));
+      card.appendChild(el("p", "meta", item.attireType || ""));
+      var row = el("div", "row");
+      row.appendChild(el("span", "band", item.budgetBand || ""));
+      row.appendChild(el("span", "tag", (item.tags || []).join(" · ")));
+      card.appendChild(row);
+      if (item.pairCulture){
+        var pair = el("p", "pair");
+        if (chip){
+          pair.appendChild(document.createTextNode("Paired · "));
+          var a = document.createElement("a");
+          a.href = "culture-rail.html#" + encodeURIComponent(chip.id);
+          a.textContent = chip.name;
+          pair.appendChild(a);
+        } else {
+          pair.textContent = item.pairCulture;
+        }
+        card.appendChild(pair);
+      }
+      strip.appendChild(card);
+    });
+    if (hash){
+      var node = document.getElementById(hash);
+      if (node && node.scrollIntoView) node.scrollIntoView({inline:"center", block:"nearest"});
+    }
+  }).catch(function(){
+    strip.appendChild(el("p", "err", "Seed missing"));
+  });
+})();
+</script>
+</body>
+</html>

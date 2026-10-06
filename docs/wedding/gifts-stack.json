@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "hongbao-red-envelopes-guest-cash-gift",
+      "name": "Hongbao red envelopes (guest cash gift)",
+      "forWhom": "Couple",
+      "budgetBand": "$",
+      "thankYouSeed": "Thank you for the generous hongbao and for celebrating with us.",
+      "tags": [
+        "Chinese"
+      ],
+      "status": "In product"
+    },
+    {
+      "id": "mangalsutra-sacred-necklace",
+      "name": "Mangalsutra (sacred necklace)",
+      "forWhom": "Couple",
+      "budgetBand": "$$$",
+      "thankYouSeed": "Thank you for blessing our mangalsutra / tying this sacred thread with us — we carry your love into our marriage.",
+      "tags": [
+        "Hindu"
+      ],
+      "status": "In product"
+    },
+    {
+      "id": "mob-cashmere-wrap-scarf",
+      "name": "MOB — cashmere wrap / scarf",
+      "forWhom": "Parents",
+      "budgetBand": "$$",
+      "thankYouSeed": "Thank you for standing with us — this wrap is a small hug from us.",
+      "tags": [
+        "Christian/Western"
+      ],
+      "status": "In product"
+    },
+    {
+      "id": "fob-storyworth-subscription",
+      "name": "FOB — StoryWorth subscription",
+      "forWhom": "Parents",
+      "budgetBand": "$$",
+      "thankYouSeed": "We want your stories in a book — thank you for everything you taught us.",
+      "tags": [
+        "Christian/Western"
+      ],
+      "status": "In product"
+    }
+  ]
+}

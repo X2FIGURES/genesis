@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en" data-theme="A">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:,">
+<title>Culture rail</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#EDE6DA;
+  --ivory:#F8F5EF;
+  --sage:#9DAE8F;
+  --sage-fill:#E3EBDC;
+  --ink:#2F2B28;
+  --muted:#7A736C;
+  --champagne:#C9AE7C;
+  --line:rgba(201,174,124,.45);
+  --serif:"Cormorant Garamond",Palatino,"Palatino Linotype",Georgia,serif;
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%;margin:0}
+html{background:var(--canvas)}
+body{min-height:100%;background:var(--canvas);color:var(--ink);font-family:var(--sans)}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.2;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+}
+button,select{font:inherit;color:inherit}
+button:focus,select:focus{outline:none}
+button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.frame{
+  position:relative;z-index:1;min-height:100%;max-width:1100px;margin:0 auto;
+  padding:clamp(12px,2vh,20px) clamp(12px,2vw,22px);
+  display:flex;flex-direction:column;
+}
+.eyebrow{margin:0;font-size:11px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--champagne)}
+h1{margin:4px 0 0;font-family:var(--serif);font-weight:500;font-size:clamp(26px,3.4vw,36px);letter-spacing:-.02em;line-height:1.05}
+.filters{display:flex;flex-wrap:wrap;gap:8px 10px;margin-top:12px}
+.filters label{display:flex;flex-direction:column;gap:4px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--champagne);font-weight:500}
+.filters select{
+  background:var(--ivory);border:1px solid var(--champagne);border-radius:999px;
+  padding:6px 12px;font-size:13px;letter-spacing:0;text-transform:none;font-weight:400;
+}
+.body{flex:0 0 auto;margin-top:12px;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(220px,.7fr);gap:12px;align-items:start}
+.scroller{
+  min-width:0;min-height:0;display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;
+  padding:2px 2px 10px;align-items:flex-start;
+}
+.chip{
+  flex:0 0 210px;
+  text-align:left;cursor:pointer;
+  background:var(--ivory);border:1px solid var(--sage);border-radius:18px;
+  padding:12px 12px 12px 14px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.chip[aria-pressed="true"]{background:var(--sage-fill);border-color:transparent}
+.top{display:flex;gap:8px;align-items:flex-start}
+.tick{width:4px;border-radius:4px;align-self:stretch;flex:0 0 4px}
+.chip h2{margin:0;font-family:var(--serif);font-weight:500;font-size:20px;line-height:1.1;letter-spacing:-.015em}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{
+  border:1px solid var(--line);border-radius:999px;padding:3px 8px;
+  font-size:11px;letter-spacing:.04em;color:#6F6862;
+}
+.panel{
+  min-width:0;background:var(--ivory);border:1px solid var(--line);border-radius:18px;
+  padding:14px 14px 12px;overflow:auto;
+}
+.panel h2{margin:0;font-family:var(--serif);font-weight:500;font-size:26px;line-height:1.1;letter-spacing:-.02em}
+.meaning{margin:8px 0 0;color:#6F6862;font-size:14px;line-height:1.4}
+.pairlab{margin:14px 0 0;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--champagne);font-weight:500}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.links a,.quiet{
+  display:inline-flex;align-items:center;gap:6px;
+  border:1px solid var(--champagne);border-radius:999px;padding:5px 10px;
+  color:var(--ink);text-decoration:none;font-size:12.5px;background:transparent;
+}
+.sprig{width:16px;height:16px;flex:0 0 auto}
+.whisper{margin:8px 0 0;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--muted)}
+.empty{margin:auto;font-family:var(--serif);font-style:italic;font-size:20px;color:var(--muted)}
+.err{margin:auto;font-family:var(--serif);font-style:italic;font-size:22px;color:var(--muted);text-align:center}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media (max-width:760px){
+  html,body,.frame{height:auto;min-height:100%}
+  .body{grid-template-columns:1fr}
+  .scroller{overflow-y:hidden}
+  .panel{min-height:140px}
+}
+</style>
+</head>
+<body>
+<article class="frame">
+  <header>
+    <p class="eyebrow">Culture rail</p>
+    <h1>In-product chips</h1>
+  </header>
+  <div class="filters">
+    <label>Culture <select id="f-culture" aria-label="Culture"></select></label>
+    <label>Concept <select id="f-type" aria-label="Concept type"></select></label>
+    <label>Phase <select id="f-phase" aria-label="Phase"></select></label>
+  </div>
+  <div class="body">
+    <div class="scroller" id="rail" role="list"></div>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </div>
+</article>
+<p id="live" class="sr" aria-live="polite"></p>
+<script>
+(function(){
+  var PHASE_LABEL = {planning:"Planning", dday:"D-day", after:"After"};
+  var TICK = {
+    "Ritual":"#9DAE8F","Belief":"#C9AE7C","Lunar/Zodiac":"#C4A39A",
+    "Dress custom":"#A89880","Parents gift":"#6F8A62"
+  };
+  var q = new URLSearchParams(location.search);
+  var chips = [];
+  var dresses = [];
+  var gifts = [];
+  var current = "";
+  var rail = document.getElementById("rail");
+  var panel = document.getElementById("panel");
+  var live = document.getElementById("live");
+  var fCulture = document.getElementById("f-culture");
+  var fType = document.getElementById("f-type");
+  var fPhase = document.getElementById("f-phase");
+
+  function el(tag, cls, text){
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function uniq(list){
+    var seen = {};
+    var out = [];
+    list.forEach(function(item){
+      if (item == null || seen[item]) return;
+      seen[item] = true;
+      out.push(item);
+    });
+    return out;
+  }
+  function load(src){
+    return fetch(src, {cache:"no-store"}).then(function(r){
+      if (!r.ok) throw new Error(src);
+      return r.json();
+    });
+  }
+  function flatten(data){
+    var order = [];
+    var map = {};
+    (data.cultures || []).forEach(function(c){
+      ["planning","dday","after"].forEach(function(phase){
+        var list = (c.phases && c.phases[phase]) || [];
+        list.forEach(function(chip){
+          if (!chip || !chip.id) return;
+          if (!map[chip.id]){
+            map[chip.id] = {
+              id:chip.id, name:chip.name, meaning:chip.meaning || "",
+              conceptType:chip.conceptType || "", status:chip.status || "",
+              pairWith:chip.pairWith || null, tags:[], phases:[], cultures:[]
+            };
+            order.push(map[chip.id]);
+          }
+          var row = map[chip.id];
+          (chip.tags || []).forEach(function(t){ if (row.tags.indexOf(t) < 0) row.tags.push(t); });
+          if (row.phases.indexOf(phase) < 0) row.phases.push(phase);
+          if (c.label && row.cultures.indexOf(c.label) < 0) row.cultures.push(c.label);
+          if (!row.pairWith && chip.pairWith) row.pairWith = chip.pairWith;
+        });
+      });
+    });
+    return order;
+  }
+  function tokenHit(name, blob){
+    var words = String(name || "").toLowerCase().match(/[a-z0-9]{5,}/g) || [];
+    var hay = String(blob || "").toLowerCase();
+    return words.some(function(w){ return hay.indexOf(w) >= 0; });
+  }
+  function pairLinks(pairWith){
+    if (!pairWith) return [];
+    var links = [];
+    var seen = {};
+    function add(href, label, sprig){
+      var key = href + label;
+      if (seen[key]) return;
+      seen[key] = true;
+      links.push({href:href, label:label, sprig:!!sprig});
+    }
+    dresses.forEach(function(d){
+      var strict = d.name === pairWith;
+      if (strict || d.pairCulture === pairWith || tokenHit(d.name, pairWith)){
+        add("dress-rail.html#" + encodeURIComponent(d.id), d.name, strict);
+      }
+    });
+    gifts.forEach(function(g){
+      if (g.name === pairWith || tokenHit(g.name, pairWith)) add("gifts-stack.html#" + encodeURIComponent(g.id), g.name, false);
+    });
+    chips.forEach(function(c){
+      if (c.name === pairWith) add("#" + encodeURIComponent(c.id), c.name, false);
+    });
+    return links;
+  }
+  function fillSelect(sel, values){
+    sel.textContent = "";
+    sel.appendChild(new Option("All", ""));
+    values.forEach(function(v){ sel.appendChild(new Option(v, v)); });
+  }
+  function filtered(){
+    var culture = fCulture.value;
+    var type = fType.value;
+    var phase = fPhase.value;
+    return chips.filter(function(c){
+      if (culture && c.tags.indexOf(culture) < 0 && c.cultures.indexOf(culture) < 0) return false;
+      if (type && c.conceptType !== type) return false;
+      if (phase && c.phases.indexOf(phase) < 0) return false;
+      return true;
+    });
+  }
+  function showPanel(chip){
+    panel.textContent = "";
+    if (!chip){
+      panel.appendChild(el("p", "whisper", "Select a chip"));
+      return;
+    }
+    panel.appendChild(el("h2", null, chip.name));
+    panel.appendChild(el("p", "meaning", chip.meaning));
+    if (chip.pairWith){
+      panel.appendChild(el("p", "pairlab", "Pair with"));
+      var links = pairLinks(chip.pairWith);
+      if (!links.length){
+        panel.appendChild(el("p", "quiet", chip.pairWith));
+      } else {
+        var row = el("div", "links");
+        links.forEach(function(link){
+          var a = document.createElement("a");
+          a.href = link.href;
+          if (link.sprig){
+            a.insertAdjacentHTML("afterbegin", '<svg class="sprig" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 13c4-1 7-4 10-8" stroke="#C9AE7C" fill="none"/><path d="M6 11c2-2 3-2 3 0-1 0-2 0-3 0z" fill="#C9AE7C"/></svg>');
+          }
+          a.appendChild(document.createTextNode(link.label));
+          row.appendChild(a);
+        });
+        panel.appendChild(row);
+      }
+    }
+  }
+  function render(announce){
+    var list = filtered();
+    rail.textContent = "";
+    if (!list.length){
+      rail.appendChild(el("p", "empty", "No chips yet"));
+      current = "";
+      showPanel(null);
+      return;
+    }
+    if (!list.some(function(c){ return c.id === current; })) current = list[0].id;
+    list.forEach(function(chip){
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "chip";
+      btn.id = chip.id;
+      btn.setAttribute("role", "listitem");
+      btn.setAttribute("aria-pressed", chip.id === current ? "true" : "false");
+      var top = el("span", "top");
+      var tick = el("span", "tick");
+      tick.style.background = TICK[chip.conceptType] || "#A89880";
+      tick.title = chip.conceptType || "";
+      top.appendChild(tick);
+      top.appendChild(el("h2", null, chip.name));
+      var pills = el("span", "pills");
+      chip.tags.forEach(function(t){ pills.appendChild(el("span", "pill", t)); });
+      chip.phases.forEach(function(p){ pills.appendChild(el("span", "pill", PHASE_LABEL[p] || p)); });
+      btn.appendChild(top);
+      btn.appendChild(pills);
+      btn.addEventListener("click", function(){
+        current = chip.id;
+        render(false);
+        var again = document.getElementById(chip.id);
+        if (again) again.focus();
+        live.textContent = chip.name + ". " + chip.meaning;
+      });
+      rail.appendChild(btn);
+    });
+    showPanel(list.filter(function(c){ return c.id === current; })[0]);
+    if (announce) live.textContent = list.length + " chips";
+  }
+  [fCulture, fType, fPhase].forEach(function(sel){
+    sel.addEventListener("change", function(){ render(true); });
+  });
+
+  var src = q.get("src") || "culture-process.json";
+  Promise.all([
+    load(src),
+    load(q.get("dress") || "dress-rail.json").catch(function(){ return {items:[]}; }),
+    load(q.get("gifts") || "gifts-stack.json").catch(function(){ return {items:[]}; })
+  ]).then(function(all){
+    chips = flatten(all[0]);
+    dresses = all[1].items || [];
+    gifts = all[2].items || [];
+    var tags = uniq([].concat.apply([], chips.map(function(c){ return c.tags.concat(c.cultures); })));
+    var types = uniq(chips.map(function(c){ return c.conceptType; }).filter(Boolean));
+    fillSelect(fCulture, tags);
+    fillSelect(fType, types);
+    fillSelect(fPhase, ["Planning","D-day","After"].map(function(label){
+      return label === "Planning" ? "planning" : label === "D-day" ? "dday" : "after";
+    }));
+    fPhase.options[1].textContent = "Planning";
+    fPhase.options[2].textContent = "D-day";
+    fPhase.options[3].textContent = "After";
+    var hash = decodeURIComponent((location.hash || "").replace(/^#/, ""));
+    if (hash && chips.some(function(c){ return c.id === hash; })) current = hash;
+    render(false);
+    if (hash){
+      var node = document.getElementById(hash);
+      if (node && node.scrollIntoView) node.scrollIntoView({inline:"center", block:"nearest"});
+    }
+  }).catch(function(){
+    rail.appendChild(el("p", "err", "Seed missing"));
+  });
+})();
+</script>
+</body>
+</html>

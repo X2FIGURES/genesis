@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en" data-theme="A">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:,">
+<title>Inventory by status</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#EDE6DA;--ivory:#F8F5EF;--sage:#9DAE8F;--ink:#2F2B28;--muted:#7A736C;--champagne:#C9AE7C;--line:rgba(201,174,124,.45);
+  --serif:"Cormorant Garamond",Palatino,"Palatino Linotype",Georgia,serif;
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+html{background:var(--canvas)}
+body{height:100%;background:var(--canvas);color:var(--ink);font-family:var(--sans)}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+}
+.frame{
+  position:relative;z-index:1;height:100%;max-width:880px;margin:0 auto;
+  padding:clamp(14px,2.4vh,24px) clamp(14px,2.6vw,28px);
+  display:flex;flex-direction:column;min-height:0;
+}
+.eyebrow{margin:0;font-size:11px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--champagne)}
+h1{margin:4px 0 0;font-family:var(--serif);font-weight:500;font-size:clamp(28px,4vw,40px);letter-spacing:-.02em;line-height:1}
+.chart{flex:1 1 auto;min-height:0;margin-top:8px}
+svg{width:100%;height:100%;display:block}
+svg text{fill:var(--ink);font-family:var(--sans);font-size:14px}
+svg .num{font-family:var(--serif);font-size:28px}
+.legend{display:flex;flex-wrap:wrap;gap:10px 16px;margin:4px 0 0;padding:0;list-style:none}
+.legend li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.swatch{width:10px;height:10px;border-radius:50%}
+.note{margin:8px 0 0;font-size:12px;color:var(--muted)}
+.err{margin:auto;font-family:var(--serif);font-style:italic;font-size:22px;color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+</style>
+</head>
+<body>
+<article class="frame">
+  <header>
+    <p class="eyebrow">Inventory by status</p>
+    <h1>In-product seed</h1>
+  </header>
+  <div class="chart" id="chart"></div>
+  <ul class="legend" id="legend"></ul>
+  <p class="note" id="note"></p>
+  <table class="sr" id="table"></table>
+</article>
+<script>
+(function(){
+  var COLORS = {"Raw":"#B7B1A8","Reviewed":"#C9AE7C","In product":"#9DAE8F","Cut":"#C4A39A"};
+  var ORDER = ["Raw","Reviewed","In product","Cut"];
+  var NS = "http://www.w3.org/2000/svg";
+  var q = new URLSearchParams(location.search);
+
+  function svg(name, attrs){
+    var n = document.createElementNS(NS, name);
+    if (attrs) Object.keys(attrs).forEach(function(k){ n.setAttribute(k, attrs[k]); });
+    return n;
+  }
+  function text(x, y, value, cls){
+    var n = svg("text", {x:String(x), y:String(y)});
+    if (cls) n.setAttribute("class", cls);
+    n.textContent = value;
+    return n;
+  }
+  function load(src){
+    return fetch(src, {cache:"no-store"}).then(function(r){
+      if (!r.ok) throw new Error(src);
+      return r.json();
+    });
+  }
+  function bump(map, status){
+    var key = status || "Untagged";
+    map[key] = (map[key] || 0) + 1;
+  }
+  function cultureCounts(data){
+    var seen = {};
+    var map = {};
+    (data.cultures || []).forEach(function(c){
+      ["planning","dday","after"].forEach(function(p){
+        ((c.phases && c.phases[p]) || []).forEach(function(chip){
+          if (!chip || !chip.id || seen[chip.id]) return;
+          seen[chip.id] = true;
+          bump(map, chip.status);
+        });
+      });
+    });
+    return map;
+  }
+  function itemCounts(items){
+    var map = {};
+    (items || []).forEach(function(item){ bump(map, item.status); });
+    return map;
+  }
+  function total(map){
+    var n = 0;
+    Object.keys(map).forEach(function(k){ n += map[k]; });
+    return n;
+  }
+  function statuses(rows){
+    var found = {};
+    rows.forEach(function(row){ Object.keys(row.counts).forEach(function(k){ if (row.counts[k]) found[k] = true; }); });
+    var list = ORDER.filter(function(k){ return found[k]; });
+    Object.keys(found).forEach(function(k){ if (list.indexOf(k) < 0) list.push(k); });
+    return list;
+  }
+  function color(status){ return COLORS[status] || "#A89880"; }
+
+  Promise.all([
+    load(q.get("culture") || "culture-process.json"),
+    load(q.get("dress") || "dress-rail.json"),
+    load(q.get("gifts") || "gifts-stack.json")
+  ]).then(function(all){
+    var rows = [
+      {label:"Culture", counts:cultureCounts(all[0])},
+      {label:"Dress", counts:itemCounts(all[1].items)},
+      {label:"Gifts", counts:itemCounts(all[2].items)}
+    ];
+    rows.forEach(function(row){ row.total = total(row.counts); });
+    var keys = statuses(rows);
+    var max = 1;
+    rows.forEach(function(row){ if (row.total > max) max = row.total; });
+    var root = svg("svg", {viewBox:"0 0 640 210", role:"img"});
+    var title = svg("title");
+    title.textContent = rows.map(function(r){ return r.label + " " + r.total; }).join(", ");
+    root.appendChild(title);
+    var trackW = 360;
+    var x0 = 118;
+    rows.forEach(function(row, i){
+      var y = 28 + i * 62;
+      root.appendChild(text(8, y + 28, row.label));
+      root.appendChild(svg("rect", {x:String(x0), y:String(y + 8), width:String(trackW), height:"28", rx:"14", fill:"#EDE6DA"}));
+      var x = x0;
+      keys.forEach(function(key){
+        var n = row.counts[key] || 0;
+        if (!n) return;
+        var w = Math.max(8, Math.round(trackW * n / max));
+        if (x + w > x0 + trackW) w = x0 + trackW - x;
+        root.appendChild(svg("rect", {x:String(x), y:String(y + 8), width:String(w), height:"28", rx:"14", fill:color(key)}));
+        x += w;
+      });
+      root.appendChild(text(x0 + trackW + 16, y + 32, String(row.total), "num"));
+    });
+    document.getElementById("chart").appendChild(root);
+    var legend = document.getElementById("legend");
+    keys.forEach(function(key){
+      var li = document.createElement("li");
+      var sw = document.createElement("span");
+      sw.className = "swatch";
+      sw.style.background = color(key);
+      li.appendChild(sw);
+      li.appendChild(document.createTextNode(key));
+      legend.appendChild(li);
+    });
+    var bits = rows.map(function(r){ return r.label + " " + r.total; });
+    document.getElementById("note").textContent = bits.join(" · ") + ". Culture counts unique concepts. Statuses absent from this seed are omitted.";
+    var table = document.getElementById("table");
+    var head = document.createElement("tr");
+    head.appendChild(document.createElement("th"));
+    keys.forEach(function(key){
+      var th = document.createElement("th");
+      th.textContent = key;
+      head.appendChild(th);
+    });
+    table.appendChild(head);
+    rows.forEach(function(row){
+      var tr = document.createElement("tr");
+      var th = document.createElement("th");
+      th.textContent = row.label;
+      tr.appendChild(th);
+      keys.forEach(function(key){
+        var td = document.createElement("td");
+        td.textContent = String(row.counts[key] || 0);
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+    });
+  }).catch(function(){
+    document.getElementById("chart").appendChild(Object.assign(document.createElement("p"), {className:"err", textContent:"Seed missing"}));
+  });
+})();
+</script>
+</body>
+</html>

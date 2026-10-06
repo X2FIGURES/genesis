@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en" data-theme="A">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:,">
+<title>Culture process</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Palette A — Ivory & Sage. Phases come only from the seed JSON. */
+:root{
+  --canvas:#EDE6DA;
+  --ivory:#F8F5EF;
+  --sage:#9DAE8F;
+  --sage-deep:#6F8A62;
+  --sage-fill:#E3EBDC;
+  --ink:#2F2B28;
+  --muted:#7A736C;
+  --champagne:#C9AE7C;
+  --line:rgba(201,174,124,.45);
+  --serif:"Cormorant Garamond",Palatino,"Palatino Linotype",Georgia,serif;
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+html{background:var(--canvas)}
+body{
+  height:100%;
+  background:var(--canvas);
+  color:var(--ink);
+  font-family:var(--sans);
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.2;
+  mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+}
+button{font:inherit;color:inherit}
+button:focus{outline:none}
+button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.stage{
+  position:relative;
+  z-index:1;
+  height:100%;
+  max-width:1200px;
+  margin:0 auto;
+  padding:clamp(12px,2vh,22px) clamp(14px,2.4vw,28px) clamp(10px,1.8vh,16px);
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+.head{text-align:center;flex:0 0 auto}
+.sprig{display:block;width:78px;height:auto;margin:0 auto 4px}
+.eyebrow{
+  margin:0;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  color:var(--champagne);
+}
+h1{
+  margin:6px 0 0;
+  font-family:var(--serif);
+  font-weight:500;
+  font-size:clamp(28px,4vw,42px);
+  letter-spacing:-.02em;
+  line-height:1.05;
+}
+.rule{width:42px;height:1px;margin:10px auto 0;background:var(--champagne);border:0}
+.bar{
+  flex:0 0 auto;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px 14px;
+  margin-top:14px;
+}
+.cultures,.modes{display:flex;flex-wrap:wrap;gap:8px}
+.cultures{flex:1 1 280px}
+.cultures button,.modes button{
+  border:1px solid var(--champagne);
+  background:transparent;
+  border-radius:999px;
+  padding:6px 12px;
+  cursor:pointer;
+  font-size:13px;
+  line-height:1.2;
+}
+.cultures button[aria-checked="true"]{background:var(--sage-fill);border-color:transparent}
+.modes{
+  flex:0 0 auto;
+  gap:0;
+  border:1px solid var(--line);
+  border-radius:999px;
+  overflow:hidden;
+}
+.modes button{border:0;border-radius:0;letter-spacing:.12em;text-transform:uppercase;font-size:11px;font-weight:500;padding:8px 14px}
+.modes button[aria-checked="true"]{background:var(--sage-fill)}
+.phases{
+  flex:1 1 auto;
+  min-height:0;
+  margin-top:14px;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+.col{
+  min-height:0;
+  background:var(--ivory);
+  border:1px solid var(--line);
+  border-radius:20px;
+  display:flex;
+  flex-direction:column;
+  padding:12px 12px 10px;
+}
+.col h2{
+  margin:0;
+  font-family:var(--sans);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--champagne);
+}
+.col .hair{height:1px;background:var(--champagne);opacity:.7;margin:8px 0 10px;border:0}
+.chips{
+  flex:1 1 auto;
+  min-height:0;
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.milestone{
+  width:100%;
+  text-align:left;
+  cursor:pointer;
+  display:grid;
+  grid-template-columns:4px minmax(0,1fr) auto;
+  grid-template-rows:auto auto;
+  gap:2px 10px;
+  align-items:center;
+  background:transparent;
+  border:1px solid var(--sage);
+  border-radius:22px;
+  padding:9px 14px;
+}
+.milestone:hover{background:rgba(157,174,143,.12)}
+.milestone[aria-pressed="true"]{background:var(--sage-fill);border-color:transparent}
+.milestone[aria-current="true"]{background:var(--sage-fill);border-color:transparent}
+.tick{grid-column:1;grid-row:1 / span 2;width:4px;min-height:28px;border-radius:4px;align-self:stretch}
+.name{
+  grid-column:2;grid-row:1;
+  font-family:var(--serif);
+  font-weight:500;
+  font-size:clamp(16px,1.7vw,18px);
+  line-height:1.15;
+  letter-spacing:-.01em;
+}
+.meaning{grid-column:2;grid-row:2;color:var(--muted);font-size:12px;line-height:1.35}
+.dot{grid-column:3;grid-row:1 / span 2;width:8px;height:8px;border-radius:50%;justify-self:end;align-self:center}
+.empty{
+  margin:auto;
+  text-align:center;
+  font-family:var(--serif);
+  font-style:italic;
+  font-weight:500;
+  font-size:20px;
+  color:var(--muted);
+}
+.foot{
+  flex:0 0 auto;
+  margin:8px 2px 0;
+  font-size:10px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#A39B92;
+}
+.plan{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:12px;
+}
+.count{margin:0;color:var(--muted);font-size:13px}
+.cta{
+  border:1px solid var(--champagne);
+  background:transparent;
+  border-radius:999px;
+  padding:10px 18px;
+  cursor:pointer;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+.cta:hover{background:rgba(201,174,124,.14)}
+.confirm{
+  flex:0 0 auto;
+  margin:6px 0 0;
+  min-height:1.2em;
+  font-family:var(--serif);
+  font-style:italic;
+  font-weight:500;
+  font-size:16px;
+  line-height:1.35;
+  color:#6F6862;
+}
+.err{
+  margin:auto;
+  text-align:center;
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:22px;
+  color:var(--muted);
+}
+.sr{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+@media (max-width:800px){
+  html,body,.stage{height:auto;min-height:100%}
+  .phases{grid-template-columns:1fr}
+  .col{min-height:180px}
+}
+@media (prefers-reduced-motion:reduce){
+  .milestone,.cta,.cultures button{transition:none}
+}
+</style>
+</head>
+<body>
+<main class="stage">
+  <header class="head">
+    <svg class="sprig" viewBox="0 0 150 70" fill="none" aria-hidden="true">
+      <path d="M10 56c32-2 58-16 90-36 14-8 28-12 42-14" stroke="#8EA383" stroke-width="1.15" stroke-linecap="round"/>
+      <path d="M34 50c8-10 18-9 20-1-8 1-16 3-20 1z" fill="#9DAE8F"/>
+      <path d="M52 42c10 6 16-4 8-12-8 2-12 8-8 12z" fill="#A9B99A"/>
+      <path d="M70 36c8-11 20-8 20 0-9 1-16 2-20 0z" fill="#8EA383"/>
+      <path d="M90 28c9 5 16-5 7-12-8 2-11 8-7 12z" fill="#9DAE8F"/>
+      <path d="M108 22c8-9 18-6 17 1-8 0-14 2-17-1z" fill="#A9B99A"/>
+      <path d="M124 16c7 4 13-3 6-9-6 1-9 6-6 9z" fill="#8EA383"/>
+      <ellipse cx="78" cy="44" rx="3" ry="4.2" transform="rotate(16 78 44)" fill="#C9AE7C"/>
+      <ellipse cx="112" cy="30" rx="2.6" ry="3.6" transform="rotate(-12 112 30)" fill="#C9AE7C"/>
+    </svg>
+    <p class="eyebrow">Culture process</p>
+    <h1 id="title">Planning, D-day, After</h1>
+    <hr class="rule">
+  </header>
+  <div class="bar">
+    <div class="cultures" id="cultures" role="radiogroup" aria-label="Culture"></div>
+    <div class="modes" id="modes" role="radiogroup" aria-label="Mode">
+      <button type="button" role="radio" data-mode="individual" aria-checked="false">Individual</button>
+      <button type="button" role="radio" data-mode="studio" aria-checked="false">Studio</button>
+    </div>
+  </div>
+  <div class="phases" id="phases">
+    <section class="col" data-phase="planning" aria-labelledby="h-planning">
+      <h2 id="h-planning">Planning</h2>
+      <hr class="hair">
+      <div class="chips"></div>
+      <p class="foot" hidden></p>
+    </section>
+    <section class="col" data-phase="dday" aria-labelledby="h-dday">
+      <h2 id="h-dday">D-day</h2>
+      <hr class="hair">
+      <div class="chips"></div>
+      <p class="foot" hidden></p>
+    </section>
+    <section class="col" data-phase="after" aria-labelledby="h-after">
+      <h2 id="h-after">After</h2>
+      <hr class="hair">
+      <div class="chips"></div>
+      <p class="foot" hidden></p>
+    </section>
+  </div>
+  <div class="plan" id="plan">
+    <p class="count" id="count">0 selected</p>
+    <button type="button" class="cta" id="cta">Add to our plan</button>
+  </div>
+  <p class="confirm" id="confirm"></p>
+</main>
+<p id="live" class="sr" aria-live="polite"></p>
+<script>
+(function(){
+  /*
+    Reads culture-process.json only. Phase buckets are planning / dday / after
+    as tagged in the seed — this file does not assign phases.
+    ?culture=hindu  ?mode=individual|studio  ?src=culture-process.json
+    Individual picks are held on this page only.
+  */
+  var PHASES = ["planning","dday","after"];
+  var TICK = {
+    "Ritual":"#9DAE8F",
+    "Belief":"#C9AE7C",
+    "Lunar/Zodiac":"#C4A39A",
+    "Dress custom":"#A89880",
+    "Parents gift":"#6F8A62"
+  };
+  var DOT = {
+    "Raw":"#9A938C",
+    "Reviewed":"#C4A35A",
+    "In product":"#6F8A62",
+    "Cut":"#A86B64"
+  };
+  var q = new URLSearchParams(location.search);
+  var title = document.getElementById("title");
+  var culturesEl = document.getElementById("cultures");
+  var modesEl = document.getElementById("modes");
+  var live = document.getElementById("live");
+  var countEl = document.getElementById("count");
+  var confirmEl = document.getElementById("confirm");
+  var planEl = document.getElementById("plan");
+  var data = null;
+  var cultureId = "";
+  var mode = "individual";
+  var picked = {};
+  var reading = "";
+  var booted = false;
+
+  function el(tag, cls, text){
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function clip(s, n){
+    s = String(s || "").replace(/\s+/g, " ").trim();
+    if (s.length <= n) return s;
+    var cut = s.slice(0, n - 1);
+    var sp = cut.lastIndexOf(" ");
+    if (sp > 36) cut = cut.slice(0, sp);
+    return cut.replace(/[.,;:·—-]+$/, "") + "…";
+  }
+  function say(msg){
+    if (booted) live.textContent = msg;
+  }
+  function culture(){
+    var list = (data && data.cultures) || [];
+    for (var i = 0; i < list.length; i++) if (list[i].id === cultureId) return list[i];
+    return list[0] || null;
+  }
+  function phaseChips(c, key){
+    if (!c || !c.phases) return [];
+    var list = c.phases[key];
+    return Array.isArray(list) ? list : [];
+  }
+  function bag(){
+    if (!picked[cultureId]) picked[cultureId] = {};
+    return picked[cultureId];
+  }
+  function selectedCount(){
+    var b = bag();
+    var n = 0;
+    for (var k in b) if (b[k]) n++;
+    return n;
+  }
+  function selectedNames(){
+    var b = bag();
+    var seen = {};
+    var names = [];
+    var c = culture();
+    PHASES.forEach(function(key){
+      phaseChips(c, key).forEach(function(chip){
+        if (b[chip.id] && !seen[chip.id]){
+          seen[chip.id] = true;
+          names.push(chip.name);
+        }
+      });
+    });
+    return names;
+  }
+  function defaultCulture(list){
+    var wanted = (q.get("culture") || "").toLowerCase();
+    if (wanted){
+      for (var i = 0; i < list.length; i++){
+        if (list[i].id.toLowerCase() === wanted || String(list[i].label || "").toLowerCase() === wanted) return list[i].id;
+      }
+    }
+    for (var j = 0; j < list.length; j++){
+      var n = 0;
+      PHASES.forEach(function(key){ n += phaseChips(list[j], key).length; });
+      if (n) return list[j].id;
+    }
+    return list.length ? list[0].id : "";
+  }
+  function wireRadios(root){
+    root.addEventListener("keydown", function(e){
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+      var btns = [].slice.call(root.querySelectorAll('[role="radio"]'));
+      var i = btns.indexOf(document.activeElement);
+      if (i < 0) return;
+      e.preventDefault();
+      var n = e.key === "ArrowRight" ? (i + 1) % btns.length : (i - 1 + btns.length) % btns.length;
+      btns[n].click();
+    });
+  }
+  function renderCultures(){
+    culturesEl.textContent = "";
+    ((data && data.cultures) || []).forEach(function(c){
+      var b = el("button", null, c.label);
+      b.type = "button";
+      b.setAttribute("role", "radio");
+      b.setAttribute("data-id", c.id);
+      b.setAttribute("aria-checked", c.id === cultureId ? "true" : "false");
+      b.addEventListener("click", function(){
+        if (cultureId === c.id) return;
+        cultureId = c.id;
+        confirmEl.textContent = "";
+        renderCultures();
+        renderPhases();
+        renderFoot();
+        var again = culturesEl.querySelector('[data-id="' + c.id + '"]');
+        if (again) again.focus();
+        say(c.label + ", " + mode);
+      });
+      culturesEl.appendChild(b);
+    });
+  }
+  function renderModes(){
+    [].forEach.call(modesEl.querySelectorAll("[data-mode]"), function(b){
+      var on = b.getAttribute("data-mode") === mode;
+      b.setAttribute("aria-checked", on ? "true" : "false");
+    });
+  }
+  function renderPhases(){
+    var c = culture();
+    title.textContent = c ? c.label : "Planning, D-day, After";
+    var studio = mode === "studio";
+    PHASES.forEach(function(key){
+      var col = document.querySelector('.col[data-phase="' + key + '"]');
+      var box = col.querySelector(".chips");
+      var foot = col.querySelector(".foot");
+      box.textContent = "";
+      var chips = phaseChips(c, key);
+      foot.hidden = !studio;
+      if (studio){
+        var n = chips.filter(function(chip){ return chip.status === "In product"; }).length;
+        foot.textContent = n + " in product";
+      } else foot.textContent = "";
+      if (!chips.length){
+        box.appendChild(el("p", "empty", "No chips yet"));
+        return;
+      }
+      chips.forEach(function(chip){
+        var on = !!(bag()[chip.id]);
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "milestone";
+        btn.setAttribute("data-chip", chip.id);
+        btn.setAttribute("data-phase", key);
+        var label = chip.name + ". " + (chip.conceptType || "Concept") + ". " + (chip.meaning || "");
+        if (studio) label += ". " + (chip.status || "");
+        btn.setAttribute("aria-label", label);
+        if (studio) btn.setAttribute("aria-current", reading === chip.id ? "true" : "false");
+        else btn.setAttribute("aria-pressed", on ? "true" : "false");
+        var tick = el("span", "tick");
+        tick.style.background = TICK[chip.conceptType] || "#A89880";
+        tick.title = chip.conceptType || "";
+        var name = el("span", "name", chip.name);
+        var meaning = el("span", "meaning", clip(chip.meaning, 60));
+        btn.appendChild(tick);
+        btn.appendChild(name);
+        btn.appendChild(meaning);
+        if (studio){
+          var dot = el("span", "dot");
+          dot.style.background = DOT[chip.status] || "#9A938C";
+          dot.title = chip.status || "";
+          btn.appendChild(dot);
+        }
+        btn.addEventListener("click", function(){
+          if (studio){
+            reading = chip.id;
+            confirmEl.textContent = "";
+            renderPhases();
+            renderFoot();
+            var again = document.querySelector('[data-chip="' + chip.id + '"][data-phase="' + key + '"]');
+            if (again) again.focus();
+            say((chip.status || "Status") + ". " + chip.name + ". " + (chip.meaning || ""));
+            return;
+          }
+          var b = bag();
+          if (b[chip.id]){
+            delete b[chip.id];
+          } else if (selectedCount() >= 7){
+            say("Seven chips is the plan limit.");
+            confirmEl.textContent = "Seven chips is the plan limit.";
+            return;
+          } else b[chip.id] = true;
+          confirmEl.textContent = "";
+          renderPhases();
+          renderFoot();
+          var next = document.querySelector('[data-chip="' + chip.id + '"][data-phase="' + key + '"]');
+          if (next) next.focus();
+          say(chip.name + (b[chip.id] ? " added." : " removed.") + " " + selectedCount() + " selected.");
+        });
+        box.appendChild(btn);
+      });
+    });
+  }
+  function renderFoot(){
+    var studio = mode === "studio";
+    planEl.hidden = studio;
+    if (studio){
+      confirmEl.textContent = "";
+      var c = culture();
+      var found = null;
+      PHASES.forEach(function(key){
+        phaseChips(c, key).forEach(function(chip){
+          if (chip.id === reading) found = chip;
+        });
+      });
+      if (!found) reading = "";
+      else confirmEl.textContent = found.meaning || "";
+      return;
+    }
+    var n = selectedCount();
+    countEl.textContent = n + " selected";
+  }
+  modesEl.addEventListener("click", function(e){
+    var b = e.target.closest("[data-mode]");
+    if (!b) return;
+    var next = b.getAttribute("data-mode");
+    if (next === mode) return;
+    mode = next;
+    confirmEl.textContent = "";
+    renderModes();
+    renderPhases();
+    renderFoot();
+    say(mode === "studio" ? "Studio mode" : "Individual mode");
+  });
+  document.getElementById("cta").addEventListener("click", function(){
+    var n = selectedCount();
+    var names = selectedNames();
+    if (n < 3 || n > 7){
+      confirmEl.textContent = "Pick 3 to 7 chips.";
+      say("Pick 3 to 7 chips. " + n + " selected.");
+      return;
+    }
+    confirmEl.textContent = "On this plan · " + names.join(" · ");
+    say("On this plan, " + n + " chips. " + names.join(", "));
+  });
+  wireRadios(culturesEl);
+  wireRadios(modesEl);
+
+  var src = q.get("src") || "culture-process.json";
+  fetch(src, {cache:"no-store"}).then(function(res){
+    if (!res.ok) throw new Error("missing");
+    return res.json();
+  }).then(function(json){
+    data = json || {};
+    var list = data.cultures || [];
+    if (!list.length) throw new Error("empty");
+    var asked = (q.get("mode") || data.modeDefault || "individual").toLowerCase();
+    mode = asked === "studio" ? "studio" : "individual";
+    cultureId = defaultCulture(list);
+    renderModes();
+    renderCultures();
+    renderPhases();
+    renderFoot();
+    booted = true;
+  }).catch(function(){
+    title.textContent = "Planning, D-day, After";
+    document.getElementById("phases").textContent = "";
+    var msg = el("p", "err", "Seed missing");
+    document.getElementById("phases").appendChild(msg);
+    planEl.hidden = true;
+  });
+})();
+</script>
+</body>
+</html>

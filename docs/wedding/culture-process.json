@@ -1,0 +1,261 @@
+{
+  "version": 1,
+  "modeDefault": "individual",
+  "cultures": [
+    {
+      "id": "hindu",
+      "label": "Hindu",
+      "phases": {
+        "planning": [
+          {
+            "id": "vedic-vivah-muhurta",
+            "name": "Vedic vivah muhurta",
+            "meaning": "Hindu muhurta — pick an auspicious Panchanga time window for the rites.",
+            "conceptType": "Lunar/Zodiac",
+            "tags": [
+              "Hindu"
+            ],
+            "status": "In product",
+            "pairWith": null
+          }
+        ],
+        "dday": [
+          {
+            "id": "mangalsutra-sindoor-markers",
+            "name": "Mangalsutra & sindoor markers",
+            "meaning": "Auspicious necklace and vermillion mark signal marriage in many Hindu communities.",
+            "conceptType": "Belief",
+            "tags": [
+              "Hindu"
+            ],
+            "status": "In product",
+            "pairWith": "Lehenga bridal custom"
+          },
+          {
+            "id": "lehenga-bridal-custom",
+            "name": "Lehenga bridal custom",
+            "meaning": "Indian bridal three-piece — skirt, blouse, dupatta; red/gold still classic for vows.",
+            "conceptType": "Dress custom",
+            "tags": [
+              "Hindu"
+            ],
+            "status": "In product",
+            "pairWith": "Bridal lehenga set"
+          }
+        ],
+        "after": []
+      }
+    },
+    {
+      "id": "chinese",
+      "label": "Chinese",
+      "phases": {
+        "planning": [
+          {
+            "id": "chinese-auspicious-date-tong-shu",
+            "name": "Chinese auspicious date (Tong Shu)",
+            "meaning": "Pick a Tong Shu day marked suitable for marriage — then check family clashes.",
+            "conceptType": "Lunar/Zodiac",
+            "tags": [
+              "Chinese"
+            ],
+            "status": "In product",
+            "pairWith": "BaZi clash vs year-animal only"
+          },
+          {
+            "id": "bazi-clash-vs-year-animal-only",
+            "name": "BaZi clash vs year-animal only",
+            "meaning": "Year-animal clash is only step one — BaZi reads the full birth charts.",
+            "conceptType": "Lunar/Zodiac",
+            "tags": [
+              "Chinese"
+            ],
+            "status": "In product",
+            "pairWith": "Chinese auspicious date (Tong Shu)"
+          }
+        ],
+        "dday": [
+          {
+            "id": "chinese-tea-ceremony",
+            "name": "Chinese tea ceremony",
+            "meaning": "Serve tea to parents and elders — respect, joining families, often red envelopes.",
+            "conceptType": "Ritual",
+            "tags": [
+              "Chinese"
+            ],
+            "status": "In product",
+            "pairWith": null
+          },
+          {
+            "id": "qun-kwa-bridal-custom",
+            "name": "Qun kwa bridal custom",
+            "meaning": "Southern Chinese bridal jacket + skirt — red/gold harmony for tea ceremony or banquet.",
+            "conceptType": "Dress custom",
+            "tags": [
+              "Chinese"
+            ],
+            "status": "In product",
+            "pairWith": "Qun kwa bridal set"
+          }
+        ],
+        "after": []
+      }
+    },
+    {
+      "id": "sikh",
+      "label": "Sikh",
+      "phases": {
+        "planning": [],
+        "dday": [
+          {
+            "id": "anand-karaj-four-lavan",
+            "name": "Anand Karaj — four lavan",
+            "meaning": "Sikh “blissful act” — four lavan circuits around Guru Granth Sahib.",
+            "conceptType": "Ritual",
+            "tags": [
+              "Sikh"
+            ],
+            "status": "In product",
+            "pairWith": null
+          }
+        ],
+        "after": []
+      }
+    },
+    {
+      "id": "islamic",
+      "label": "Islamic",
+      "phases": {
+        "planning": [],
+        "dday": [
+          {
+            "id": "nikah-and-walima",
+            "name": "Nikah & walima",
+            "meaning": "Islamic marriage contract first, then the walima feast.",
+            "conceptType": "Ritual",
+            "tags": [
+              "Islamic"
+            ],
+            "status": "In product",
+            "pairWith": null
+          }
+        ],
+        "after": []
+      }
+    },
+    {
+      "id": "east-asian",
+      "label": "East Asian",
+      "phases": {
+        "planning": [],
+        "dday": [
+          {
+            "id": "korean-paebaek-pyebaek",
+            "name": "Korean paebaek (pyebaek)",
+            "meaning": "Family rite of bows, offerings, and dates/chestnuts after the main ceremony.",
+            "conceptType": "Ritual",
+            "tags": [
+              "East Asian"
+            ],
+            "status": "In product",
+            "pairWith": "Hanbok bridal custom"
+          }
+        ],
+        "after": [
+          {
+            "id": "korean-paebaek-pyebaek",
+            "name": "Korean paebaek (pyebaek)",
+            "meaning": "Family rite of bows, offerings, and dates/chestnuts after the main ceremony.",
+            "conceptType": "Ritual",
+            "tags": [
+              "East Asian"
+            ],
+            "status": "In product",
+            "pairWith": "Hanbok bridal custom"
+          }
+        ]
+      }
+    },
+    {
+      "id": "christian-western",
+      "label": "Christian/Western",
+      "phases": {
+        "planning": [
+          {
+            "id": "parent-thank-you-gift-meaning",
+            "name": "Parent thank-you gift meaning",
+            "meaning": "Thank each parent with roughly equal value — sentiment over price.",
+            "conceptType": "Parents gift",
+            "tags": [
+              "Christian/Western",
+              "Multi"
+            ],
+            "status": "In product",
+            "pairWith": "Gifts: MOB scarf / FOB StoryWorth / MOG frame"
+          }
+        ],
+        "dday": [],
+        "after": [
+          {
+            "id": "parent-thank-you-gift-meaning",
+            "name": "Parent thank-you gift meaning",
+            "meaning": "Thank each parent with roughly equal value — sentiment over price.",
+            "conceptType": "Parents gift",
+            "tags": [
+              "Christian/Western",
+              "Multi"
+            ],
+            "status": "In product",
+            "pairWith": "Gifts: MOB scarf / FOB StoryWorth / MOG frame"
+          }
+        ]
+      }
+    },
+    {
+      "id": "multi",
+      "label": "Multi",
+      "phases": {
+        "planning": [
+          {
+            "id": "parent-thank-you-gift-meaning",
+            "name": "Parent thank-you gift meaning",
+            "meaning": "Thank each parent with roughly equal value — sentiment over price.",
+            "conceptType": "Parents gift",
+            "tags": [
+              "Christian/Western",
+              "Multi"
+            ],
+            "status": "In product",
+            "pairWith": "Gifts: MOB scarf / FOB StoryWorth / MOG frame"
+          }
+        ],
+        "dday": [],
+        "after": [
+          {
+            "id": "parent-thank-you-gift-meaning",
+            "name": "Parent thank-you gift meaning",
+            "meaning": "Thank each parent with roughly equal value — sentiment over price.",
+            "conceptType": "Parents gift",
+            "tags": [
+              "Christian/Western",
+              "Multi"
+            ],
+            "status": "In product",
+            "pairWith": "Gifts: MOB scarf / FOB StoryWorth / MOG frame"
+          },
+          {
+            "id": "hongbao-red-envelope-gift-custom",
+            "name": "Hongbao / red envelope gift custom",
+            "meaning": "Lucky money in red envelopes — guests give cash, not a registry toaster.",
+            "conceptType": "Parents gift",
+            "tags": [
+              "Multi"
+            ],
+            "status": "In product",
+            "pairWith": "Chinese tea ceremony"
+          }
+        ]
+      }
+    }
+  ]
+}

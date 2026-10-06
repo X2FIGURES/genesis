@@ -16,8 +16,9 @@ body{background:var(--canvas);color:var(--ink);font-family:Inter,system-ui,sans-
 main{max-width:680px;margin:0 auto}
 .eyebrow{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--champagne);font-weight:500}
 h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:44px;letter-spacing:-.02em;margin:8px 0 10px}
+h2{margin:26px 0 0;font-family:Inter,system-ui,sans-serif;font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--champagne)}
 p{color:var(--muted);font-size:15px}
-ul{list-style:none;padding:0;margin:22px 0 0;display:flex;flex-direction:column;gap:12px}
+ul{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:12px}
 a.card{display:block;background:var(--ivory);border:1px solid var(--line);border-radius:16px;padding:14px 16px;color:var(--ink);text-decoration:none}
 a.card:hover,a.card:focus-visible{border-color:#2F2B28;outline:none}
 a.card strong{display:block;font-family:"Cormorant Garamond",Georgia,serif;font-size:26px;font-weight:500}
@@ -29,12 +30,30 @@ a.card span,a.card code{display:block;margin-top:6px;color:#8A6E3E;font-size:12.
 <main>
   <p class="eyebrow">Palette A · Ivory &amp; Sage</p>
   <h1>Wedding widgets</h1>
-  <p>Four static pages for the Wedding Planner Notion template. Paste a URL into <code>/embed</code>. Quiz, ladder, and moodboard keep example rows in the file. The content calendar reads <code>content-calendar.json</code>. Palette C (Evening) is not in this set.</p>
+  <p>Static pages for the Wedding Planner. Paste a URL into <code>/embed</code>. Quiz, ladder, and moodboard keep example rows in the file. The content calendar reads <code>content-calendar.json</code>. Culture, dress, gifts, and the charts read their seed JSON. Palette C (Evening) is not in this set.</p>
+  <h2>Discovery</h2>
   <ul>
     <li><a class="card" href="style-quiz.html"><strong>Style quiz</strong><span>https://x2figures.github.io/genesis/wedding/style-quiz.html</span><code>?style=garden · ?theme=A · embed height ~560px</code></a></li>
     <li><a class="card" href="budget-ladder.html?band=mid"><strong>Budget ladder</strong><span>https://x2figures.github.io/genesis/wedding/budget-ladder.html?band=mid</span><code>?band=budget|mid|elevated|blacktie or 0–3 · embed height ~520px</code></a></li>
     <li><a class="card" href="venue-moodboard.html"><strong>Venue moodboard</strong><span>https://x2figures.github.io/genesis/wedding/venue-moodboard.html</span><code>?chips=garden,under100,mid · ?style=classic · embed height ~520px</code></a></li>
     <li><a class="card" href="content-calendar.html"><strong>Content calendar</strong><span>https://x2figures.github.io/genesis/wedding/content-calendar.html</span><code>?filter=heavy-focus · embed height ~800px</code></a></li>
+  </ul>
+  <h2>Culture process</h2>
+  <ul>
+    <li><a class="card" href="culture-process.html"><strong>Culture process</strong><span>https://x2figures.github.io/genesis/wedding/culture-process.html</span><code>?culture=hindu · ?mode=individual|studio · embed height ~800px</code></a></li>
+    <li><a class="card" href="culture-rail.html"><strong>Culture rail</strong><span>https://x2figures.github.io/genesis/wedding/culture-rail.html</span><code>culture-process.json · embed height ~460px</code></a></li>
+  </ul>
+  <h2>Rails</h2>
+  <ul>
+    <li><a class="card" href="dress-rail.html"><strong>Dress rail</strong><span>https://x2figures.github.io/genesis/wedding/dress-rail.html</span><code>dress-rail.json · embed height ~320px</code></a></li>
+    <li><a class="card" href="gifts-stack.html"><strong>Gifts stack</strong><span>https://x2figures.github.io/genesis/wedding/gifts-stack.html</span><code>?culture=Chinese · gifts-stack.json · embed height ~700px</code></a></li>
+  </ul>
+  <h2>Graphs</h2>
+  <ul>
+    <li><a class="card" href="timeline-beam.html"><strong>Timeline beam</strong><span>https://x2figures.github.io/genesis/wedding/timeline-beam.html</span><code>Chips by phase · embed height ~360px</code></a></li>
+    <li><a class="card" href="coverage-map.html"><strong>Coverage map</strong><span>https://x2figures.github.io/genesis/wedding/coverage-map.html</span><code>Culture bundles × phase · embed height ~520px</code></a></li>
+    <li><a class="card" href="inventory-status.html"><strong>Inventory by status</strong><span>https://x2figures.github.io/genesis/wedding/inventory-status.html</span><code>Culture, dress, gifts · embed height ~420px</code></a></li>
+    <li><a class="card" href="budget-band.html"><strong>Budget band mix</strong><span>https://x2figures.github.io/genesis/wedding/budget-band.html</span><code>Dress and gifts · embed height ~420px</code></a></li>
   </ul>
   <a class="back" href="../index.html">Life system hub</a>
 </main>
