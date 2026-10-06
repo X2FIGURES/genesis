@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en" data-theme="A">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:,">
+<title>Content calendar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Palette A — Ivory & Sage. Content-calendar canvas is linen #EDE6DA, cards ivory #F8F5EF.
+   Evening (C) is not drawn. No 100vh: the stage fills the iframe (height 100%) and caps at the 1200×800 frame. */
+:root{
+  --canvas:#EDE6DA;
+  --ivory:#F8F5EF;
+  --sage:#9DAE8F;
+  --sage-deep:#6F8A62;
+  --chip:#D7E3CE;
+  --ink:#2F2B28;
+  --muted:#7A736C;
+  --champagne:#C9AE7C;
+  --serif:"Cormorant Garamond",Palatino,"Palatino Linotype",Georgia,serif;
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+html{background:var(--canvas)}
+body{
+  min-height:100%;
+  background:var(--canvas);
+  color:var(--ink);
+  font-family:var(--sans);
+  display:flex;
+  align-items:stretch;
+  justify-content:center;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.2;
+  mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+}
+button{font:inherit;color:inherit}
+button:focus{outline:none}
+button:focus-visible,.carousel:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.carousel:focus{outline:none}
+.stage{
+  position:relative;
+  z-index:1;
+  width:min(1200px,100%);
+  height:100%;
+  max-height:800px;
+  margin:auto;
+  padding:clamp(12px,2vh,20px) clamp(12px,2vw,22px) 10px;
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+.sprig{
+  position:absolute;
+  top:8px;
+  right:14px;
+  width:108px;
+  height:auto;
+  pointer-events:none;
+}
+.head{text-align:center;flex:0 0 auto;padding:2px 96px 0}
+h1{
+  margin:6px 0 0;
+  font-family:var(--serif);
+  font-weight:500;
+  font-size:clamp(28px,3.4vw,36px);
+  letter-spacing:-.02em;
+  line-height:1.05;
+}
+.rule{width:42px;height:1px;margin:10px auto 0;background:var(--champagne);border:0}
+.filters{
+  flex:0 0 auto;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+  margin-top:14px;
+}
+.chip{
+  border:1px solid var(--champagne);
+  background:transparent;
+  border-radius:999px;
+  padding:6px 13px;
+  font-size:13.5px;
+  font-weight:400;
+  line-height:1.2;
+  cursor:pointer;
+  color:var(--ink);
+  transition:background-color .18s ease,border-color .18s ease;
+}
+.chip:hover{background:rgba(157,174,143,.16)}
+.chip[aria-checked="true"]{
+  background:var(--chip);
+  border-color:transparent;
+}
+.carousel{
+  position:relative;
+  flex:1 1 auto;
+  min-height:280px;
+  margin-top:12px;
+  display:flex;
+  align-items:stretch;
+  min-width:0;
+}
+.viewport{
+  flex:1 1 auto;
+  min-width:0;
+  overflow:hidden;
+  height:100%;
+  touch-action:pan-y;
+}
+.track{
+  height:100%;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  will-change:transform;
+  transition:transform .45s cubic-bezier(.22,.8,.25,1);
+}
+.slide{
+  flex:0 0 auto;
+  background:var(--ivory);
+  border:1px solid rgba(201,174,124,.4);
+  border-radius:22px;
+  box-shadow:0 12px 28px rgba(47,43,40,.05);
+  padding:26px 26px 22px;
+  display:flex;
+  flex-direction:column;
+  text-align:left;
+  opacity:.7;
+  transform:scale(.94);
+  transition:transform .45s cubic-bezier(.22,.8,.25,1),opacity .45s ease,box-shadow .45s ease,border-color .45s ease;
+  cursor:pointer;
+}
+.slide.is-center{
+  opacity:1;
+  transform:scale(1);
+  border-color:var(--champagne);
+  box-shadow:
+    0 0 0 1px rgba(201,174,124,.55),
+    0 16px 40px rgba(157,174,143,.32);
+  cursor:default;
+}
+.slide-eyebrow{
+  margin:0;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--champagne);
+}
+.slide.is-heavy .slide-eyebrow{color:var(--sage-deep)}
+.slide-rule{width:36px;height:1px;margin:10px 0 0;background:var(--champagne);border:0}
+.slide h2{
+  margin:14px 0 0;
+  font-family:var(--serif);
+  font-weight:500;
+  font-size:22px;
+  letter-spacing:-.015em;
+  line-height:1.15;
+  color:var(--ink);
+}
+.hook{
+  margin:12px 0 0;
+  font-size:14px;
+  line-height:1.45;
+  color:var(--muted);
+}
+.meta{
+  margin-top:auto;
+  padding-top:18px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.timing{
+  display:inline-flex;
+  align-items:center;
+  padding:5px 11px;
+  border-radius:999px;
+  border:1px solid var(--champagne);
+  background:var(--canvas);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.02em;
+  color:var(--ink);
+  line-height:1.2;
+}
+.count{
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.06em;
+  color:var(--champagne);
+}
+.nav{
+  position:absolute;
+  top:50%;
+  z-index:2;
+  width:40px;
+  height:40px;
+  margin-top:-20px;
+  border-radius:50%;
+  border:1px solid var(--champagne);
+  background:var(--ivory);
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  padding:0;
+}
+.nav svg{display:block}
+.nav.prev{left:0}
+.nav.next{right:0}
+.nav:disabled{opacity:.35;cursor:default}
+.nav:hover:not(:disabled){background:#F3EEE6}
+.dots{
+  flex:0 0 auto;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+  margin-top:10px;
+  min-height:22px;
+}
+.dot{
+  width:7px;height:7px;border-radius:50%;
+  padding:0;
+  border:1.5px solid var(--champagne);
+  background:transparent;
+  cursor:pointer;
+}
+.dot[aria-current="true"]{background:var(--sage);border-color:var(--sage)}
+.empty{
+  flex:1 1 auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0;
+  color:var(--muted);
+  font-family:var(--serif);
+  font-style:italic;
+  font-weight:500;
+  font-size:22px;
+}
+.sr{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+@media (max-width:720px){
+  .sprig{position:static;display:block;width:84px;margin:0 auto 2px}
+  .head{padding:0}
+  .slide{padding:22px 20px 18px}
+  .slide h2{font-size:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  .track,.slide,.chip{transition:none}
+}
+</style>
+</head>
+<body>
+<main class="stage">
+  <header class="head">
+    <svg class="sprig" viewBox="0 0 150 70" fill="none" aria-hidden="true">
+      <path d="M10 56c32-2 58-16 90-36 14-8 28-12 42-14" stroke="#8EA383" stroke-width="1.15" stroke-linecap="round"/>
+      <path d="M34 50c8-10 18-9 20-1-8 1-16 3-20 1z" fill="#9DAE8F"/>
+      <path d="M52 42c10 6 16-4 8-12-8 2-12 8-8 12z" fill="#A9B99A"/>
+      <path d="M70 36c8-11 20-8 20 0-9 1-16 2-20 0z" fill="#8EA383"/>
+      <path d="M90 28c9 5 16-5 7-12-8 2-11 8-7 12z" fill="#9DAE8F"/>
+      <path d="M108 22c8-9 18-6 17 1-8 0-14 2-17-1z" fill="#A9B99A"/>
+      <path d="M124 16c7 4 13-3 6-9-6 1-9 6-6 9z" fill="#8EA383"/>
+      <ellipse cx="78" cy="44" rx="3" ry="4.2" transform="rotate(16 78 44)" fill="#C9AE7C"/>
+      <ellipse cx="112" cy="30" rx="2.6" ry="3.6" transform="rotate(-12 112 30)" fill="#C9AE7C"/>
+    </svg>
+    <h1>Content calendar</h1>
+    <div class="rule"></div>
+  </header>
+  <div class="filters" id="filters" role="radiogroup" aria-label="Filters"></div>
+  <div class="carousel" id="carousel" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Content calendar">
+    <button class="nav prev" id="prev" type="button" aria-label="Previous hook">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M11.2 3.6 6 9l5.2 5.4" fill="none" stroke="#C9AE7C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="viewport" id="viewport">
+      <div class="track" id="track"></div>
+    </div>
+    <button class="nav next" id="next" type="button" aria-label="Next hook">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M6.8 3.6 12 9l-5.2 5.4" fill="none" stroke="#C9AE7C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+  <p class="empty" id="empty" hidden>No hooks in queue</p>
+  <div class="dots" id="dots" role="group" aria-label="Hook position"></div>
+</main>
+<p id="live" class="sr" aria-live="polite"></p>
+<script>
+(function(){
+  /*
+    Palette A only. theme= other than A still renders Ivory & Sage.
+    Cards load from same-origin content-calendar.json. File order is the
+    display order (Heavy focus already first). Do not call Notion.
+    ?filter=heavy-focus|all|<category> overrides filterDefault.
+    Timing text is the card's timing field ("In copy" in this export).
+  */
+  var q=new URLSearchParams(location.search);
+  var theme=(q.get("theme")||"A").toUpperCase();
+  document.documentElement.setAttribute("data-theme",theme==="A"?"A":"A");
+
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var narrowQuery=window.matchMedia("(max-width: 720px)");
+  var filtersEl=document.getElementById("filters");
+  var carouselEl=document.getElementById("carousel");
+  var viewport=document.getElementById("viewport");
+  var track=document.getElementById("track");
+  var dotsEl=document.getElementById("dots");
+  var emptyEl=document.getElementById("empty");
+  var prevBtn=document.getElementById("prev");
+  var nextBtn=document.getElementById("next");
+  var live=document.getElementById("live");
+
+  var allCards=[];
+  var slides=[];
+  var filter="heavy-focus";
+  var index=0;
+  var pointer=null;
+  var suppressClick=false;
+
+  function el(tag,cls,text){
+    var n=document.createElement(tag);
+    if(cls)n.className=cls;
+    if(text!=null)n.textContent=text;
+    return n;
+  }
+  function visibleCards(){
+    if(filter==="all")return allCards.slice();
+    if(filter==="heavy-focus")return allCards.filter(function(c){return c.heavyFocus===true;});
+    return allCards.filter(function(c){return c.category===filter;});
+  }
+  function categories(){
+    var seen={},out=[];
+    allCards.forEach(function(c){
+      if(!c.category||seen[c.category])return;
+      seen[c.category]=1;
+      out.push(c.category);
+    });
+    return out;
+  }
+  function timingText(card){
+    if(card.timing)return String(card.timing);
+    return "";
+  }
+
+  function paintFilters(){
+    filtersEl.textContent="";
+    var options=[{id:"heavy-focus",label:"Heavy focus"},{id:"all",label:"All"}];
+    categories().forEach(function(cat){options.push({id:cat,label:cat});});
+    options.forEach(function(opt){
+      var b=el("button","chip",opt.label);
+      b.type="button";
+      b.setAttribute("role","radio");
+      b.setAttribute("aria-checked",filter===opt.id?"true":"false");
+      b.addEventListener("click",function(){setFilter(opt.id);});
+      filtersEl.appendChild(b);
+    });
+  }
+
+  function setFilter(id){
+    filter=id;
+    index=0;
+    var params=new URLSearchParams(location.search);
+    params.set("filter",id);
+    history.replaceState(null,"","?"+params.toString());
+    paintFilters();
+    paintSlides(true);
+  }
+
+  function paintSlides(announce){
+    var cards=visibleCards();
+    track.textContent="";
+    dotsEl.textContent="";
+    slides=[];
+    if(!cards.length){
+      carouselEl.hidden=true;
+      dotsEl.hidden=true;
+      emptyEl.hidden=false;
+      prevBtn.disabled=true;
+      nextBtn.disabled=true;
+      live.textContent="No hooks in queue";
+      return;
+    }
+    carouselEl.hidden=false;
+    dotsEl.hidden=false;
+    emptyEl.hidden=true;
+    if(index>=cards.length)index=0;
+    if(index<0)index=cards.length-1;
+    cards.forEach(function(card,i){
+      var slide=el("article","slide"+(card.heavyFocus?" is-heavy":""));
+      slide.setAttribute("role","group");
+      slide.setAttribute("aria-roledescription","slide");
+      slide.setAttribute("aria-label",(i+1)+" of "+cards.length+": "+(card.title||""));
+      slide.appendChild(el("p","slide-eyebrow",card.eyebrow||""));
+      slide.appendChild(el("div","slide-rule"));
+      slide.appendChild(el("h2",null,card.title||""));
+      slide.appendChild(el("p","hook",card.hook||""));
+      var meta=el("div","meta");
+      var timing=timingText(card);
+      if(timing)meta.appendChild(el("span","timing",timing));
+      if(typeof card.count==="number"&&card.count>1)meta.appendChild(el("span","count","×"+card.count));
+      slide.appendChild(meta);
+      slide.addEventListener("click",function(){
+        if(suppressClick)return;
+        if(i!==index)go(i,true);
+      });
+      track.appendChild(slide);
+      slides.push(slide);
+
+      var dot=el("button","dot");
+      dot.type="button";
+      dot.setAttribute("aria-label","Show hook "+(i+1)+" of "+cards.length);
+      dot.addEventListener("click",function(){go(i,true);});
+      dotsEl.appendChild(dot);
+    });
+    prevBtn.disabled=cards.length<2;
+    nextBtn.disabled=cards.length<2;
+    place(false);
+    if(announce)announceCurrent();
+  }
+
+  function place(animate){
+    var cards=visibleCards();
+    slides.forEach(function(slide,i){
+      var on=i===index;
+      slide.classList.toggle("is-center",on);
+      slide.setAttribute("aria-hidden",on?"false":"true");
+      if(on)slide.setAttribute("aria-current","true");
+      else slide.removeAttribute("aria-current");
+    });
+    var dots=dotsEl.querySelectorAll(".dot");
+    Array.prototype.forEach.call(dots,function(dot,i){
+      if(i===index)dot.setAttribute("aria-current","true");
+      else dot.removeAttribute("aria-current");
+    });
+    var narrow=narrowQuery.matches;
+    var vh=viewport.clientHeight||360;
+    var vw=viewport.clientWidth||320;
+    var w,h;
+    if(narrow){
+      w=Math.max(220,Math.round(vw-8));
+      h=Math.round(w*1100/900);
+      if(h>vh){h=vh;w=Math.round(h*900/1100);}
+    }else{
+      w=Math.round(Math.min(vh*900/1100,vw*0.46,460));
+      h=Math.round(w*1100/900);
+      if(h>vh-4){h=Math.max(220,vh-4);w=Math.round(h*900/1100);}
+    }
+    slides.forEach(function(slide){
+      slide.style.width=w+"px";
+      slide.style.height=h+"px";
+    });
+    var slide=slides[index];
+    if(!slide)return;
+    var useAnim=animate&&!reduce;
+    track.style.transition=useAnim?"":"none";
+    var center=slide.offsetLeft+slide.offsetWidth/2;
+    var x=vw/2-center;
+    track.style.transform="translate3d("+x+"px,0,0)";
+    if(!useAnim){
+      track.offsetHeight;
+      track.style.transition="";
+    }
+    if(!cards.length)return;
+  }
+
+  function announceCurrent(){
+    var cards=visibleCards();
+    var card=cards[index];
+    if(!card)return;
+    live.textContent="Hook "+(index+1)+" of "+cards.length+". "+(card.eyebrow?card.eyebrow+". ":"")+(card.title||"")+". "+(card.hook||"");
+  }
+
+  function go(i,announce){
+    var cards=visibleCards();
+    if(!cards.length)return;
+    index=(i+cards.length)%cards.length;
+    place(true);
+    if(announce)announceCurrent();
+  }
+
+  prevBtn.addEventListener("click",function(){go(index-1,true);});
+  nextBtn.addEventListener("click",function(){go(index+1,true);});
+
+  carouselEl.addEventListener("keydown",function(e){
+    if(e.key==="ArrowRight"){e.preventDefault();go(index+1,true);}
+    else if(e.key==="ArrowLeft"){e.preventDefault();go(index-1,true);}
+  });
+
+  viewport.addEventListener("pointerdown",function(e){
+    if(e.target.closest&&e.target.closest(".nav"))return;
+    pointer={id:e.pointerId,x:e.clientX,dragged:false};
+  });
+  viewport.addEventListener("pointermove",function(e){
+    if(!pointer||e.pointerId!==pointer.id)return;
+    if(Math.abs(e.clientX-pointer.x)>12)pointer.dragged=true;
+  });
+  function endPointer(e){
+    if(!pointer||e.pointerId!==pointer.id)return;
+    var dx=e.clientX-pointer.x;
+    var dragged=pointer.dragged;
+    pointer=null;
+    if(!dragged)return;
+    suppressClick=true;
+    setTimeout(function(){suppressClick=false;},0);
+    if(dx<=-48)go(index+1,true);
+    else if(dx>=48)go(index-1,true);
+  }
+  viewport.addEventListener("pointerup",endPointer);
+  viewport.addEventListener("pointercancel",function(){pointer=null;});
+
+  window.addEventListener("resize",function(){place(false);});
+  if(window.ResizeObserver){
+    new ResizeObserver(function(){place(false);}).observe(viewport);
+  }
+
+  function resolveFilter(data){
+    var requested=(q.get("filter")||data.filterDefault||"heavy-focus").toLowerCase();
+    if(requested==="all"||requested==="heavy-focus"||requested==="heavy")return requested==="heavy"?"heavy-focus":requested;
+    var cats=categories();
+    for(var i=0;i<cats.length;i++){
+      if(cats[i].toLowerCase()===requested)return cats[i];
+    }
+    return "heavy-focus";
+  }
+
+  var url;
+  try{url=new URL("content-calendar.json",location.href);}catch(err){url=null;}
+  var loading=fetch(url?url.href:"content-calendar.json",{cache:"no-store"}).then(function(res){
+    if(!res.ok)throw new Error("bad status");
+    return res.json();
+  });
+  loading.then(function(data){
+    allCards=Array.isArray(data.cards)?data.cards:[];
+    filter=resolveFilter(data||{});
+    paintFilters();
+    paintSlides(true);
+  }).catch(function(){
+    allCards=[];
+    carouselEl.hidden=true;
+    dotsEl.hidden=true;
+    filtersEl.hidden=true;
+    emptyEl.hidden=false;
+    emptyEl.textContent="No hooks in queue";
+    live.textContent="No hooks in queue";
+  });
+})();
+</script>
+</body>
+</html>
