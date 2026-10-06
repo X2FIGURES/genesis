@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "qun-kwa-bridal-set",
+      "name": "Qun kwa bridal set",
+      "attireType": "Cultural dress",
+      "budgetBand": "$$$",
+      "tags": [
+        "Chinese"
+      ],
+      "status": "In product",
+      "pairCulture": "Qun kwa bridal custom"
+    },
+    {
+      "id": "bridal-lehenga-set",
+      "name": "Bridal lehenga set",
+      "attireType": "Cultural dress",
+      "budgetBand": "$$$",
+      "tags": [
+        "Hindu"
+      ],
+      "status": "In product",
+      "pairCulture": "Lehenga bridal custom"
+    },
+    {
+      "id": "bridal-hanbok-jeogori-chima",
+      "name": "Bridal hanbok (jeogori + chima)",
+      "attireType": "Cultural dress",
+      "budgetBand": "$$$",
+      "tags": [
+        "East Asian"
+      ],
+      "status": "In product",
+      "pairCulture": "Hanbok bridal custom"
+    },
+    {
+      "id": "shiromuku-and-iro-uchikake",
+      "name": "Shiromuku & iro-uchikake",
+      "attireType": "Cultural dress",
+      "budgetBand": "$$$",
+      "tags": [
+        "East Asian"
+      ],
+      "status": "In product",
+      "pairCulture": "Shiromuku bridal custom"
+    }
+  ]
+}
