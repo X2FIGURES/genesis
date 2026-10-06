@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en" data-theme="A">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:,">
+<title>Venue moodboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Palette A — Ivory & Sage. Evening (C) is not drawn here. No photographs. */
+:root{
+  --canvas:#E6DFD3;
+  --ivory:#F3EEE6;
+  --panel:#D2C8B8;
+  --sage:#9DAE8F;
+  --sage-ink:#6F8A62;
+  --chip:#D3DFC8;
+  --ink:#2F2B28;
+  --muted:#7A736C;
+  --champagne:#C9AE7C;
+  --serif:"Cormorant Garamond",Palatino,"Palatino Linotype",Georgia,serif;
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+html{background:var(--canvas)}
+body{
+  min-height:100%;
+  background:var(--canvas);
+  color:var(--ink);
+  font-family:var(--sans);
+  padding:clamp(10px,2vh,22px) clamp(10px,2vw,22px);
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.2;
+  mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+}
+button{font:inherit;color:inherit}
+button:focus{outline:none}
+button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.frame{
+  position:relative;
+  z-index:1;
+  height:100%;
+  max-width:1080px;
+  margin:0 auto;
+  background:var(--ivory);
+  border:1px solid rgba(201,174,124,.32);
+  border-radius:26px;
+  box-shadow:0 16px 40px rgba(47,43,40,.06);
+  padding:clamp(16px,2.6vh,26px) clamp(16px,2.4vw,28px) 12px;
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+.eyebrow{
+  margin:0;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--champagne);
+}
+h1{
+  margin:6px 0 0;
+  font-family:var(--serif);
+  font-weight:500;
+  font-size:clamp(28px,3.6vw,40px);
+  letter-spacing:-.02em;
+  line-height:1.02;
+}
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:14px;
+}
+.chip{
+  border:1px solid var(--champagne);
+  background:transparent;
+  border-radius:999px;
+  padding:6px 13px;
+  font-size:13.5px;
+  font-weight:400;
+  line-height:1.2;
+  cursor:pointer;
+  color:var(--ink);
+  transition:background-color .18s ease,border-color .18s ease;
+}
+.chip:hover{background:rgba(157,174,143,.16)}
+.chip[aria-pressed="true"]{
+  background:var(--chip);
+  border-color:transparent;
+}
+.grid{
+  flex:1 1 auto;
+  min-height:0;
+  margin-top:16px;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-auto-rows:minmax(0,1fr);
+  gap:14px 16px;
+  align-content:start;
+}
+.venue{
+  min-width:0;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+}
+.art{
+  flex:1 1 auto;
+  min-height:68px;
+  height:clamp(72px,15vh,128px);
+  background:var(--panel);
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.art svg{width:74%;height:68%;display:block}
+.venue h2{
+  margin:10px 0 0;
+  font-family:var(--serif);
+  font-weight:500;
+  font-size:clamp(20px,2.2vw,26px);
+  letter-spacing:-.015em;
+  line-height:1.05;
+}
+.why{
+  margin:3px 0 0;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.3;
+}
+.meta{
+  margin:7px 0 0;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--champagne);
+}
+.empty{
+  grid-column:1/-1;
+  margin:28px 8px;
+  color:var(--muted);
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:20px;
+}
+.note{
+  flex:0 0 auto;
+  margin:10px 0 2px;
+  text-align:center;
+  font-size:10px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#A39B92;
+}
+.sr{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+@media (max-width:760px){
+  .frame{height:auto;min-height:100%}
+  .grid{grid-template-columns:1fr 1fr;grid-auto-rows:auto}
+}
+@media (max-width:480px){
+  .grid{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  .chip{transition:none}
+}
+</style>
+</head>
+<body>
+<article class="frame">
+  <header>
+    <p class="eyebrow">Venue moodboard</p>
+    <h1>Quiet rooms that fit</h1>
+  </header>
+  <div class="chips" id="chips" role="group" aria-label="Filters"></div>
+  <div class="grid" id="grid" role="list"></div>
+  <p class="note">Example venues</p>
+</article>
+<p id="live" class="sr" aria-live="polite"></p>
+<script>
+(function(){
+  /*
+    Palette A only. theme= other than A still renders Ivory & Sage.
+    VENUES are example rooms, not Lauren's research database and not stock photos.
+    Later, Template Builder can replace VENUES from a same-origin data.json.
+    Do not call Notion from this file.
+
+    Chips are inclusive: a room stays if it matches any selected chip.
+    That keeps the example board intact when Garden, Under 100, and $$ start on,
+    because each sample room carries at least one of those tags.
+    Turn chips off to narrow. An empty selection shows every example room.
+
+    ?chips=garden,under100,mid,classic,blacktie
+    ?style=garden|modern|classic|intimate  (used by the style-quiz result link)
+  */
+  var STROKE="#6f8a62";
+  function drawing(inner){
+    return '<svg viewBox="0 0 280 120" fill="none" aria-hidden="true" stroke="'+STROKE+'" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round">'+inner+"</svg>";
+  }
+  var ART={
+    orangery:drawing(
+      '<path d="M28 92 H252"/>'+
+      '<path d="M64 92 V70 Q140 34 216 70 V92"/>'+
+      '<path d="M126 92 V64 H154 V92"/>'+
+      '<path d="M96 92 V76 M184 92 V76"/>'
+    ),
+    estate:drawing(
+      '<path d="M24 94 H256"/>'+
+      '<path d="M52 94 V60 H228 V94"/>'+
+      '<path d="M52 60 L140 32 L228 60"/>'+
+      '<path d="M124 94 V70 H156 V94"/>'+
+      '<path d="M196 48 V34 H214 V54"/>'
+    ),
+    loft:drawing(
+      '<path d="M22 96 H258"/>'+
+      '<path d="M40 96 V62 Q140 26 240 62 V96"/>'+
+      '<path d="M90 96 V58 M140 96 V50 M190 96 V58"/>'
+    ),
+    chapel:drawing(
+      '<path d="M26 96 H254"/>'+
+      '<path d="M72 96 V66"/>'+
+      '<path d="M72 66 Q140 16 196 58"/>'+
+      '<path d="M208 52 V96"/>'+
+      '<path d="M122 96 V72 H156 V96"/>'+
+      '<path d="M196 58 L208 52"/>'
+    ),
+    barn:drawing(
+      '<path d="M20 86 H260"/>'+
+      '<path d="M40 86 V56 H240 V86"/>'+
+      '<path d="M40 56 L140 34 L240 56"/>'+
+      '<path d="M118 86 V64 H162 V86"/>'+
+      '<path d="M20 102 H260" stroke-opacity=".65"/>'
+    ),
+    townhouse:drawing(
+      '<path d="M30 98 H250"/>'+
+      '<path d="M58 98 V60 Q140 24 222 60 V98"/>'+
+      '<path d="M100 98 V58 M140 98 V50 M180 98 V58"/>'+
+      '<path d="M108 98 H172 M112 88 H168 M116 78 H164"/>'
+    )
+  };
+
+  /* price: 1=$  2=$$  3=$$$  4=$$$$. guests are a count, not a promise. */
+  var VENUES=[
+    {name:"Orangery",why:"Glass + garden light",guests:80,price:2,styles:["garden"],art:"orangery"},
+    {name:"Estate house",why:"Long lawns, quiet rooms",guests:120,price:3,styles:["garden","classic"],art:"estate"},
+    {name:"City loft",why:"White walls, city dusk",guests:60,price:2,styles:["modern"],art:"loft"},
+    {name:"Chapel ruin",why:"Stone arches, open sky",guests:40,price:1,styles:["classic","garden"],art:"chapel"},
+    {name:"Lakeside barn",why:"Timber + water edge",guests:100,price:2,styles:["garden"],art:"barn"},
+    {name:"Townhouse",why:"Candlelit stairs",guests:50,price:3,styles:["classic","intimate"],art:"townhouse"}
+  ];
+  var CHIPS=[
+    {id:"garden",label:"Garden",facet:"style",value:"garden"},
+    {id:"under100",label:"Under 100",facet:"size",value:100},
+    {id:"mid",label:"$$",facet:"price",value:2},
+    {id:"classic",label:"Classic",facet:"style",value:"classic"},
+    {id:"blacktie",label:"$$$$",facet:"price",value:4}
+  ];
+  var CHIP_BY={};
+  CHIPS.forEach(function(c){CHIP_BY[c.id]=c;});
+
+  var q=new URLSearchParams(location.search);
+  var theme=(q.get("theme")||"A").toUpperCase();
+  document.documentElement.setAttribute("data-theme",theme==="A"?"A":"A");
+
+  var selected={};
+  var styleLock=null;
+  function addChip(id){if(CHIP_BY[id])selected[id]=true;}
+  function parseChipToken(raw){
+    var k=String(raw||"").toLowerCase().replace(/\s+/g,"");
+    var alias={
+      garden:"garden",classic:"classic",
+      under100:"under100","under-100":"under100",under:"under100",
+      mid:"mid","$$":"mid","2":"mid",
+      blacktie:"blacktie","black-tie":"blacktie","$$$$":"blacktie","4":"blacktie"
+    };
+    return alias[k]||null;
+  }
+  var chipsParam=q.get("chips");
+  var styleParam=(q.get("style")||"").toLowerCase();
+  var knownStyle={garden:1,modern:1,classic:1,intimate:1};
+  if(chipsParam!=null){
+    chipsParam.split(",").forEach(function(part){
+      var id=parseChipToken(part);
+      if(id)addChip(id);
+    });
+  }else if(styleParam&&knownStyle[styleParam]){
+    styleLock=styleParam;
+    addChip(styleParam);
+  }else{
+    addChip("garden");
+    addChip("under100");
+    addChip("mid");
+  }
+
+  var chipHost=document.getElementById("chips");
+  var grid=document.getElementById("grid");
+  var live=document.getElementById("live");
+  var chipBtns={};
+
+  function marks(n){
+    var s="",i;
+    for(i=0;i<n;i++)s+="$";
+    return s;
+  }
+  function chipHits(chip,v){
+    if(chip.facet==="style")return v.styles.indexOf(chip.value)>=0;
+    if(chip.facet==="size")return v.guests<chip.value;
+    if(chip.facet==="price")return v.price===chip.value;
+    return false;
+  }
+  function activeIds(){
+    return Object.keys(selected).filter(function(id){return selected[id];});
+  }
+  function showVenue(v){
+    if(styleLock&&v.styles.indexOf(styleLock)<0)return false;
+    var ids=activeIds();
+    if(!ids.length)return true;
+    return ids.some(function(id){return chipHits(CHIP_BY[id],v);});
+  }
+
+  function render(){
+    grid.textContent="";
+    var shown=VENUES.filter(showVenue);
+    if(!shown.length){
+      var empty=document.createElement("p");
+      empty.className="empty";
+      empty.textContent="No example rooms in this mix.";
+      grid.appendChild(empty);
+    }
+    shown.forEach(function(v){
+      var card=document.createElement("article");
+      card.className="venue";
+      card.setAttribute("role","listitem");
+      var art=document.createElement("div");
+      art.className="art";
+      art.innerHTML=ART[v.art]||"";
+      var h=document.createElement("h2");
+      h.textContent=v.name;
+      var why=document.createElement("p");
+      why.className="why";
+      why.textContent=v.why;
+      var meta=document.createElement("p");
+      meta.className="meta";
+      meta.textContent=v.guests+" guests · "+marks(v.price);
+      card.appendChild(art);
+      card.appendChild(h);
+      card.appendChild(why);
+      card.appendChild(meta);
+      grid.appendChild(card);
+    });
+    CHIPS.forEach(function(c){
+      var on=!!selected[c.id];
+      chipBtns[c.id].setAttribute("aria-pressed",on?"true":"false");
+    });
+    live.textContent=shown.length?(shown.length+" example rooms"):"No example rooms in this mix.";
+  }
+
+  CHIPS.forEach(function(c){
+    var b=document.createElement("button");
+    b.type="button";
+    b.className="chip";
+    b.textContent=c.label;
+    b.setAttribute("aria-pressed",selected[c.id]?"true":"false");
+    b.addEventListener("click",function(){
+      styleLock=null;
+      selected[c.id]=!selected[c.id];
+      render();
+    });
+    chipHost.appendChild(b);
+    chipBtns[c.id]=b;
+  });
+  render();
+})();
+</script>
+</body>
+</html>
