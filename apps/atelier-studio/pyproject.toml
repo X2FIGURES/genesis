@@ -1,0 +1,24 @@
+[project]
+name = "atelier-studio"
+version = "0.2.0"
+description = "Internal desktop Blender wedding attire studio — vast culture + dress catalog"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "customtkinter>=5.2",
+  "pillow>=10",
+]
+
+[project.scripts]
+atelier = "atelier.cli.main:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["atelier*"]
+
+[tool.setuptools.package-data]
+atelier = ["catalog/**/*.json"]

@@ -1,0 +1,61 @@
+{
+  "id": "arab",
+  "name": "Arab wedding attire",
+  "cultures": ["arab-maghreb", "arab-gulf", "moroccan", "arab-levant", "egyptian"],
+  "looks": [
+    {
+      "id": "moroccan-takchita-henna",
+      "name": "Moroccan Takchita · Henna",
+      "mood": "Henna green and gold — takchita layers, jabador for the groom.",
+      "culture_ids": ["moroccan", "arab-maghreb"],
+      "palette": [
+        {"name": "Henna green", "hex": "#2E6B3A", "slot": "dress"},
+        {"name": "Gold", "hex": "#C9A24B", "slot": "trim"},
+        {"name": "Ivory", "hex": "#F6F1E5", "slot": "suit"},
+        {"name": "Gold embroidery", "hex": "#C9A24B", "slot": "tie"},
+        {"name": "Majorelle", "hex": "#6050DC", "slot": "accent"}
+      ],
+      "garments": [
+        {"slot": "dress", "label": "Takchita (two layers)", "silhouette": "takchita", "fabric": "brocade + mtfel"},
+        {"slot": "suit", "label": "Jabador", "silhouette": "jabador", "fabric": "gabardine"}
+      ],
+      "accessories": ["mdamma belt", "sfifa/aqad trim", "selham cape", "babouche"]
+    },
+    {
+      "id": "moroccan-hleel-white",
+      "name": "Moroccan Hlel · White & gold",
+      "mood": "Ceremony white/off-white with gold — bride and groom aligned.",
+      "culture_ids": ["moroccan", "arab-maghreb"],
+      "palette": [
+        {"name": "White", "hex": "#FFFFFF", "slot": "dress"},
+        {"name": "Off-white", "hex": "#EFEADF", "slot": "suit"},
+        {"name": "Gold", "hex": "#C9A24B", "slot": "trim"},
+        {"name": "Crimson accent", "hex": "#A3162C", "slot": "accent"},
+        {"name": "Midnight", "hex": "#191970", "slot": "cape"}
+      ],
+      "garments": [
+        {"slot": "dress", "label": "Takchita / kaftan", "silhouette": "takchita", "fabric": "brocade"},
+        {"slot": "suit", "label": "Jabador (wedding white)", "silhouette": "jabador", "fabric": "gabardine"}
+      ],
+      "accessories": ["gold embroidery", "tarbouche", "babouche", "selham"]
+    },
+    {
+      "id": "gulf-ivory-gold",
+      "name": "Gulf · Ivory & gold",
+      "mood": "Formal Gulf celebration — ivory and antique gold.",
+      "culture_ids": ["arab-gulf"],
+      "palette": [
+        {"name": "Ivory", "hex": "#F6F1E5", "slot": "dress"},
+        {"name": "Antique gold", "hex": "#B08D57", "slot": "trim"},
+        {"name": "Cream thobe", "hex": "#F3EAD7", "slot": "suit"},
+        {"name": "Gold bisht trim", "hex": "#C9A24B", "slot": "cape"},
+        {"name": "Pearl", "hex": "#F8F5EF", "slot": "accent"}
+      ],
+      "garments": [
+        {"slot": "dress", "label": "Formal gown / thawb dress", "silhouette": "gown", "fabric": "silk"},
+        {"slot": "suit", "label": "Thobe + bisht", "silhouette": "thobe-bisht", "fabric": "wool-silk"}
+      ],
+      "accessories": ["bisht gold trim", "cufflinks", "agals where customary"]
+    }
+  ]
+}

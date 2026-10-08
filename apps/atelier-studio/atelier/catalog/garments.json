@@ -1,0 +1,198 @@
+{
+  "version": 1,
+  "sources_note": "Dress shares from Build-a-Dress Custom Dress Report 2026 (n≈2239 wedding designs). Bridesmaid length/silhouette cues from UK 2026 trend reports. Suit styles from 2026 groom/groomsmen guides (two-piece volume leader; three-piece comeback; midnight-blue tux trend).",
+  "dresses": [
+    {
+      "id": "a-line",
+      "name": "A-line",
+      "role": ["bride", "bridesmaid"],
+      "popularity": "most_requested",
+      "share_note": "~26% of custom wedding dresses",
+      "blender": "a-line",
+      "length": "floor",
+      "why": "Universally flattering; mix-and-match anchor for bridal parties."
+    },
+    {
+      "id": "ball-gown",
+      "name": "Ball gown",
+      "role": ["bride"],
+      "popularity": "very_high",
+      "share_note": "~20% of custom wedding dresses",
+      "blender": "ball-gown",
+      "length": "floor",
+      "why": "Maximum volume and structure for formal ceremonies."
+    },
+    {
+      "id": "fit-and-flare",
+      "name": "Fit & flare",
+      "role": ["bride", "bridesmaid"],
+      "popularity": "high",
+      "share_note": "~14% of custom wedding dresses",
+      "blender": "fit-flare",
+      "length": "floor",
+      "why": "Fitted through hip, flares below — photographs sculpted but walkable."
+    },
+    {
+      "id": "mermaid",
+      "name": "Mermaid",
+      "role": ["bride"],
+      "popularity": "high",
+      "share_note": "~8% of custom wedding dresses",
+      "blender": "mermaid",
+      "length": "floor",
+      "why": "Body-skimming with dramatic flare at or below the knee."
+    },
+    {
+      "id": "drop-waist",
+      "name": "Drop-waist / Basque",
+      "role": ["bride"],
+      "popularity": "rising",
+      "share_note": "~8%; sales nearly doubled YoY into 2026",
+      "blender": "drop-waist",
+      "length": "floor",
+      "why": "Elongates torso; modern regal line trending hard for 2026."
+    },
+    {
+      "id": "empire",
+      "name": "Empire",
+      "role": ["bride", "bridesmaid"],
+      "popularity": "classic",
+      "share_note": "~5% of custom wedding dresses",
+      "blender": "empire",
+      "length": "floor",
+      "why": "High waist under bust; soft, romantic, pregnancy-friendly."
+    },
+    {
+      "id": "sheath",
+      "name": "Sheath / column",
+      "role": ["bride", "bridesmaid"],
+      "popularity": "high_bridesmaid",
+      "share_note": "Top floor-length bridesmaid silhouette with A-line",
+      "blender": "column",
+      "length": "floor",
+      "why": "Sleek minimal line; strong for modern / city / black-tie parties."
+    },
+    {
+      "id": "slip",
+      "name": "Bias slip",
+      "role": ["bride", "bridesmaid"],
+      "popularity": "trending",
+      "share_note": "Old Hollywood / liquid satin editorial trend 2026",
+      "blender": "slip",
+      "length": "floor",
+      "why": "Bias-cut skim; satin movement; low embellishment."
+    },
+    {
+      "id": "one-shoulder",
+      "name": "One-shoulder",
+      "role": ["bridesmaid", "bride"],
+      "popularity": "trending_bridesmaid",
+      "share_note": "Defining bridesmaid silhouette 2026/27",
+      "blender": "one-shoulder",
+      "length": "floor",
+      "why": "Asymmetric drama; works in mix-and-match parties."
+    },
+    {
+      "id": "midi-a-line",
+      "name": "Midi A-line",
+      "role": ["bridesmaid"],
+      "popularity": "rising_bridesmaid",
+      "share_note": "Midi ~27% of UK bridesmaid orders (growing)",
+      "blender": "midi",
+      "length": "midi",
+      "why": "Outdoor, garden, barn — shorter hem, same A-line ease."
+    }
+  ],
+  "suits": [
+    {
+      "id": "two-piece",
+      "name": "Classic two-piece",
+      "role": ["groom", "groomsman"],
+      "popularity": "most_common",
+      "blender": "two-piece",
+      "formality": "day_to_cocktail",
+      "why": "Volume leader — garden, beach, cocktail, most groomsmen looks."
+    },
+    {
+      "id": "three-piece",
+      "name": "Three-piece (waistcoat)",
+      "role": ["groom", "groomsman"],
+      "popularity": "comeback_2026",
+      "blender": "three-piece",
+      "formality": "cocktail_to_formal",
+      "why": "Groom often three-piece; groomsmen matching two-piece."
+    },
+    {
+      "id": "tuxedo-peak",
+      "name": "Tuxedo · peak lapel",
+      "role": ["groom", "groomsman"],
+      "popularity": "black_tie",
+      "blender": "tux-peak",
+      "formality": "black_tie",
+      "why": "Formal evening; peak lapel broadens shoulder read."
+    },
+    {
+      "id": "tuxedo-shawl",
+      "name": "Tuxedo · shawl / dinner jacket",
+      "role": ["groom"],
+      "popularity": "black_tie_elegant",
+      "blender": "tux-shawl",
+      "formality": "black_tie",
+      "why": "Continuous shawl lapel; velvet dinner jackets love this."
+    },
+    {
+      "id": "midnight-tux",
+      "name": "Midnight-blue tuxedo",
+      "role": ["groom", "groomsman"],
+      "popularity": "trending_tux",
+      "blender": "tux-midnight",
+      "formality": "black_tie",
+      "why": "2026 reports: midnight blue often preferred over flat black under evening light."
+    },
+    {
+      "id": "linen-beach",
+      "name": "Linen beach two-piece",
+      "role": ["groom", "groomsman"],
+      "popularity": "destination",
+      "blender": "linen",
+      "formality": "casual_day",
+      "why": "Tan/sand/light navy; open collar; destination & coastal."
+    },
+    {
+      "id": "double-breasted",
+      "name": "Double-breasted",
+      "role": ["groom"],
+      "popularity": "fashion",
+      "blender": "double-breasted",
+      "formality": "cocktail_to_formal",
+      "why": "Statement groom look; cream DB with navy tie is a coastal classic."
+    },
+    {
+      "id": "morning-suit",
+      "name": "Morning suit",
+      "role": ["groom"],
+      "popularity": "traditional_day",
+      "blender": "morning",
+      "formality": "formal_day",
+      "why": "Church / cathedral daytime formal (tails or cutaway cue)."
+    },
+    {
+      "id": "velvet-dinner",
+      "name": "Velvet dinner jacket",
+      "role": ["groom"],
+      "popularity": "evening_statement",
+      "blender": "velvet",
+      "formality": "black_tie_optional",
+      "why": "Winter / evening differentiator; jewel or black velvet."
+    },
+    {
+      "id": "earth-three-piece",
+      "name": "Earth-tone three-piece",
+      "role": ["groom", "groomsman"],
+      "popularity": "garden_rustic_2026",
+      "blender": "earth-3p",
+      "formality": "day_outdoor",
+      "why": "Olive, brown, sand — outdoor/garden trend away from navy default."
+    }
+  ]
+}
