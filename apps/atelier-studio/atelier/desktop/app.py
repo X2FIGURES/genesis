@@ -7,15 +7,13 @@ render Blender mannequins, judge color depth.
 
 from __future__ import annotations
 
-import shutil
 import subprocess
 import threading
-import tkinter as tk
 from pathlib import Path
 from tkinter import messagebox
 
 import customtkinter as ctk
-from PIL import Image, ImageTk
+from PIL import Image
 
 from atelier.catalog import (
     CUSTOMS_ROOT,
@@ -23,9 +21,9 @@ from atelier.catalog import (
     get_look,
     list_packs,
     load_garments,
-    load_pack,
 )
 from atelier.palette import GARMENT_SLOTS, Harmony, PaletteBoard
+from atelier.runtime import blender_hint, find_blender
 
 ROOT = Path(__file__).resolve().parents[2]
 BUILD_SCRIPT = ROOT / "atelier" / "blender" / "build_look.py"
@@ -43,12 +41,6 @@ COLORS = {
     "champagne": "#C9AE7C",
     "danger": "#C47A6A",
 }
-
-
-def find_blender(explicit: str | None = None) -> str | None:
-    if explicit:
-        return explicit
-    return shutil.which("blender")
 
 
 class AtelierDesktop(ctk.CTk):
@@ -373,7 +365,7 @@ class AtelierDesktop(ctk.CTk):
             return
         blender = find_blender()
         if not blender:
-            messagebox.showerror("Atelier", "Blender not found on PATH")
+            messagebox.showerror("Atelier", f"Blender not found.\n\n{blender_hint()}")
             return
         self._rendering = True
         self.status.configure(text="Rendering…", text_color=COLORS["champagne"])

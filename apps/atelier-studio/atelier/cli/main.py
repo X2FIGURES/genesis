@@ -18,6 +18,7 @@ from atelier.catalog import (
     load_pack,
 )
 from atelier.palette import GARMENT_SLOTS, Harmony, PaletteBoard
+from atelier.runtime import blender_hint, find_blender as resolve_blender
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_RENDERS = ROOT / "renders"
@@ -26,13 +27,9 @@ CATALOG = ROOT / "atelier" / "catalog"
 
 
 def find_blender(explicit: str | None) -> str:
-    if explicit:
-        return explicit
-    found = shutil.which("blender")
+    found = resolve_blender(explicit)
     if not found:
-        raise SystemExit(
-            "Blender not found on PATH. Install Blender or pass --blender /path/to/blender"
-        )
+        raise SystemExit(f"Blender not found.\n{blender_hint()}\nOr pass --blender /path/to/blender")
     return found
 
 
@@ -303,12 +300,47 @@ def cmd_render_all(args: argparse.Namespace) -> int:
     return rc
 
 
+def cmd_doctor(_: argparse.Namespace) -> int:
+    """Verify this machine can run the local desktop app."""
+    print("Atelier Studio · doctor (local device check)")
+    print(f"  Python: {sys.version.split()[0]}  ({sys.executable})")
+    try:
+        import tkinter  # noqa: F401
+
+        print("  tkinter: OK")
+    except ImportError:
+        print("  tkinter: MISSING (install python3-tk / use python.org build)")
+    try:
+        import customtkinter  # noqa: F401
+        import PIL  # noqa: F401
+
+        print("  customtkinter + pillow: OK")
+    except ImportError as e:
+        print(f"  UI deps: MISSING ({e}) — run scripts/setup-local.sh")
+    blender = resolve_blender(None)
+    if blender:
+        print(f"  Blender: {blender}")
+    else:
+        print(f"  Blender: MISSING\n    {blender_hint()}")
+    print(f"  Catalog: {CATALOG}")
+    print(f"  Looks: {len(all_looks())}")
+    print(f"  Customs: {CUSTOMS_ROOT}")
+    ok = blender is not None
+    try:
+        import tkinter  # noqa: F401
+        import customtkinter  # noqa: F401
+    except ImportError:
+        ok = False
+    print("  Status:", "READY — run `atelier desktop`" if ok else "NOT READY")
+    return 0 if ok else 1
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="atelier",
-        description="Premium local Blender wedding attire studio (Coolors palettes · vast cultures)",
+        description="LOCAL desktop Blender wedding attire studio (internal). Default: open desktop app.",
     )
-    sub = p.add_subparsers(dest="cmd", required=True)
+    sub = p.add_subparsers(dest="cmd", required=False)
 
     s = sub.add_parser("summary", help="Vast catalog overview")
     s.set_defaults(func=cmd_summary)
@@ -409,9 +441,12 @@ def build_parser() -> argparse.ArgumentParser:
 
     s = sub.add_parser(
         "desktop",
-        help="Open the INTERNAL desktop app (looks · Coolors · camera/turn/glow · Blender)",
+        help="Open the INTERNAL desktop app on this machine (default command)",
     )
     s.set_defaults(func=cmd_desktop)
+
+    s = sub.add_parser("doctor", help="Check Python / Tk / Blender on this machine")
+    s.set_defaults(func=cmd_doctor)
 
     return p
 
@@ -426,6 +461,9 @@ def cmd_desktop(_: argparse.Namespace) -> int:
 def main(argv: list[str] | None = None) -> None:
     parser = build_parser()
     args = parser.parse_args(argv)
+    # No subcommand → open the local desktop app
+    if getattr(args, "cmd", None) is None:
+        raise SystemExit(cmd_desktop(args))
     if args.cmd == "palette" and not args.look and not args.seed:
         parser.error("palette needs a look or --seed")
     raise SystemExit(args.func(args))

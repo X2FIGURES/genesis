@@ -1,50 +1,86 @@
-# Atelier Studio — internal desktop attire lab
+# Atelier Studio — run on **your** machine
 
-**INTERNAL** Python + **Blender** desktop app for the team.  
-Vast culture catalog · **10 dress** + **10 suit** styles · **Coolors-style** color matching · camera angles · dress turn · glow for color depth.
+**INTERNAL** desktop app for the team. Opens a native window on **your laptop/desktop** — not a cloud browser tab, not Vercel.
 
-`apps/wedding-theme` (Next/Vercel) is deprecated. This is not a localhost web product — open the desktop window.
+3D Blender mannequins → PNG preview (camera · turn · glow · Coolors palette).
 
-## Desktop app (primary)
+---
 
+## Install on your device (do this once)
+
+### 1. Get the code
 ```bash
+git clone https://github.com/X2FIGURES/genesis.git
+cd genesis
+git checkout cursor/wedding-theme-visualizer-ec7f
 cd apps/atelier-studio
-python3 -m pip install -e .
-# needs: Blender 4.x on PATH, python3-tk
-export PATH="$HOME/.local/bin:$PATH"
-atelier desktop
 ```
 
-In the window:
+### 2. Install Blender 4.x on this same machine
+- Mac: https://www.blender.org/download/ or `brew install --cask blender`
+- Windows: installer from blender.org (default Program Files path is auto-found)
+- Linux: `sudo apt install blender` or blender.org
 
-1. Pick a **look** (Western / Arab / Asian packs)
-2. Lock / edit hex slots (dress · suit · tie · pocket · boutonniere)
-3. Regenerate / shuffle unlocked (Coolors)
-4. Set **camera**, **turn**, **glow**, dress + suit silhouettes
-5. **Render mannequins** → preview pane shows the PNG
+Optional: `export ATELIER_BLENDER=/full/path/to/blender`
 
-Customs save under `customs/`. Renders under `renders/desktop/`.
+### 3. Setup + launch
+
+**Mac / Linux**
+```bash
+chmod +x scripts/setup-local.sh scripts/run-atelier.sh Atelier.command
+./scripts/setup-local.sh
+./scripts/run-atelier.sh
+```
+Or double-click `Atelier.command` on Mac.
+
+**Windows**
+```powershell
+.\scripts\setup-local.ps1
+.\Atelier.bat
+```
+Or double-click `Atelier.bat`.
+
+**Check this machine**
+```bash
+atelier doctor
+```
+
+---
+
+## Daily use
+
+```bash
+atelier          # opens desktop app
+atelier desktop  # same
+atelier doctor   # Blender / Tk / deps check
+```
+
+In the window: pick a look → lock colors → set camera / turn / glow → **Render mannequins**.
+
+Customs → `customs/` · Renders → `renders/desktop/`
+
+---
 
 ## CLI (same engine)
 
 ```bash
-atelier summary
 atelier garments
-atelier packs
-atelier customize garden-sage --set dress=#9DAE8F --lock dress --regenerate --dress a-line --suit three-piece --as-id garden-sage-locked
-atelier render garden-sage --camera three_quarter --turn 35 --glow 1.2
-atelier turntable garden-sage --focus dress --turns 0,60,120 --glow 1.3
+atelier customize garden-sage --set dress=#9DAE8F --lock dress --regenerate --as-id my-look
+atelier render my-look --camera three_quarter --turn 35 --glow 1.2
+atelier turntable my-look --focus dress --turns 0,60,120
 ```
+
+---
 
 ## Layout
 
 ```
-atelier/desktop/app.py       INTERNAL CustomTkinter app
-atelier/catalog/             cultures · garments · packs
-atelier/palette/coolors.py   Coolors-style engine
-atelier/blender/build_look.py  mannequin renderer
-customs/                     locked palettes + custom looks
-renders/desktop/             desktop PNG output
+Atelier.command / Atelier.bat   double-click launchers (your device)
+scripts/setup-local.sh|.ps1     one-time install on your device
+atelier/desktop/                CustomTkinter app
+atelier/blender/build_look.py   3D EEVEE mannequin renderer
+atelier/palette/                Coolors-style matching
+atelier/catalog/                cultures · 10 dresses · 10 suits · packs
 ```
 
-Improve from here: swap procedural meshes for commissioned `.blend` garments per silhouette id — desktop + CLI flags stay the same.
+`apps/wedding-theme` (Next/Vercel) is deprecated.
