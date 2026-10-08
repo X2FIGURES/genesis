@@ -6,8 +6,10 @@
     {
       "id": "garden-sage",
       "name": "Garden Sage",
-      "mood": "Soft sage dresses, stone suits, champagne ties.",
+      "mood": "Soft sage A-line dresses, stone two-piece suits, champagne ties.",
       "culture_ids": ["western"],
+      "dress_id": "a-line",
+      "suit_id": "two-piece",
       "palette": [
         {"name": "Sage", "hex": "#9DAE8F", "slot": "dress"},
         {"name": "Stone", "hex": "#6E6A63", "slot": "suit"},
@@ -16,16 +18,18 @@
         {"name": "Olive", "hex": "#7E9272", "slot": "boutonniere"}
       ],
       "garments": [
-        {"slot": "dress", "label": "Bridesmaid dress", "silhouette": "a-line-midi", "fabric": "chiffon"},
-        {"slot": "suit", "label": "Groomsman suit", "silhouette": "two-piece", "fabric": "wool"}
+        {"slot": "dress", "label": "Bridesmaid A-line", "silhouette": "a-line", "fabric": "chiffon"},
+        {"slot": "suit", "label": "Two-piece suit", "silhouette": "two-piece", "fabric": "wool"}
       ],
       "accessories": ["champagne tie", "ivory pocket square", "olive boutonniere"]
     },
     {
       "id": "blush-champagne",
       "name": "Blush Champagne",
-      "mood": "Dusty rose dresses, warm taupe suits.",
+      "mood": "Dusty rose column dresses, taupe suits, champagne accents.",
       "culture_ids": ["western"],
+      "dress_id": "sheath",
+      "suit_id": "three-piece",
       "palette": [
         {"name": "Dusty rose", "hex": "#D8A9A4", "slot": "dress"},
         {"name": "Taupe", "hex": "#8A7A6E", "slot": "suit"},
@@ -34,34 +38,38 @@
         {"name": "Rose", "hex": "#C99A9E", "slot": "boutonniere"}
       ],
       "garments": [
-        {"slot": "dress", "label": "Bridesmaid dress", "silhouette": "column", "fabric": "satin"},
-        {"slot": "suit", "label": "Groomsman suit", "silhouette": "two-piece", "fabric": "wool"}
+        {"slot": "dress", "label": "Column / sheath", "silhouette": "column", "fabric": "satin"},
+        {"slot": "suit", "label": "Three-piece", "silhouette": "three-piece", "fabric": "wool"}
       ],
       "accessories": ["champagne tie", "blush pocket", "rose boutonniere"]
     },
     {
       "id": "midnight-ink",
       "name": "Midnight Ink",
-      "mood": "Muted rose dresses, ink black suits.",
+      "mood": "Muted rose slip dresses, midnight tuxedo energy.",
       "culture_ids": ["western"],
+      "dress_id": "slip",
+      "suit_id": "midnight-tux",
       "palette": [
         {"name": "Muted rose", "hex": "#B98C88", "slot": "dress"},
-        {"name": "Ink", "hex": "#1C1A1E", "slot": "suit"},
+        {"name": "Midnight", "hex": "#191970", "slot": "suit"},
         {"name": "Champagne", "hex": "#D8C29C", "slot": "tie"},
         {"name": "Ivory", "hex": "#F2EBDF", "slot": "pocket"},
         {"name": "Dark rose", "hex": "#8E6562", "slot": "boutonniere"}
       ],
       "garments": [
-        {"slot": "dress", "label": "Bridesmaid dress", "silhouette": "column", "fabric": "crepe"},
-        {"slot": "suit", "label": "Dinner jacket", "silhouette": "tuxedo", "fabric": "wool"}
+        {"slot": "dress", "label": "Bias slip", "silhouette": "slip", "fabric": "satin"},
+        {"slot": "suit", "label": "Midnight tuxedo", "silhouette": "tux-midnight", "fabric": "wool"}
       ],
-      "accessories": ["champagne tie or bow", "ivory pocket", "dark rose boutonniere"]
+      "accessories": ["bow tie", "ivory pocket", "dark rose boutonniere"]
     },
     {
       "id": "ivory-classic",
       "name": "Ivory Classic",
-      "mood": "Pearl dresses, charcoal suits — timeless.",
+      "mood": "Pearl A-line, charcoal three-piece — timeless formal.",
       "culture_ids": ["western"],
+      "dress_id": "a-line",
+      "suit_id": "three-piece",
       "palette": [
         {"name": "Pearl", "hex": "#E8E0D4", "slot": "dress"},
         {"name": "Charcoal", "hex": "#3A3632", "slot": "suit"},
@@ -70,10 +78,50 @@
         {"name": "White rose", "hex": "#F0E6D4", "slot": "boutonniere"}
       ],
       "garments": [
-        {"slot": "dress", "label": "Bridesmaid dress", "silhouette": "a-line", "fabric": "chiffon"},
-        {"slot": "suit", "label": "Groomsman suit", "silhouette": "three-piece", "fabric": "wool"}
+        {"slot": "dress", "label": "A-line", "silhouette": "a-line", "fabric": "chiffon"},
+        {"slot": "suit", "label": "Three-piece charcoal", "silhouette": "three-piece", "fabric": "wool"}
       ],
       "accessories": ["champagne tie", "white linen pocket", "white rose"]
+    },
+    {
+      "id": "one-shoulder-sage",
+      "name": "One-Shoulder Sage",
+      "mood": "2026 bridesmaid trend — one-shoulder sage, earth three-piece.",
+      "culture_ids": ["western"],
+      "dress_id": "one-shoulder",
+      "suit_id": "earth-three-piece",
+      "palette": [
+        {"name": "Sage", "hex": "#8FA67E", "slot": "dress"},
+        {"name": "Olive suit", "hex": "#5C6B4A", "slot": "suit"},
+        {"name": "Gold tie", "hex": "#C9A24B", "slot": "tie"},
+        {"name": "Cream", "hex": "#F3EAD7", "slot": "pocket"},
+        {"name": "Leaf", "hex": "#6B8A5E", "slot": "boutonniere"}
+      ],
+      "garments": [
+        {"slot": "dress", "label": "One-shoulder", "silhouette": "one-shoulder", "fabric": "satin"},
+        {"slot": "suit", "label": "Earth three-piece", "silhouette": "earth-3p", "fabric": "wool"}
+      ],
+      "accessories": ["gold tie", "cream pocket", "leaf boutonniere"]
+    },
+    {
+      "id": "midi-garden",
+      "name": "Midi Garden",
+      "mood": "Growing midi length for outdoor parties — linen beach suits.",
+      "culture_ids": ["western"],
+      "dress_id": "midi-a-line",
+      "suit_id": "linen-beach",
+      "palette": [
+        {"name": "Seafoam", "hex": "#B8C9B0", "slot": "dress"},
+        {"name": "Sand", "hex": "#C4A574", "slot": "suit"},
+        {"name": "Navy tie", "hex": "#34507A", "slot": "tie"},
+        {"name": "Powder", "hex": "#D9E4EC", "slot": "pocket"},
+        {"name": "Citrus", "hex": "#E9A23B", "slot": "boutonniere"}
+      ],
+      "garments": [
+        {"slot": "dress", "label": "Midi A-line", "silhouette": "midi", "fabric": "chiffon"},
+        {"slot": "suit", "label": "Linen beach", "silhouette": "linen", "fabric": "linen"}
+      ],
+      "accessories": ["navy tie optional", "powder pocket", "citrus pin"]
     }
   ]
 }

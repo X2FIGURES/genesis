@@ -1,6 +1,7 @@
 renders/**/*.png
 renders/**/*.jpg
 renders/**/*.exr
+customs/*.json
 __pycache__/
 **/__pycache__/
 *.py[cod]

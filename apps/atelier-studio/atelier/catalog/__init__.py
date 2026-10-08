@@ -6,6 +6,7 @@ from typing import Any
 
 CATALOG_ROOT = Path(__file__).resolve().parent
 PACKS_ROOT = CATALOG_ROOT / "packs"
+CUSTOMS_ROOT = CATALOG_ROOT.parent.parent / "customs"
 
 
 def _load_json(path: Path) -> Any:
@@ -15,6 +16,10 @@ def _load_json(path: Path) -> Any:
 
 def load_cultures() -> dict[str, Any]:
     return _load_json(CATALOG_ROOT / "cultures.json")
+
+
+def load_garments() -> dict[str, Any]:
+    return _load_json(CATALOG_ROOT / "garments.json")
 
 
 def list_packs() -> list[str]:
@@ -47,11 +52,18 @@ def get_look(look_id: str) -> dict[str, Any]:
     for look in all_looks():
         if look["id"] == look_id:
             return look
+    # customs
+    custom = CUSTOMS_ROOT / f"{look_id}.json"
+    if custom.exists():
+        row = _load_json(custom)
+        row["pack"] = row.get("pack", "custom")
+        return row
     raise KeyError(f"Unknown look: {look_id}")
 
 
 def catalog_summary() -> dict[str, Any]:
     cultures = load_cultures()["cultures"]
+    garments = load_garments()
     by_status: dict[str, int] = {}
     for c in cultures:
         by_status[c["status"]] = by_status.get(c["status"], 0) + 1
@@ -60,4 +72,6 @@ def catalog_summary() -> dict[str, Any]:
         "cultures_by_status": by_status,
         "packs": list_packs(),
         "looks": len(all_looks()),
+        "dresses": len(garments.get("dresses", [])),
+        "suits": len(garments.get("suits", [])),
     }
