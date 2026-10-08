@@ -167,7 +167,7 @@ a:focus-visible {
 
 .scene-shell {
   position: relative;
-  min-height: 420px;
+  min-height: 520px;
   border-radius: 0;
   overflow: hidden;
   touch-action: manipulation;
@@ -177,7 +177,7 @@ a:focus-visible {
 
 .scene-frame {
   height: 100%;
-  min-height: 420px;
+  min-height: 520px;
 }
 
 .scene-grain {
@@ -283,9 +283,11 @@ a:focus-visible {
 }
 
 .weighted-legend em {
+  display: block;
   font-style: normal;
-  margin-left: 4px;
+  margin-top: 2px;
   opacity: 0.7;
+  font-size: 11.5px;
 }
 
 .moment-row,

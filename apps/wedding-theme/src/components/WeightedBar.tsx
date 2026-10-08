@@ -1,11 +1,19 @@
 "use client";
 
-import type { PaletteColor } from "@/lib/types";
+import type { AttireSurface, PaletteColor } from "@/lib/types";
+
+const SURFACE_LABEL: Record<AttireSurface, string> = {
+  dress: "Bridesmaid dress",
+  suit: "Suit",
+  tie: "Tie / bow",
+  pocket: "Pocket square",
+  boutonniere: "Boutonniere",
+};
 
 type Props = {
   palette: PaletteColor[];
-  activeSurface?: string | null;
-  onSelect: (surface: string) => void;
+  activeSurface?: AttireSurface | null;
+  onSelect: (surface: AttireSurface) => void;
 };
 
 export function WeightedBar({ palette, activeSurface, onSelect }: Props) {
@@ -14,7 +22,7 @@ export function WeightedBar({ palette, activeSurface, onSelect }: Props) {
       <div
         className="weighted-track"
         role="listbox"
-        aria-label="Palette by how much each color is used"
+        aria-label="Who wears each color"
       >
         {palette.map((c) => {
           const on = activeSurface === c.surface;
@@ -25,15 +33,12 @@ export function WeightedBar({ palette, activeSurface, onSelect }: Props) {
               role="option"
               aria-selected={on}
               className={`weighted-swatch${on ? " is-on" : ""}`}
-              style={{
-                flexGrow: c.weight,
-                background: c.hex,
-              }}
-              title={`${c.name} · ${c.weight}% · ${c.surface}`}
+              style={{ flexGrow: c.weight, background: c.hex }}
+              title={`${c.name} · ${SURFACE_LABEL[c.surface]} · ${c.weight}%`}
               onClick={() => onSelect(c.surface)}
             >
               <span className="sr-only">
-                {c.name}, {c.weight} percent, used on {c.surface}
+                {c.name} on {SURFACE_LABEL[c.surface]}, {c.weight} percent
               </span>
             </button>
           );
@@ -49,8 +54,8 @@ export function WeightedBar({ palette, activeSurface, onSelect }: Props) {
             >
               <i style={{ background: c.hex }} aria-hidden />
               <span>
-                {c.name}
-                <em>{c.weight}%</em>
+                {SURFACE_LABEL[c.surface]}
+                <em>{c.name}</em>
               </span>
             </button>
           </li>

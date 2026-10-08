@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState, useTransition } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { themes, getTheme } from "@/data/themes";
 import type {
-  CoupleDetails,
+  AttireSurface,
   Lighting,
   Moment,
   SeasonTag,
@@ -16,10 +16,9 @@ import { ThemeRail } from "./ThemeRail";
 import { WeightedBar } from "./WeightedBar";
 
 const MOMENTS: { id: Moment; label: string }[] = [
-  { id: "table", label: "Table" },
-  { id: "invitation", label: "Invite" },
-  { id: "aisle", label: "Aisle" },
-  { id: "bouquet", label: "Bouquet" },
+  { id: "party", label: "Party" },
+  { id: "bridesmaids", label: "Bridesmaids" },
+  { id: "groomsmen", label: "Groomsmen" },
 ];
 
 const LIGHTING: { id: Lighting; label: string }[] = [
@@ -55,9 +54,8 @@ const VENUES: { id: VenueTag | "all"; label: string }[] = [
 ];
 
 function parseMoment(v: string | null): Moment {
-  if (v === "invitation" || v === "aisle" || v === "bouquet" || v === "table")
-    return v;
-  return "table";
+  if (v === "bridesmaids" || v === "groomsmen" || v === "party") return v;
+  return "party";
 }
 
 function parseLighting(v: string | null): Lighting {
@@ -74,18 +72,14 @@ export function Visualizer() {
   const themeId = searchParams.get("theme") ?? themes[0].id;
   const moment = parseMoment(searchParams.get("moment"));
   const lighting = parseLighting(searchParams.get("light"));
-  const names = searchParams.get("names") ?? "";
-  const date = searchParams.get("date") ?? "";
 
   const [styleFilter, setStyleFilter] = useState<StyleTag | "all">("all");
   const [seasonFilter, setSeasonFilter] = useState<SeasonTag | "all">("all");
   const [venueFilter, setVenueFilter] = useState<VenueTag | "all">("all");
-  const [highlight, setHighlight] = useState<string | null>(null);
+  const [highlight, setHighlight] = useState<AttireSurface | null>(null);
   const [compareId, setCompareId] = useState<string | null>(null);
   const [holdingCompare, setHoldingCompare] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [nameDraft, setNameDraft] = useState(names);
-  const [dateDraft, setDateDraft] = useState(date);
 
   const theme = getTheme(themeId);
   const compareTheme = compareId ? getTheme(compareId) : null;
@@ -112,6 +106,9 @@ export function Visualizer() {
         if (v == null || v === "") next.delete(k);
         else next.set(k, v);
       });
+      // Drop legacy invite params if present
+      next.delete("names");
+      next.delete("date");
       const q = next.toString();
       startTransition(() => {
         router.replace(q ? `${pathname}?${q}` : pathname, { scroll: false });
@@ -121,27 +118,16 @@ export function Visualizer() {
   );
 
   useEffect(() => {
-    setNameDraft(names);
-    setDateDraft(date);
-  }, [names, date]);
-
-  useEffect(() => {
     if (!highlight) return;
-    const t = window.setTimeout(() => setHighlight(null), 1600);
+    const t = window.setTimeout(() => setHighlight(null), 1800);
     return () => window.clearTimeout(t);
   }, [highlight]);
 
-  // Keep active theme visible if filters hide it
   useEffect(() => {
     if (filtered.length && !filtered.some((t) => t.id === theme.id)) {
       setParams({ theme: filtered[0].id });
     }
   }, [filtered, theme.id, setParams]);
-
-  const couple: CoupleDetails = {
-    names: nameDraft,
-    date: dateDraft,
-  };
 
   async function share() {
     const url = window.location.href;
@@ -175,7 +161,7 @@ export function Visualizer() {
     <div className="atelier">
       <header className="atelier-top">
         <div className="brand-block">
-          <p className="eyebrow">Wedding theme visualizer</p>
+          <p className="eyebrow">Wedding party colors</p>
           <h1 className="brand">Atelier</h1>
         </div>
         <div className="top-actions">
@@ -188,7 +174,7 @@ export function Visualizer() {
         </div>
       </header>
 
-      <section className="hero-stage" aria-label="Theme preview">
+      <section className="hero-stage" aria-label="Party attire preview">
         <div
           className="scene-shell"
           onPointerDown={() => {
@@ -202,7 +188,6 @@ export function Visualizer() {
             theme={theme}
             moment={moment}
             lighting={lighting}
-            couple={couple}
             highlightSurface={highlight}
             compareTheme={compareTheme}
             holdingCompare={holdingCompare}
@@ -215,7 +200,7 @@ export function Visualizer() {
         </div>
 
         <div className="hero-meta">
-          <p className="eyebrow">Your palette</p>
+          <p className="eyebrow">This theme dresses as</p>
           <h2 className="theme-title">{theme.name}</h2>
           <p className="theme-mood">{theme.mood}</p>
 
@@ -225,7 +210,7 @@ export function Visualizer() {
             onSelect={setHighlight}
           />
 
-          <div className="moment-row" role="tablist" aria-label="Moments">
+          <div className="moment-row" role="tablist" aria-label="Who to preview">
             {MOMENTS.map((m) => (
               <button
                 key={m.id}
@@ -314,57 +299,37 @@ export function Visualizer() {
         />
       </section>
 
-      <section className="details" aria-label="Personalize and materials">
-        <div className="couple-form">
-          <p className="eyebrow">On the invitation</p>
-          <h3>Make it yours</h3>
-          <p className="detail-lead">
-            Names and date print on the invite moment — so the share link feels
-            like your day.
-          </p>
-          <label>
-            <span>Names</span>
-            <input
-              value={nameDraft}
-              placeholder="Amara & James"
-              onChange={(e) => setNameDraft(e.target.value)}
-              onBlur={() => setParams({ names: nameDraft || null })}
-            />
-          </label>
-          <label>
-            <span>Date</span>
-            <input
-              value={dateDraft}
-              placeholder="14 · 06 · 2027"
-              onChange={(e) => setDateDraft(e.target.value)}
-              onBlur={() => setParams({ date: dateDraft || null })}
-            />
-          </label>
+      <section className="details" aria-label="Attire details">
+        <div className="materials">
+          <p className="eyebrow">Bridesmaids</p>
+          <h3>The dresses</h3>
+          <dl>
+            <div>
+              <dt>Look</dt>
+              <dd>{theme.bridesmaid.dress}</dd>
+            </div>
+            <div>
+              <dt>Fabric</dt>
+              <dd>{theme.bridesmaid.fabric}</dd>
+            </div>
+            <div>
+              <dt>Florals with them</dt>
+              <dd>{theme.florals}</dd>
+            </div>
+          </dl>
         </div>
 
         <div className="materials">
-          <p className="eyebrow">Materials</p>
-          <h3>{theme.name}</h3>
+          <p className="eyebrow">Groomsmen</p>
+          <h3>The suits</h3>
           <dl>
             <div>
-              <dt>Florals</dt>
-              <dd>{theme.florals}</dd>
+              <dt>Suit</dt>
+              <dd>{theme.groomsmen.suit}</dd>
             </div>
             <div>
-              <dt>Fabrics</dt>
-              <dd>{theme.fabrics}</dd>
-            </div>
-            <div>
-              <dt>Metals</dt>
-              <dd>{theme.metal}</dd>
-            </div>
-            <div>
-              <dt>Paper</dt>
-              <dd>{theme.paper}</dd>
-            </div>
-            <div>
-              <dt>Tableware</dt>
-              <dd>{theme.tableware}</dd>
+              <dt>Accessories</dt>
+              <dd>{theme.groomsmen.accessories}</dd>
             </div>
           </dl>
         </div>
@@ -372,7 +337,7 @@ export function Visualizer() {
 
       <footer className="atelier-foot">
         <p>
-          Atelier · curated wedding themes · share the link with your florist
+          Atelier · lock the party colors · share with your tailor and dress shop
         </p>
       </footer>
     </div>

@@ -1,31 +1,33 @@
 "use client";
 
-import type { CoupleDetails, Lighting, Moment, Theme } from "@/lib/types";
+import type { AttireSurface, Lighting, Moment, Theme } from "@/lib/types";
 
 type Props = {
   theme: Theme;
   moment: Moment;
   lighting: Lighting;
-  couple: CoupleDetails;
-  highlightSurface?: string | null;
+  highlightSurface?: AttireSurface | null;
   compareTheme?: Theme | null;
   holdingCompare?: boolean;
 };
 
 function colors(theme: Theme) {
   const p = theme.palette;
+  const get = (s: AttireSurface, fallback: number) =>
+    p.find((c) => c.surface === s)?.hex ?? p[fallback]?.hex ?? "#ccc";
   return {
-    linen: p.find((c) => c.surface === "linen")?.hex ?? p[0].hex,
-    napkin: p.find((c) => c.surface === "napkin")?.hex ?? p[1].hex,
-    florals: p.find((c) => c.surface === "florals")?.hex ?? p[2].hex,
-    metal: p.find((c) => c.surface === "metal")?.hex ?? p[3].hex,
-    ink: p.find((c) => c.surface === "ink")?.hex ?? p[4].hex,
-    paper: p[0].hex,
-    accent: p[2]?.hex ?? p[1].hex,
+    dress: get("dress", 0),
+    suit: get("suit", 1),
+    tie: get("tie", 2),
+    pocket: get("pocket", 3),
+    boutonniere: get("boutonniere", 4),
+    skin: "#E8D5C4",
+    hair: "#3A2F2A",
+    shirt: "#F7F3EC",
   };
 }
 
-function lightingOverlay(lighting: Lighting) {
+function LightingWash({ lighting }: { lighting: Lighting }) {
   if (lighting === "daylight") return null;
   if (lighting === "golden") {
     return (
@@ -33,7 +35,7 @@ function lightingOverlay(lighting: Lighting) {
         width="1200"
         height="800"
         fill="#E8B86D"
-        opacity="0.18"
+        opacity="0.16"
         style={{ mixBlendMode: "soft-light" }}
       />
     );
@@ -44,12 +46,12 @@ function lightingOverlay(lighting: Lighting) {
         width="1200"
         height="800"
         fill="#1A1210"
-        opacity="0.28"
+        opacity="0.22"
         style={{ mixBlendMode: "multiply" }}
       />
-      <radialGradient id="candleGlow" cx="50%" cy="42%" r="45%">
-        <stop offset="0%" stopColor="#FFD9A0" stopOpacity="0.35" />
-        <stop offset="55%" stopColor="#C4783A" stopOpacity="0.12" />
+      <radialGradient id="candleGlow" cx="50%" cy="40%" r="50%">
+        <stop offset="0%" stopColor="#FFD9A0" stopOpacity="0.32" />
+        <stop offset="60%" stopColor="#C4783A" stopOpacity="0.1" />
         <stop offset="100%" stopColor="#000" stopOpacity="0" />
       </radialGradient>
       <rect width="1200" height="800" fill="url(#candleGlow)" />
@@ -57,429 +59,210 @@ function lightingOverlay(lighting: Lighting) {
   );
 }
 
-function TableScene({
+function Bridesmaid({
   c,
+  x,
   highlight,
+  label,
 }: {
   c: ReturnType<typeof colors>;
-  highlight?: string | null;
+  x: number;
+  highlight?: AttireSurface | null;
+  label?: string;
 }) {
-  const dim = (surface: string) =>
-    highlight && highlight !== surface ? 0.35 : 1;
-
+  const dim = highlight && highlight !== "dress" ? 0.28 : 1;
   return (
-    <g>
-      {/* room wash */}
-      <rect width="1200" height="800" fill={c.linen} opacity="0.35" />
-      <ellipse cx="600" cy="720" rx="520" ry="60" fill="#2F2B28" opacity="0.06" />
-
-      {/* table top */}
-      <ellipse
-        cx="600"
-        cy="520"
-        rx="420"
-        ry="160"
-        fill={c.linen}
-        opacity={dim("linen")}
-        style={{ transition: "fill 220ms ease, opacity 180ms ease" }}
+    <g transform={`translate(${x} 80)`} opacity={dim} style={{ transition: "opacity 180ms ease" }}>
+      {/* head */}
+      <circle cx="110" cy="58" r="36" fill={c.skin} />
+      <ellipse cx="110" cy="42" rx="38" ry="28" fill={c.hair} />
+      {/* neck */}
+      <rect x="98" y="88" width="24" height="28" fill={c.skin} />
+      {/* bodice */}
+      <path
+        d="M55 118 C70 108 150 108 165 118 L175 210 C140 225 80 225 45 210 Z"
+        fill={c.dress}
+        style={{ transition: "fill 220ms ease" }}
       />
-      <ellipse
-        cx="600"
-        cy="520"
-        rx="420"
-        ry="160"
+      {/* skirt — big color mass */}
+      <path
+        d="M45 205 C20 280 10 420 25 560 L195 560 C210 420 200 280 175 205 Z"
+        fill={c.dress}
+        style={{ transition: "fill 220ms ease" }}
+      />
+      {/* soft fold lines */}
+      <path
+        d="M90 220 Q100 380 85 540"
         fill="none"
         stroke="#2F2B28"
         strokeOpacity="0.08"
-        strokeWidth="2"
+        strokeWidth="3"
       />
-
-      {/* runner */}
       <path
-        d="M280 500 Q600 440 920 500 Q600 560 280 500Z"
-        fill={c.napkin}
-        opacity={0.55 * dim("napkin")}
-        style={{ transition: "fill 220ms ease, opacity 180ms ease" }}
+        d="M140 225 Q135 390 150 545"
+        fill="none"
+        stroke="#2F2B28"
+        strokeOpacity="0.07"
+        strokeWidth="3"
       />
-
-      {/* plates + napkins left */}
-      {[380, 520, 660, 800].map((x, i) => (
-        <g key={i} opacity={dim("napkin")}>
-          <ellipse
-            cx={x}
-            cy={540 + (i % 2) * 8}
-            rx="48"
-            ry="22"
-            fill="#F8F5EF"
-            stroke={c.metal}
-            strokeWidth="2"
-            style={{ transition: "stroke 220ms ease" }}
-          />
-          <rect
-            x={x - 14}
-            y={528 + (i % 2) * 8}
-            width="28"
-            height="36"
-            rx="3"
-            fill={c.napkin}
-            transform={`rotate(${-12 + i * 4} ${x} ${540})`}
-            style={{ transition: "fill 220ms ease" }}
-          />
-          <line
-            x1={x + 36}
-            y1={530}
-            x2={x + 42}
-            y2={560}
-            stroke={c.metal}
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            style={{ transition: "stroke 220ms ease" }}
-          />
-        </g>
-      ))}
-
-      {/* centerpiece */}
-      <g opacity={dim("florals")}>
-        <ellipse cx="600" cy="500" rx="70" ry="28" fill={c.florals} opacity="0.9" />
-        <ellipse cx="560" cy="488" rx="28" ry="36" fill={c.accent} opacity="0.85" />
-        <ellipse cx="640" cy="486" rx="30" ry="38" fill={c.florals} />
-        <ellipse cx="600" cy="470" rx="24" ry="32" fill={c.accent} opacity="0.75" />
-        <ellipse cx="580" cy="500" rx="16" ry="14" fill={c.napkin} opacity="0.7" />
-        <ellipse cx="625" cy="498" rx="14" ry="12" fill={c.accent} opacity="0.65" />
-        {/* leaves */}
-        <path
-          d="M520 500 Q500 470 530 460"
-          fill="none"
-          stroke={c.florals}
-          strokeWidth="6"
-          strokeLinecap="round"
-          opacity="0.7"
-        />
-        <path
-          d="M680 498 Q710 465 685 455"
-          fill="none"
-          stroke={c.florals}
-          strokeWidth="6"
-          strokeLinecap="round"
-          opacity="0.7"
-        />
-      </g>
-
-      {/* candles */}
-      {[520, 680].map((x) => (
-        <g key={x} opacity={dim("metal")}>
-          <rect
-            x={x - 6}
-            y="430"
-            width="12"
-            height="52"
-            rx="2"
-            fill="#F8F5EF"
-          />
-          <rect
-            x={x - 10}
-            y="478"
-            width="20"
-            height="10"
-            rx="2"
-            fill={c.metal}
-            style={{ transition: "fill 220ms ease" }}
-          />
-          <ellipse cx={x} cy="426" rx="5" ry="8" fill="#F5D08A" opacity="0.9" />
-        </g>
-      ))}
-
-      {/* invite card on table edge */}
-      <g opacity={dim("ink")} transform="translate(180 560) rotate(-8)">
-        <rect
-          width="120"
-          height="160"
-          rx="4"
-          fill={c.paper}
-          stroke={c.metal}
-          strokeWidth="1.5"
-          style={{ transition: "fill 220ms ease, stroke 220ms ease" }}
-        />
-        <rect x="16" y="28" width="88" height="2" fill={c.ink} opacity="0.35" />
-        <rect x="28" y="48" width="64" height="3" fill={c.ink} opacity="0.55" />
-        <rect x="36" y="62" width="48" height="2" fill={c.ink} opacity="0.35" />
-        <rect x="24" y="100" width="72" height="1.5" fill={c.metal} opacity="0.6" />
-      </g>
-    </g>
-  );
-}
-
-function InvitationScene({
-  c,
-  couple,
-  highlight,
-}: {
-  c: ReturnType<typeof colors>;
-  couple: CoupleDetails;
-  highlight?: string | null;
-}) {
-  const dim = (surface: string) =>
-    highlight && highlight !== surface ? 0.35 : 1;
-  const names = couple.names.trim() || "Amara & James";
-  const date = couple.date.trim() || "14 · 06 · 2027";
-
-  return (
-    <g>
-      <rect width="1200" height="800" fill={c.linen} opacity="0.45" />
-      {/* envelope */}
-      <g opacity={dim("linen")} transform="translate(220 180)">
-        <rect
-          width="420"
-          height="280"
-          rx="8"
-          fill={c.napkin}
-          style={{ transition: "fill 220ms ease" }}
-        />
-        <path
-          d="M0 0 L210 140 L420 0"
-          fill={c.linen}
-          opacity="0.85"
-          style={{ transition: "fill 220ms ease" }}
-        />
-        <circle cx="210" cy="150" r="14" fill={c.florals} opacity="0.9" />
-      </g>
-      {/* invitation card */}
-      <g opacity={dim("ink")} transform="translate(520 140)">
-        <rect
-          width="380"
-          height="520"
-          rx="6"
-          fill={c.paper}
-          stroke={c.metal}
-          strokeWidth="2"
-          style={{ transition: "fill 220ms ease, stroke 220ms ease" }}
-        />
+      {/* arms */}
+      <path
+        d="M55 130 Q20 200 35 280"
+        fill="none"
+        stroke={c.skin}
+        strokeWidth="18"
+        strokeLinecap="round"
+      />
+      <path
+        d="M165 130 Q200 200 185 280"
+        fill="none"
+        stroke={c.skin}
+        strokeWidth="18"
+        strokeLinecap="round"
+      />
+      {label && (
         <text
-          x="190"
-          y="90"
+          x="110"
+          y="600"
           textAnchor="middle"
-          fill={c.metal}
-          fontFamily="Georgia, serif"
-          fontSize="14"
-          letterSpacing="6"
-          style={{ transition: "fill 220ms ease" }}
-        >
-          TOGETHER WITH THEIR FAMILIES
-        </text>
-        <text
-          x="190"
-          y="180"
-          textAnchor="middle"
-          fill={c.ink}
-          fontFamily="Georgia, serif"
-          fontSize="42"
-          fontStyle="italic"
-          style={{ transition: "fill 220ms ease" }}
-        >
-          {names}
-        </text>
-        <line
-          x1="120"
-          y1="220"
-          x2="260"
-          y2="220"
-          stroke={c.metal}
-          strokeWidth="1"
-        />
-        <text
-          x="190"
-          y="270"
-          textAnchor="middle"
-          fill={c.ink}
-          fontFamily="Georgia, serif"
+          fill="#7A736C"
+          fontFamily="system-ui, sans-serif"
           fontSize="18"
           letterSpacing="3"
-          opacity="0.75"
         >
-          {date}
+          {label}
         </text>
-        <text
-          x="190"
-          y="320"
-          textAnchor="middle"
-          fill={c.ink}
-          fontFamily="Georgia, serif"
-          fontSize="14"
-          opacity="0.5"
-        >
-          request the honour of your presence
-        </text>
-        {/* floral corner */}
-        <g opacity={dim("florals")}>
-          <ellipse cx="60" cy="450" rx="36" ry="28" fill={c.florals} />
-          <ellipse cx="95" cy="470" rx="28" ry="22" fill={c.accent} opacity="0.85" />
-          <ellipse cx="320" cy="60" rx="30" ry="24" fill={c.florals} opacity="0.8" />
-          <ellipse cx="345" cy="85" rx="22" ry="18" fill={c.accent} opacity="0.7" />
-        </g>
-      </g>
+      )}
     </g>
   );
 }
 
-function AisleScene({
+function Groomsman({
   c,
+  x,
   highlight,
+  label,
 }: {
   c: ReturnType<typeof colors>;
-  highlight?: string | null;
+  x: number;
+  highlight?: AttireSurface | null;
+  label?: string;
 }) {
-  const dim = (surface: string) =>
-    highlight && highlight !== surface ? 0.35 : 1;
+  const dimSuit =
+    highlight && !["suit", "tie", "pocket", "boutonniere"].includes(highlight)
+      ? 0.28
+      : 1;
+  const dim = (s: AttireSurface) =>
+    highlight && highlight !== s ? 0.35 : 1;
 
   return (
-    <g>
-      <rect width="1200" height="800" fill={c.linen} opacity="0.4" />
-      {/* sky / back wall */}
-      <rect y="0" width="1200" height="360" fill={c.napkin} opacity="0.35" />
-      {/* aisle runner */}
+    <g transform={`translate(${x} 80)`} opacity={dimSuit} style={{ transition: "opacity 180ms ease" }}>
+      {/* head */}
+      <circle cx="110" cy="58" r="36" fill={c.skin} />
+      <path d="M72 50 Q110 10 148 50 L145 70 Q110 55 75 70 Z" fill={c.hair} />
+      <rect x="98" y="88" width="24" height="26" fill={c.skin} />
+
+      {/* jacket body */}
       <path
-        d="M480 800 L520 360 L680 360 L720 800Z"
-        fill={c.linen}
-        opacity={dim("linen")}
+        d="M48 118 L55 420 L165 420 L172 118 C150 108 70 108 48 118 Z"
+        fill={c.suit}
+        opacity={dim("suit")}
+        style={{ transition: "fill 220ms ease, opacity 180ms ease" }}
+      />
+      {/* lapels */}
+      <path
+        d="M110 118 L72 200 L110 230 Z"
+        fill={c.suit}
+        opacity={0.85 * dim("suit")}
+        style={{ filter: "brightness(0.92)", transition: "fill 220ms ease" }}
+      />
+      <path
+        d="M110 118 L148 200 L110 230 Z"
+        fill={c.suit}
+        opacity={0.85 * dim("suit")}
+        style={{ filter: "brightness(0.88)", transition: "fill 220ms ease" }}
+      />
+      {/* shirt V */}
+      <path d="M110 118 L95 200 L110 210 L125 200 Z" fill={c.shirt} />
+
+      {/* tie — clear accent */}
+      <path
+        d="M110 130 L100 145 L110 280 L120 145 Z"
+        fill={c.tie}
+        opacity={dim("tie")}
         style={{ transition: "fill 220ms ease, opacity 180ms ease" }}
       />
       <path
-        d="M510 800 L540 360 L660 360 L690 800Z"
-        fill={c.napkin}
-        opacity={0.5 * dim("napkin")}
+        d="M100 145 L110 158 L120 145 L110 138 Z"
+        fill={c.tie}
+        opacity={dim("tie")}
+        style={{ transition: "fill 220ms ease" }}
       />
-      {/* arch */}
-      <g opacity={dim("florals")}>
-        <path
-          d="M360 420 Q600 180 840 420"
-          fill="none"
-          stroke={c.florals}
-          strokeWidth="28"
-          strokeLinecap="round"
-          opacity="0.85"
-        />
-        <path
-          d="M380 420 Q600 220 820 420"
-          fill="none"
-          stroke={c.accent}
-          strokeWidth="14"
-          strokeLinecap="round"
-          opacity="0.7"
-        />
-        {[420, 500, 700, 780].map((x, i) => (
-          <ellipse
-            key={x}
-            cx={x}
-            cy={300 + (i % 2) * 40}
-            rx="28"
-            ry="34"
-            fill={i % 2 ? c.florals : c.accent}
-            opacity="0.85"
-          />
-        ))}
-      </g>
-      {/* pew florals */}
-      {[200, 280, 920, 1000].map((x, i) => (
-        <g key={x} opacity={dim("florals")}>
-          <ellipse
-            cx={x}
-            cy="620"
-            rx="40"
-            ry="50"
-            fill={i % 2 ? c.florals : c.accent}
-            opacity="0.8"
-          />
-          <rect
-            x={x - 8}
-            y="660"
-            width="16"
-            height="80"
-            fill={c.metal}
-            opacity={dim("metal")}
-          />
-        </g>
-      ))}
-    </g>
-  );
-}
 
-function BouquetScene({
-  c,
-  highlight,
-}: {
-  c: ReturnType<typeof colors>;
-  highlight?: string | null;
-}) {
-  const dim = (surface: string) =>
-    highlight && highlight !== surface ? 0.35 : 1;
+      {/* pocket square */}
+      <rect
+        x="138"
+        y="195"
+        width="22"
+        height="14"
+        fill={c.pocket}
+        opacity={dim("pocket")}
+        style={{ transition: "fill 220ms ease, opacity 180ms ease" }}
+      />
+      <path
+        d="M138 195 L149 185 L160 195"
+        fill={c.pocket}
+        opacity={dim("pocket")}
+      />
 
-  return (
-    <g>
-      <rect width="1200" height="800" fill={c.linen} opacity="0.5" />
-      <ellipse cx="600" cy="700" rx="180" ry="40" fill="#2F2B28" opacity="0.06" />
-      {/* stems */}
-      <g opacity={dim("florals")}>
-        {[560, 580, 600, 620, 640].map((x, i) => (
-          <path
-            key={x}
-            d={`M${x} 520 Q${x + (i - 2) * 8} 620 ${x + (i - 2) * 12} 720`}
-            fill="none"
-            stroke={c.florals}
-            strokeWidth="4"
-            opacity="0.7"
-          />
-        ))}
-        {/* blooms */}
-        <ellipse cx="560" cy="420" rx="70" ry="80" fill={c.florals} />
-        <ellipse cx="640" cy="400" rx="75" ry="85" fill={c.accent} opacity="0.9" />
-        <ellipse cx="600" cy="360" rx="60" ry="70" fill={c.florals} opacity="0.85" />
-        <ellipse cx="520" cy="460" rx="45" ry="50" fill={c.accent} opacity="0.75" />
-        <ellipse cx="680" cy="450" rx="48" ry="55" fill={c.florals} opacity="0.8" />
-        <ellipse cx="600" cy="480" rx="40" ry="35" fill={c.napkin} opacity="0.7" />
-        {/* leaves */}
-        <path
-          d="M480 500 Q430 460 460 420"
-          fill={c.florals}
-          opacity="0.6"
-        />
-        <path
-          d="M720 490 Q780 450 750 410"
-          fill={c.florals}
-          opacity="0.6"
-        />
+      {/* boutonniere */}
+      <g opacity={dim("boutonniere")} style={{ transition: "opacity 180ms ease" }}>
+        <circle cx="68" cy="175" r="14" fill={c.boutonniere} style={{ transition: "fill 220ms ease" }} />
+        <circle cx="78" cy="168" r="9" fill={c.tie} opacity="0.7" />
+        <rect x="64" y="186" width="4" height="22" fill="#6B8A5E" rx="1" />
       </g>
-      {/* ribbon */}
-      <g opacity={dim("napkin")}>
-        <rect
-          x="560"
-          y="560"
-          width="80"
-          height="28"
-          rx="4"
-          fill={c.napkin}
-          style={{ transition: "fill 220ms ease" }}
-        />
-        <path
-          d="M560 574 Q520 600 540 640"
-          fill="none"
-          stroke={c.napkin}
-          strokeWidth="10"
-          strokeLinecap="round"
-        />
-        <path
-          d="M640 574 Q680 600 660 640"
-          fill="none"
-          stroke={c.napkin}
-          strokeWidth="10"
-          strokeLinecap="round"
-        />
-      </g>
-      {/* boutonniere hint */}
-      <g opacity={dim("metal")} transform="translate(860 480)">
-        <ellipse cx="40" cy="40" rx="36" ry="42" fill={c.florals} opacity="0.85" />
-        <ellipse cx="55" cy="55" rx="20" ry="22" fill={c.accent} />
-        <rect x="32" y="78" width="16" height="50" fill={c.metal} rx="2" />
-      </g>
+
+      {/* trousers */}
+      <path
+        d="M55 418 L50 560 L100 560 L110 430 L120 560 L170 560 L165 418 Z"
+        fill={c.suit}
+        opacity={0.92 * dim("suit")}
+        style={{ transition: "fill 220ms ease" }}
+      />
+
+      {/* arms */}
+      <path
+        d="M52 130 Q18 210 40 300"
+        fill="none"
+        stroke={c.suit}
+        strokeWidth="22"
+        strokeLinecap="round"
+        opacity={dim("suit")}
+      />
+      <path
+        d="M168 130 Q202 210 180 300"
+        fill="none"
+        stroke={c.suit}
+        strokeWidth="22"
+        strokeLinecap="round"
+        opacity={dim("suit")}
+      />
+      <circle cx="40" cy="308" r="12" fill={c.skin} />
+      <circle cx="180" cy="308" r="12" fill={c.skin} />
+
+      {label && (
+        <text
+          x="110"
+          y="600"
+          textAnchor="middle"
+          fill="#7A736C"
+          fontFamily="system-ui, sans-serif"
+          fontSize="18"
+          letterSpacing="3"
+        >
+          {label}
+        </text>
+      )}
     </g>
   );
 }
@@ -488,7 +271,6 @@ export function Scene({
   theme,
   moment,
   lighting,
-  couple,
   highlightSurface,
   compareTheme,
   holdingCompare,
@@ -503,49 +285,36 @@ export function Scene({
         className="h-full w-full"
         preserveAspectRatio="xMidYMid slice"
         role="img"
-        aria-label={`${active.name} ${moment} preview`}
+        aria-label={`${active.name} wedding party attire`}
       >
-        <defs>
-          <filter id="paperGrain">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.85"
-              numOctaves="3"
-              stitchTiles="stitch"
-            />
-            <feColorMatrix type="saturate" values="0" />
-            <feBlend in="SourceGraphic" mode="multiply" />
-          </filter>
-        </defs>
+        {/* calm linen ground */}
+        <rect width="1200" height="800" fill="#EDE6DA" />
+        <rect width="1200" height="800" fill={c.dress} opacity="0.08" />
+        <ellipse cx="600" cy="720" rx="420" ry="36" fill="#2F2B28" opacity="0.05" />
 
-        {moment === "table" && (
-          <TableScene c={c} highlight={highlightSurface} />
+        {moment === "party" && (
+          <>
+            <Bridesmaid c={c} x={250} highlight={highlightSurface} label="BRIDESMAID" />
+            <Groomsman c={c} x={720} highlight={highlightSurface} label="GROOMSMAN" />
+          </>
         )}
-        {moment === "invitation" && (
-          <InvitationScene
-            c={c}
-            couple={couple}
-            highlight={highlightSurface}
-          />
+        {moment === "bridesmaids" && (
+          <>
+            <Bridesmaid c={c} x={160} highlight={highlightSurface} />
+            <Bridesmaid c={c} x={430} highlight={highlightSurface} label="BRIDESMAIDS" />
+            <Bridesmaid c={c} x={700} highlight={highlightSurface} />
+          </>
         )}
-        {moment === "aisle" && (
-          <AisleScene c={c} highlight={highlightSurface} />
-        )}
-        {moment === "bouquet" && (
-          <BouquetScene c={c} highlight={highlightSurface} />
+        {moment === "groomsmen" && (
+          <>
+            <Groomsman c={c} x={160} highlight={highlightSurface} />
+            <Groomsman c={c} x={430} highlight={highlightSurface} label="GROOMSMEN" />
+            <Groomsman c={c} x={700} highlight={highlightSurface} />
+          </>
         )}
 
-        {lightingOverlay(lighting)}
-
-        {/* soft vignette */}
-        <radialGradient id="vignette" cx="50%" cy="45%" r="65%">
-          <stop offset="55%" stopColor="#000" stopOpacity="0" />
-          <stop offset="100%" stopColor="#2F2B28" stopOpacity="0.18" />
-        </radialGradient>
-        <rect width="1200" height="800" fill="url(#vignette)" />
+        <LightingWash lighting={lighting} />
       </svg>
-
-      {/* linen grain overlay */}
       <div className="scene-grain pointer-events-none absolute inset-0" />
     </div>
   );

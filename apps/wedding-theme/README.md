@@ -1,8 +1,9 @@
-# Atelier · Wedding theme visualizer
+# Atelier · Wedding party colors
 
-Next.js app (Vercel) for immersive wedding theme + color visualization.
+Next.js app (Vercel) to lock **what bridesmaids and groomsmen wear** —
+dress, suit, tie, pocket square, boutonniere. That is the theme.
+
 Lives in the **genesis** monorepo under `apps/wedding-theme`.
-
 GitHub Pages still serves only `/docs` — this app does not affect it.
 
 ## Local
@@ -20,10 +21,8 @@ Shareable URL params:
 | Param | Example | Meaning |
 |---|---|---|
 | `theme` | `garden-sage` | Active theme id |
-| `moment` | `table` \| `invitation` \| `aisle` \| `bouquet` | Scene |
+| `moment` | `party` \| `bridesmaids` \| `groomsmen` | Who to preview |
 | `light` | `daylight` \| `golden` \| `candle` | Lighting |
-| `names` | `Amara%20%26%20James` | Printed on invite |
-| `date` | `14%20·%2006%20·%202027` | Printed on invite |
 
 ## Deploy on Vercel
 

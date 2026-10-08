@@ -18,10 +18,10 @@ const sans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Atelier · Wedding theme visualizer",
+  title: "Atelier · Wedding party colors",
   description:
-    "Pick a wedding theme and see the colors land on invitation, tablescape, aisle, and bouquet — share the look with your florist.",
-};
+    "Pick a wedding theme and see what the bridesmaids and groomsmen wear — dress, suit, tie, pocket square, boutonniere.",
+}
 
 export default function RootLayout({
   children,

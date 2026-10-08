@@ -1,6 +1,7 @@
 export type Lighting = "daylight" | "golden" | "candle";
 
-export type Moment = "table" | "invitation" | "aisle" | "bouquet";
+/** What the bride is trying to lock — the wedding party look. */
+export type Moment = "party" | "bridesmaids" | "groomsmen";
 
 export type StyleTag = "garden" | "modern" | "classic" | "intimate";
 
@@ -19,12 +20,19 @@ export type VenueTag =
   | "rooftop"
   | "intimate";
 
+export type AttireSurface =
+  | "dress"
+  | "suit"
+  | "tie"
+  | "pocket"
+  | "boutonniere";
+
 export type PaletteColor = {
   name: string;
   hex: string;
-  /** Share of the palette, roughly 60/30/10 style. Sum ≈ 100. */
+  /** Share of the look, roughly 60/30/10. Sum ≈ 100. */
   weight: number;
-  surface: string;
+  surface: AttireSurface;
 };
 
 export type Theme = {
@@ -34,12 +42,17 @@ export type Theme = {
   styleTags: StyleTag[];
   seasons: SeasonTag[];
   venues: VenueTag[];
+  /** Party palette — dress + suit + accessories. */
   palette: PaletteColor[];
-  metal: string;
-  paper: string;
+  bridesmaid: {
+    dress: string;
+    fabric: string;
+  };
+  groomsmen: {
+    suit: string;
+    accessories: string;
+  };
   florals: string;
-  fabrics: string;
-  tableware: string;
 };
 
 export type CoupleDetails = {

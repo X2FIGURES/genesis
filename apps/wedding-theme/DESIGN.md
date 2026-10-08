@@ -1,26 +1,31 @@
-# Theme Visualizer — design brief
-
-Notion: **Design Brief · Theme Visualizer App (Vercel)** under Wedding Planner → Design.
+# Atelier — design brief (attire-first)
 
 ## Job
 
-Bride picks a wedding theme and immediately sees colors on real surfaces — not swatches alone.
+Help the bride lock **what the wedding party wears** — bridesmaid dresses + groomsmen suits and accessories. That *is* the theme.
 
-## v1 shipped
+Not a tablescape / invitation mockup product.
 
-- Theme library (8 curated looks, weighted palettes)
-- Full-bleed SVG scenes: table · invitation · aisle · bouquet
-- Lighting: daylight · golden hour · candlelight
-- Couple names + date on the invitation
-- Weighted color bar (60/30/10 style) with surface highlight
-- Season / venue / style filters
-- Press-and-hold compare (flip between two themes)
-- Shareable URL (`theme`, `moment`, `light`, `names`, `date`)
+## What she sees first
 
-## Brand
+Full-bleed **bridesmaid + groomsman** outfits. Dress and suit are the big color masses. Tie, pocket square, boutonniere are the accents.
 
-**Atelier** — hero-level product name. Ivory & Sage chrome.
+## Surfaces (palette → clothing)
 
-## Deploy
+| Surface | Who |
+|---|---|
+| dress | Bridesmaids |
+| suit | Groomsmen |
+| tie | Tie / bow |
+| pocket | Pocket square |
+| boutonniere | Lapel flower |
 
-Same genesis repo. GitHub Pages = `/docs` only. Vercel Root Directory = `apps/wedding-theme`.
+## Moments
+
+- **Party** — one bridesmaid + one groomsman (default)
+- **Bridesmaids** — dress color across the line
+- **Groomsmen** — suits + accessories across the line
+
+## Still included
+
+Lighting, weighted color bar (tap to highlight a garment), filters, compare hold-to-flip, shareable URL.
