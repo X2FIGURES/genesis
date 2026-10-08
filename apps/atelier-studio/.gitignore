@@ -1,0 +1,12 @@
+renders/**/*.png
+renders/**/*.jpg
+renders/**/*.exr
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+dist/
+build/
+.blender/
+*.blend1

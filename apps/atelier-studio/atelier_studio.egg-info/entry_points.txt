@@ -1,2 +1,0 @@
-[console_scripts]
-atelier = atelier.cli.main:main
