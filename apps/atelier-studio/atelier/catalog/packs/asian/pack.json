@@ -1,0 +1,79 @@
+{
+  "id": "asian",
+  "name": "Asian wedding attire",
+  "cultures": ["south-asian", "east-asian", "indian", "chinese", "korean", "japanese", "southeast-asian"],
+  "looks": [
+    {
+      "id": "south-asian-pastel-day",
+      "name": "South Asian · Pastel day",
+      "mood": "Pistachio and blush day looks — light sherwani, sheer dupatta energy.",
+      "culture_ids": ["south-asian", "indian"],
+      "palette": [
+        {"name": "Pistachio", "hex": "#BCD4A6", "slot": "dress"},
+        {"name": "Blush", "hex": "#F2C9C4", "slot": "dupatta"},
+        {"name": "Ivory sherwani", "hex": "#F6F1E5", "slot": "suit"},
+        {"name": "Sage", "hex": "#A8B89A", "slot": "trim"},
+        {"name": "Beige", "hex": "#D9C8A9", "slot": "accent"}
+      ],
+      "garments": [
+        {"slot": "dress", "label": "Lehenga / pastel anarkali", "silhouette": "lehenga", "fabric": "silk mix"},
+        {"slot": "suit", "label": "Lightweight sherwani", "silhouette": "sherwani", "fabric": "linen-silk"}
+      ],
+      "accessories": ["dupatta", "brooch", "pocket square", "watch"]
+    },
+    {
+      "id": "south-asian-jewel-night",
+      "name": "South Asian · Jewel night",
+      "mood": "Emerald and vermilion night — rich embroidery.",
+      "culture_ids": ["south-asian", "indian", "pakistani"],
+      "palette": [
+        {"name": "Emerald", "hex": "#0F5C4A", "slot": "dress"},
+        {"name": "Vermilion", "hex": "#B3261E", "slot": "dupatta"},
+        {"name": "Deep wine", "hex": "#5E1A2B", "slot": "suit"},
+        {"name": "Antique gold", "hex": "#B08D57", "slot": "trim"},
+        {"name": "Marigold", "hex": "#E9A23B", "slot": "accent"}
+      ],
+      "garments": [
+        {"slot": "dress", "label": "Jewel lehenga / saree", "silhouette": "lehenga", "fabric": "silk brocade"},
+        {"slot": "suit", "label": "Sherwani / jewel suit", "silhouette": "sherwani", "fabric": "brocade"}
+      ],
+      "accessories": ["zari embroidery", "layered chains", "turban option"]
+    },
+    {
+      "id": "chinese-red-gold",
+      "name": "Chinese · Red & gold",
+      "mood": "Classic celebration red with gold — qun kwa / formal suit.",
+      "culture_ids": ["chinese", "east-asian"],
+      "palette": [
+        {"name": "Celebration red", "hex": "#B3261E", "slot": "dress"},
+        {"name": "Gold", "hex": "#C9A24B", "slot": "trim"},
+        {"name": "Ink black", "hex": "#111111", "slot": "suit"},
+        {"name": "Ivory", "hex": "#F6F1E5", "slot": "shirt"},
+        {"name": "Red accent", "hex": "#A3162C", "slot": "boutonniere"}
+      ],
+      "garments": [
+        {"slot": "dress", "label": "Qun kwa / red qipao gown", "silhouette": "qun-kwa", "fabric": "silk embroidery"},
+        {"slot": "suit", "label": "Black suit or Tang jacket", "silhouette": "two-piece", "fabric": "wool / silk"}
+      ],
+      "accessories": ["gold embroidery", "red boutonniere", "phoenix/dragon motifs"]
+    },
+    {
+      "id": "korean-hanbok-soft",
+      "name": "Korean · Soft hanbok",
+      "mood": "Pastel jeogori and chima with clean modern groom suit.",
+      "culture_ids": ["korean", "east-asian"],
+      "palette": [
+        {"name": "Soft pink", "hex": "#F2C9C4", "slot": "dress"},
+        {"name": "Sky", "hex": "#A8C4D8", "slot": "trim"},
+        {"name": "Charcoal", "hex": "#3A3632", "slot": "suit"},
+        {"name": "Ivory", "hex": "#F6F1E5", "slot": "shirt"},
+        {"name": "Gold", "hex": "#C9A24B", "slot": "accent"}
+      ],
+      "garments": [
+        {"slot": "dress", "label": "Hanbok (jeogori + chima)", "silhouette": "hanbok", "fabric": "silk"},
+        {"slot": "suit", "label": "Modern suit / durumagi option", "silhouette": "two-piece", "fabric": "wool"}
+      ],
+      "accessories": ["norigae", "binyeo cue", "pocket square"]
+    }
+  ]
+}

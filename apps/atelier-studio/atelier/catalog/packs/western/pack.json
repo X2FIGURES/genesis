@@ -1,0 +1,79 @@
+{
+  "id": "western",
+  "name": "Western wedding party",
+  "cultures": ["western"],
+  "looks": [
+    {
+      "id": "garden-sage",
+      "name": "Garden Sage",
+      "mood": "Soft sage dresses, stone suits, champagne ties.",
+      "culture_ids": ["western"],
+      "palette": [
+        {"name": "Sage", "hex": "#9DAE8F", "slot": "dress"},
+        {"name": "Stone", "hex": "#6E6A63", "slot": "suit"},
+        {"name": "Champagne", "hex": "#C9AE7C", "slot": "tie"},
+        {"name": "Ivory", "hex": "#F4EFE6", "slot": "pocket"},
+        {"name": "Olive", "hex": "#7E9272", "slot": "boutonniere"}
+      ],
+      "garments": [
+        {"slot": "dress", "label": "Bridesmaid dress", "silhouette": "a-line-midi", "fabric": "chiffon"},
+        {"slot": "suit", "label": "Groomsman suit", "silhouette": "two-piece", "fabric": "wool"}
+      ],
+      "accessories": ["champagne tie", "ivory pocket square", "olive boutonniere"]
+    },
+    {
+      "id": "blush-champagne",
+      "name": "Blush Champagne",
+      "mood": "Dusty rose dresses, warm taupe suits.",
+      "culture_ids": ["western"],
+      "palette": [
+        {"name": "Dusty rose", "hex": "#D8A9A4", "slot": "dress"},
+        {"name": "Taupe", "hex": "#8A7A6E", "slot": "suit"},
+        {"name": "Champagne", "hex": "#E8D7B9", "slot": "tie"},
+        {"name": "Blush", "hex": "#E8C4BE", "slot": "pocket"},
+        {"name": "Rose", "hex": "#C99A9E", "slot": "boutonniere"}
+      ],
+      "garments": [
+        {"slot": "dress", "label": "Bridesmaid dress", "silhouette": "column", "fabric": "satin"},
+        {"slot": "suit", "label": "Groomsman suit", "silhouette": "two-piece", "fabric": "wool"}
+      ],
+      "accessories": ["champagne tie", "blush pocket", "rose boutonniere"]
+    },
+    {
+      "id": "midnight-ink",
+      "name": "Midnight Ink",
+      "mood": "Muted rose dresses, ink black suits.",
+      "culture_ids": ["western"],
+      "palette": [
+        {"name": "Muted rose", "hex": "#B98C88", "slot": "dress"},
+        {"name": "Ink", "hex": "#1C1A1E", "slot": "suit"},
+        {"name": "Champagne", "hex": "#D8C29C", "slot": "tie"},
+        {"name": "Ivory", "hex": "#F2EBDF", "slot": "pocket"},
+        {"name": "Dark rose", "hex": "#8E6562", "slot": "boutonniere"}
+      ],
+      "garments": [
+        {"slot": "dress", "label": "Bridesmaid dress", "silhouette": "column", "fabric": "crepe"},
+        {"slot": "suit", "label": "Dinner jacket", "silhouette": "tuxedo", "fabric": "wool"}
+      ],
+      "accessories": ["champagne tie or bow", "ivory pocket", "dark rose boutonniere"]
+    },
+    {
+      "id": "ivory-classic",
+      "name": "Ivory Classic",
+      "mood": "Pearl dresses, charcoal suits — timeless.",
+      "culture_ids": ["western"],
+      "palette": [
+        {"name": "Pearl", "hex": "#E8E0D4", "slot": "dress"},
+        {"name": "Charcoal", "hex": "#3A3632", "slot": "suit"},
+        {"name": "Champagne", "hex": "#C9AE7C", "slot": "tie"},
+        {"name": "White", "hex": "#FBFAF7", "slot": "pocket"},
+        {"name": "White rose", "hex": "#F0E6D4", "slot": "boutonniere"}
+      ],
+      "garments": [
+        {"slot": "dress", "label": "Bridesmaid dress", "silhouette": "a-line", "fabric": "chiffon"},
+        {"slot": "suit", "label": "Groomsman suit", "silhouette": "three-piece", "fabric": "wool"}
+      ],
+      "accessories": ["champagne tie", "white linen pocket", "white rose"]
+    }
+  ]
+}
