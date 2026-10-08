@@ -407,7 +407,20 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--glow", type=float, default=1.15)
     s.set_defaults(func=cmd_render_all)
 
+    s = sub.add_parser(
+        "desktop",
+        help="Open the INTERNAL desktop app (looks · Coolors · camera/turn/glow · Blender)",
+    )
+    s.set_defaults(func=cmd_desktop)
+
     return p
+
+
+def cmd_desktop(_: argparse.Namespace) -> int:
+    from atelier.desktop import run_desktop
+
+    run_desktop()
+    return 0
 
 
 def main(argv: list[str] | None = None) -> None:

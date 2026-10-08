@@ -98,14 +98,12 @@ def fabric_mat(bpy, name: str, rgba, kind: str = "satin"):
         if "Specular IOR Level" in bsdf.inputs:
             bsdf.inputs["Specular IOR Level"].default_value = 0.15
     elif kind == "chiffon":
-        bsdf.inputs["Roughness"].default_value = 0.45
-        if "Transmission Weight" in bsdf.inputs:
-            bsdf.inputs["Transmission Weight"].default_value = 0.12
-        elif "Transmission" in bsdf.inputs:
-            bsdf.inputs["Transmission"].default_value = 0.12
-        if "Alpha" in bsdf.inputs:
-            bsdf.inputs["Alpha"].default_value = 0.92
-            m.blend_method = "BLEND"
+        # Soft fabric without heavy transmission (kept color readable)
+        bsdf.inputs["Roughness"].default_value = 0.48
+        if "Sheen Weight" in bsdf.inputs:
+            bsdf.inputs["Sheen Weight"].default_value = 0.35
+        if "Specular IOR Level" in bsdf.inputs:
+            bsdf.inputs["Specular IOR Level"].default_value = 0.35
     elif kind == "wool":
         bsdf.inputs["Roughness"].default_value = 0.62
         if "Sheen Weight" in bsdf.inputs:
@@ -267,28 +265,14 @@ def add_dress(bpy, root, dress_hex: str, silhouette: str, form_mat, metal, base_
         assign(panel, mats[i])
         parent_keep(panel, root)
 
-    # Soft glow shell — tinted emission so hue blooms under EEVEE bloom
-    bpy.ops.mesh.primitive_uv_sphere_add(segments=32, ring_count=16, radius=r_hem * 0.95, location=(x, 0, 0.9))
-    shell = bpy.context.active_object
-    shell.name = "dress_glow"
-    shell.scale = (1.08, 1.08, 1.38)
-    glow_m = bpy.data.materials.new("dress_glow_mat")
-    glow_m.use_nodes = True
-    gn = glow_m.node_tree.nodes
-    gn.clear()
-    gout = gn.new("ShaderNodeOutputMaterial")
-    emit = gn.new("ShaderNodeEmission")
-    emit.inputs["Color"].default_value = (rgba[0], rgba[1], rgba[2], 1.0)
-    emit.inputs["Strength"].default_value = 0.22 * max(0.3, glow)
-    trans = gn.new("ShaderNodeBsdfTransparent")
-    mix = gn.new("ShaderNodeMixShader")
-    mix.inputs["Fac"].default_value = 0.78
-    glow_m.node_tree.links.new(trans.outputs["BSDF"], mix.inputs[1])
-    glow_m.node_tree.links.new(emit.outputs["Emission"], mix.inputs[2])
-    glow_m.node_tree.links.new(mix.outputs["Shader"], gout.inputs["Surface"])
-    glow_m.blend_method = "BLEND"
-    assign(shell, glow_m)
-    parent_keep(shell, root)
+    # Soft tinted rim spotlight (no giant glow shell — that hid the dress)
+    bpy.ops.object.light_add(type="AREA", location=(x - 0.9, -1.4, 1.6))
+    rim_d = bpy.context.active_object
+    rim_d.data.energy = 120 * max(0.4, glow)
+    rim_d.data.size = 1.2
+    rim_d.data.color = (rgba[0], rgba[1], rgba[2])
+    rim_d.rotation_euler = (math.radians(70), 0, math.radians(-35))
+    parent_keep(rim_d, root)
 
 
 def add_suit(bpy, root, suit_hex, tie_hex, pocket_hex, pin_hex, form_mat, metal, base_m, style: str, glow: float = 1.0):
@@ -386,28 +370,15 @@ def add_suit(bpy, root, suit_hex, tie_hex, pocket_hex, pin_hex, form_mat, metal,
         assign(sleeve, suit_m)
         parent_keep(sleeve, root)
 
-    # Suit glow shell
-    bpy.ops.mesh.primitive_uv_sphere_add(segments=24, ring_count=12, radius=0.55, location=(x, 0, 1.0))
-    shell = bpy.context.active_object
-    shell.scale = (0.88, 0.72, 1.42)
+    # Suit rim tint (no opaque glow shell)
     sr = hex_to_rgba(suit_hex)
-    gm = bpy.data.materials.new("suit_glow")
-    gm.use_nodes = True
-    gn = gm.node_tree.nodes
-    gn.clear()
-    gout = gn.new("ShaderNodeOutputMaterial")
-    emit = gn.new("ShaderNodeEmission")
-    emit.inputs["Color"].default_value = (sr[0], sr[1], sr[2], 1)
-    emit.inputs["Strength"].default_value = 0.16 * max(0.3, glow)
-    trans = gn.new("ShaderNodeBsdfTransparent")
-    mix = gn.new("ShaderNodeMixShader")
-    mix.inputs["Fac"].default_value = 0.82
-    gm.node_tree.links.new(trans.outputs["BSDF"], mix.inputs[1])
-    gm.node_tree.links.new(emit.outputs["Emission"], mix.inputs[2])
-    gm.node_tree.links.new(mix.outputs["Shader"], gout.inputs["Surface"])
-    gm.blend_method = "BLEND"
-    assign(shell, gm)
-    parent_keep(shell, root)
+    bpy.ops.object.light_add(type="AREA", location=(x + 0.9, -1.4, 1.55))
+    rim_s = bpy.context.active_object
+    rim_s.data.energy = 100 * max(0.4, glow)
+    rim_s.data.size = 1.1
+    rim_s.data.color = (sr[0], sr[1], sr[2])
+    rim_s.rotation_euler = (math.radians(70), 0, math.radians(35))
+    parent_keep(rim_s, root)
 
 
 def setup_premium_studio(bpy, glow: float):
@@ -415,8 +386,8 @@ def setup_premium_studio(bpy, glow: float):
     bpy.context.scene.world = world
     world.use_nodes = True
     bg = world.node_tree.nodes["Background"]
-    bg.inputs[0].default_value = (0.12, 0.11, 0.1, 1.0)  # dark studio so glow/color pop
-    bg.inputs[1].default_value = 0.3
+    bg.inputs[0].default_value = (0.22, 0.21, 0.195, 1.0)  # soft linen studio
+    bg.inputs[1].default_value = 0.55
 
     # Key — soft large
     bpy.ops.object.light_add(type="AREA", location=(3.2, -2.8, 3.4))
@@ -450,12 +421,12 @@ def setup_premium_studio(bpy, glow: float):
     # Floor + cyc
     bpy.ops.mesh.primitive_plane_add(size=14, location=(0, 0, 0))
     floor = bpy.context.active_object
-    assign(floor, fabric_mat(bpy, "floor", (0.08, 0.075, 0.07, 1), kind="wool"))
+    assign(floor, fabric_mat(bpy, "floor", (0.55, 0.52, 0.47, 1), kind="wool"))
 
     bpy.ops.mesh.primitive_plane_add(size=14, location=(0, 3.0, 3.0))
     wall = bpy.context.active_object
     wall.rotation_euler[0] = math.radians(90)
-    assign(wall, fabric_mat(bpy, "cyc", (0.1, 0.095, 0.09, 1), kind="wool"))
+    assign(wall, fabric_mat(bpy, "cyc", (0.62, 0.59, 0.54, 1), kind="wool"))
 
 
 def set_camera(bpy, name: str, focus: str):
@@ -570,11 +541,12 @@ def main() -> None:
     if hasattr(scene.eevee, "taa_render_samples"):
         scene.eevee.taa_render_samples = 160
     if hasattr(scene.eevee, "use_bloom"):
-        scene.eevee.use_bloom = True
-        scene.eevee.bloom_intensity = 0.12 * max(0.4, args.glow)
-        scene.eevee.bloom_threshold = 0.65
+        # Soft bloom only — high intensity washed out garment color
+        scene.eevee.use_bloom = args.glow > 0.35
+        scene.eevee.bloom_intensity = 0.035 * max(0.4, args.glow)
+        scene.eevee.bloom_threshold = 1.05
         if hasattr(scene.eevee, "bloom_radius"):
-            scene.eevee.bloom_radius = 6.5
+            scene.eevee.bloom_radius = 3.5
     if hasattr(scene.eevee, "use_soft_shadows"):
         scene.eevee.use_soft_shadows = True
     if hasattr(scene.view_settings, "view_transform"):

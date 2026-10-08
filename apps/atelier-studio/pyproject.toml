@@ -1,10 +1,13 @@
 [project]
 name = "atelier-studio"
-version = "0.1.0"
-description = "Local Blender wedding attire studio — vast culture + dress catalog"
+version = "0.2.0"
+description = "Internal desktop Blender wedding attire studio — vast culture + dress catalog"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+  "customtkinter>=5.2",
+  "pillow>=10",
+]
 
 [project.scripts]
 atelier = "atelier.cli.main:main"
